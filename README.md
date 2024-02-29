@@ -1,4 +1,4 @@
-## This Document will be updated
+## TO BE UPDATED....
 ```
 campus_cycle file structure
     ├── public
