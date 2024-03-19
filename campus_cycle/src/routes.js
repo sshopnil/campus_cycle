@@ -28,15 +28,14 @@ const routes = [
     component: <Dashboard />,
     noCollapse: true,
   },
-  // {
-  //   type: "collapse",
-  //   name: "Tables",
-  //   key: "tables",
-  //   route: "/tables",
-  //   icon: <Office size="12px" />,
-  //   component: <Tables />,
-  //   noCollapse: true,
-  // },
+  {
+    type: "collapse",
+    name: "Discussion",
+    key: "tables",
+    route: "/tables",
+    icon: <Office size="12px" />,
+    noCollapse: true,
+  },
   // {
   //   type: "collapse",
   //   name: "Billing",
