@@ -1,0 +1,51 @@
+[
+    {
+      "month": "Jan",
+      "progress": 7000
+    },
+    {
+      "month": "Feb",
+      "progress": 3000
+    },
+    {
+      "month": "Mar",
+      "progress": 2000
+    },
+    {
+      "month": "Apr",
+      "progress": 2780
+    },
+    {
+      "month": "May",
+      "progress": 4000
+    },
+    {
+      "month": "Jun",
+      "progress": 5000
+    },
+    {
+      "month": "Jul",
+      "progress": 6000
+    },
+    {
+      "month": "Aug",
+      "progress": 5500
+    },
+    {
+      "month": "Sep",
+      "progress": 6500
+    },
+    {
+      "month": "Oct",
+      "progress": 7500
+    },
+    {
+      "month": "Nov",
+      "progress": 8000
+    },
+    {
+      "month": "Dec",
+      "progress": 8500
+    }
+  ]
+  

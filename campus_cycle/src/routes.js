@@ -1,5 +1,6 @@
 // Soft UI Dashboard React layouts
 import Dashboard from "layouts/dashboard";
+import Donation from"layouts/donation";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
 import VirtualReality from "layouts/virtual-reality";
@@ -17,6 +18,7 @@ import SpaceShip from "examples/Icons/SpaceShip";
 import CustomerSupport from "examples/Icons/CustomerSupport";
 import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 
 const routes = [
   {
@@ -34,6 +36,15 @@ const routes = [
     key: "tables",
     route: "/tables",
     icon: <Office size="12px" />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Donation",
+    key: "Donation",
+    route: "/Donation",
+    icon: <VolunteerActivismIcon size="12px" />,
+    component: <Donation />,
     noCollapse: true,
   },
   // {
