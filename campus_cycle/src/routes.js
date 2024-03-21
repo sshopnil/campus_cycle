@@ -1,9 +1,6 @@
 // Soft UI Dashboard React layouts
 import Dashboard from "layouts/dashboard";
-import Tables from "layouts/tables";
-import Billing from "layouts/billing";
-import VirtualReality from "layouts/virtual-reality";
-import RTL from "layouts/rtl";
+import Discussion from "layouts/discussion";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
@@ -15,8 +12,8 @@ import Settings from "examples/Icons/Settings";
 import Document from "examples/Icons/Document";
 import SpaceShip from "examples/Icons/SpaceShip";
 import CustomerSupport from "examples/Icons/CustomerSupport";
-import CreditCard from "examples/Icons/CreditCard";
-import Cube from "examples/Icons/Cube";
+import Diversity2Icon from '@mui/icons-material/Diversity2';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 
 const routes = [
   {
@@ -24,16 +21,17 @@ const routes = [
     name: "Home",
     key: "dashboard",
     route: "/dashboard",
-    icon: <Shop size="12px" />,
+    icon: <HomeRoundedIcon size="12px" />,
     component: <Dashboard />,
     noCollapse: true,
   },
   {
     type: "collapse",
     name: "Discussion",
-    key: "tables",
-    route: "/tables",
-    icon: <Office size="12px" />,
+    key: "discussion",
+    route: "/discussion",
+    icon: <Diversity2Icon size="12px" />,
+    component: <Discussion/>,
     noCollapse: true,
   },
   // {
