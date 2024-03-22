@@ -61,7 +61,8 @@ function ReportsBarChart({ color, title, description, chart, items }) {
               py={2}
               pr={0.5}
               mb={3}
-              height="12.5rem"
+              height="20rem"
+              width="100%"
             >
               <Bar data={data} options={options} />
             </SoftBox>

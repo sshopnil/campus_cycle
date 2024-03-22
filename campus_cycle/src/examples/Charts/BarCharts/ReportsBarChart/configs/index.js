@@ -26,7 +26,7 @@ function configs(labels, datasets) {
           borderSkipped: false,
           backgroundColor: "#fff",
           data: datasets.data,
-          maxBarThickness: 6,
+          maxBarThickness: 15,
         },
       ],
     },
