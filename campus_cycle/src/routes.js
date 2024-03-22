@@ -1,6 +1,7 @@
 // Soft UI Dashboard React layouts
 import Dashboard from "layouts/dashboard";
 import Discussion from "layouts/discussion";
+import Market from "layouts/market";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
@@ -27,6 +28,15 @@ const routes = [
   },
   {
     type: "collapse",
+    name: "Market",
+    key: "market",
+    route: "/market",
+    icon: <Shop size="12px"/>,
+    component: <Market />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
     name: "Discussion",
     key: "discussion",
     route: "/discussion",
@@ -34,6 +44,7 @@ const routes = [
     component: <Discussion/>,
     noCollapse: true,
   },
+  
   // {
   //   type: "collapse",
   //   name: "Billing",
