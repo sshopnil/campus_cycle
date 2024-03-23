@@ -66,6 +66,12 @@ function SignUp() {
               <SoftInput type="email" placeholder="Email" />
             </SoftBox>
             <SoftBox mb={2}>
+              <SoftInput placeholder="University" />
+            </SoftBox>
+            <SoftBox mb={2}>
+              <SoftInput placeholder="Mobile" type="number"/>
+            </SoftBox>
+            <SoftBox mb={2}>
               <SoftInput type="password" placeholder="Password" />
             </SoftBox>
             <SoftBox display="flex" alignItems="center">

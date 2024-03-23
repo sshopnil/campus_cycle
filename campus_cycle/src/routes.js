@@ -5,6 +5,9 @@ import Tables from "layouts/tables";
 import Billing from "layouts/billing";
 import VirtualReality from "layouts/virtual-reality";
 import RTL from "layouts/rtl";
+
+import Discussion from "layouts/discussion";
+import Market from "layouts/market";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
@@ -20,24 +23,39 @@ import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 
+import Diversity2Icon from '@mui/icons-material/Diversity2';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+
+
 const routes = [
   {
     type: "collapse",
     name: "Home",
     key: "dashboard",
     route: "/dashboard",
-    icon: <Shop size="12px" />,
+    icon: <HomeRoundedIcon size="12px" />,
     component: <Dashboard />,
     noCollapse: true,
   },
   {
     type: "collapse",
-    name: "Discussion",
-    key: "tables",
-    route: "/tables",
-    icon: <Office size="12px" />,
+    name: "Market",
+    key: "market",
+    route: "/market",
+    icon: <Shop size="12px"/>,
+    component: <Market />,
     noCollapse: true,
   },
+  {
+    type: "collapse",
+    name: "Discussion",
+    key: "discussion",
+    route: "/discussion",
+    icon: <Diversity2Icon size="12px" />,
+    component: <Discussion/>,
+    noCollapse: true,
+  },
+
   {
     type: "collapse",
     name: "Donation",
