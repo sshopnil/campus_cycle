@@ -60,7 +60,7 @@ function SoftUIControllerProvider({ children }) {
     openConfigurator: false,
     direction: "ltr",
     layout: "dashboard",
-    topic: "none"
+    topic: "Sports"
   };
 
   const [controller, dispatch] = useReducer(reducer, initialState);
