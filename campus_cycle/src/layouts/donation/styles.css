@@ -1,0 +1,15 @@
+/* styles.css */
+
+.custom-bar-chart {
+    border: 0px solid #ccc;
+    padding: 5px;
+    padding-top: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
+  }
+
+  .custom-bar-chart .recharts-rectangle {
+    rx: 20px; /* Adjust the value to change the roundness of corners */
+  }
+  

@@ -1,0 +1,83 @@
+[
+    {
+      "id": 1,
+      "title": "Card 1",
+      "image": "./data/bruce-mars.jpg",
+      "description": "Description for Card 1",
+      "progress": {
+        "current": 50,
+        "goal": 100
+      }
+    },
+    {
+      "id": 2,
+      "title": "Card 2",
+      "image": "./bruce-mars.jpg",
+      "description": "Description for Card 2",
+      "progress": {
+        "current": 30,
+        "goal": 200
+      }
+    },
+    {
+      "id": 3,
+      "title": "Card 3",
+      "image": "./src/assets/bruce-mars.jpg",
+      "description": "Description for Card 3",
+      "progress": {
+        "current": 75,
+        "goal": 150
+      }
+    },
+    {
+      "id": 4,
+      "title": "Card 4",
+      "image": "./src/assets/bruce-mars.jpg",
+      "description": "Description for Card 4",
+      "progress": {
+        "current": 90,
+        "goal": 120
+      }
+    },
+    {
+      "id": 5,
+      "title": "Card 4",
+      "image": "./src/assets/bruce-mars.jpg",
+      "description": "Description for Card 4",
+      "progress": {
+        "current": 90,
+        "goal": 120
+      }
+    },
+    {
+      "id": 6,
+      "title": "Card 4",
+      "image": "./src/assets/bruce-mars.jpg",
+      "description": "Description for Card 4",
+      "progress": {
+        "current": 90,
+        "goal": 120
+      }
+    },
+    {
+      "id": 7,
+      "title": "Card 4",
+      "image": "./src/assets/bruce-mars.jpg",
+      "description": "Description for Card 4",
+      "progress": {
+        "current": 90,
+        "goal": 120
+      }
+    },
+    {
+      "id": 8,
+      "title": "Card 4",
+      "image": "./src/assets/bruce-mars.jpg",
+      "description": "Description for Card 4",
+      "progress": {
+        "current": 90,
+        "goal": 120
+      }
+    }
+  ]
+  
