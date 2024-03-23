@@ -39,18 +39,19 @@ import Footer from "examples/Footer";
 
 
 // Overview page components
-import CardComponent from "layouts/market/components/card";
+import ProductCard from './components/card';
 import FilterBar from "layouts/market/components/FilterBar";
 
 
 
 // Data
-
+import cardData from "layouts/market/data/cardData";
 
 // Images
 
 
 function Overview() {
+  
     // State to track the selected filter
     const [selectedFilter, setSelectedFilter] = useState('All');
 
@@ -83,21 +84,11 @@ function Overview() {
       {/* product cards */}
       <SoftBox mt={2} mb={3}> 
         <Grid container spacing={2}>
-          <Grid item >
-            <CardComponent />
-          </Grid>
-          <Grid item>
-            <CardComponent /> 
-          </Grid>
-          <Grid item>
-            <CardComponent />
-          </Grid>
-          <Grid item>
-            <CardComponent />
-          </Grid>
-          <Grid item>
-            <CardComponent />
-          </Grid>
+          {cardData?.map((item)=>{
+            return (<Grid item key={item.id}>
+              <ProductCard images={item.images} price={item.price} date={item.date}/>
+            </Grid>)
+          })}
           
         </Grid>
       </SoftBox>

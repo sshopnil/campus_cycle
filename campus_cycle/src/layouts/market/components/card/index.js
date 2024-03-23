@@ -35,7 +35,7 @@ function CustomCard({ children }) {
 }
 
 function Section1({ url }) {
-    url = image;
+    // url = image;
   return (
     <Grid>
       <Grid container spacing={2}>
@@ -63,14 +63,15 @@ function Section2({ price, details, postingDate }) {
   );
 }
 
-function ProductCard() {
+function ProductCard({images, price, date}) {
+
   return (
     <CustomCard>
-      <Section1 url="your-image-url" />
+      <Section1 url={images[1]} />
       <Section2
-        price="$100"
+        price={price}
         details="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        postingDate="10 days ago"
+        postingDate={date}
       />
     </CustomCard>
   );
