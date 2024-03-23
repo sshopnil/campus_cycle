@@ -22,7 +22,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox'; // Add this import
 function LinearProgressWithLabel(props) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <Box sx={{ width: '100%',height: "1px", marginRight: "1px" }}>
+      <Box sx={{ width: '100%', mr: 1 }}>
         <LinearProgress variant="determinate" {...props} />
       </Box>
       <Box sx={{ minWidth: 35 }}>
@@ -65,6 +65,7 @@ function Donation() {
           <Grid container spacing={-2} >
             {visibleCards.map((card) => (
               <Grid key={card.id} item xs={12} md={4} style={{ marginBottom: "40px" }}>
+                    {/* <LinearProgressWithLabel value={card.progress.current} /> */}
                 <Card sx={{ maxWidth: 280 }}>
                   <CardMedia
                     component="img"
@@ -79,10 +80,8 @@ function Donation() {
                     <Typography variant="body2" color="text.secondary">
                       {card.description}
                     </Typography>
+                  <LinearProgressWithLabel value={card.progress.current} />
                   </CardContent>
-                  <CardActions>
-                    <LinearProgressWithLabel value={card.progress.current} />
-                  </CardActions>
                 </Card>
               </Grid>
             ))}
