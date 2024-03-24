@@ -78,6 +78,56 @@
         "current": 90,
         "goal": 120
       }
+    },
+    {
+      "id": 9,
+      "title": "Card 4",
+      "image": "./src/assets/bruce-mars.jpg",
+      "description": "Description for Card 4",
+      "progress": {
+        "current": 90,
+        "goal": 120
+      }
+    },
+    {
+      "id": 10,
+      "title": "Card 4",
+      "image": "./src/assets/bruce-mars.jpg",
+      "description": "Description for Card 4",
+      "progress": {
+        "current": 90,
+        "goal": 120
+      }
+    },
+    {
+      "id": 11,
+      "title": "Card 4",
+      "image": "./src/assets/bruce-mars.jpg",
+      "description": "Description for Card 4",
+      "progress": {
+        "current": 90,
+        "goal": 120
+      }
+    },
+    {
+      "id": 12,
+      "title": "Card 12",
+      "image": "./src/assets/bruce-mars.jpg",
+      "description": "Description for Card 4",
+      "progress": {
+        "current": 90,
+        "goal": 120
+      }
+    },
+    {
+      "id": 13,
+      "title": "Card 13",
+      "image": "./src/assets/bruce-mars.jpg",
+      "description": "Description for Card 4",
+      "progress": {
+        "current": 90,
+        "goal": 120
+      }
     }
   ]
   
