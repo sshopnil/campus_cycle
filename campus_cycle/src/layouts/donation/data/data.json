@@ -5,8 +5,8 @@
       "image": "./data/bruce-mars.jpg",
       "description": "Description for Card 1",
       "progress": {
-        "current": 50,
-        "goal": 100
+        "current": 200,
+        "goal": 700
       }
     },
     {
@@ -115,7 +115,7 @@
       "image": "./src/assets/bruce-mars.jpg",
       "description": "Description for Card 4",
       "progress": {
-        "current": 90,
+        "current": 110,
         "goal": 120
       }
     },
