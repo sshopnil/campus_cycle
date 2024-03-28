@@ -16,7 +16,6 @@ const DonationCard = () => {
   const [showMore, setShowMore] = useState(3);
   const [remainingCardData, setRemainingCardData] = useState(0);
   const navigate = useNavigate();
-  const { cardId } = useParams();
 
   useEffect(() => {
     setCardsData(jsonData);
