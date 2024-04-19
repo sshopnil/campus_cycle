@@ -7,7 +7,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import { Grid, Link, Typography } from "@mui/material";
 
 
-export default function TabNavigation({content1, content1_name, content1_topic}) {
+export default function TabNavigation({ content1, content1_name, content1_topic }) {
   const [value, setValue] = React.useState('1');
 
   const handleChange = (event, newValue) => {
@@ -15,7 +15,7 @@ export default function TabNavigation({content1, content1_name, content1_topic})
   };
 
   return (
-    <Box sx={{ width: '100%', typography: 'body1'}}>
+    <Box sx={{ width: '100%', typography: 'body1' }}>
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
@@ -24,13 +24,13 @@ export default function TabNavigation({content1, content1_name, content1_topic})
           </TabList>
         </Box>
         <TabPanel value="1">
-        <Typography sx={{ fontWeight: "bold", fontSize: "34px" }}>{content1_name}</Typography>
-         <header style={{ marginTop: '5px', color: 'black', fontSize: '14px', color: "#17C1E8" }}><Link>{"#" + content1_topic}</Link></header>
-        <Grid container spacing={3}>
+          <Typography sx={{ fontWeight: "bold", fontSize: "34px" }}>{content1_name}</Typography>
+          <header style={{ marginTop: '5px', color: 'black', fontSize: '14px', color: "#17C1E8" }}><Link>{"#" + content1_topic}</Link></header>
+          <Grid container spacing={3}>
 
             {content1}
-            </Grid>
-            </TabPanel>
+          </Grid>
+        </TabPanel>
         <TabPanel value="2">Item Two</TabPanel>
       </TabContext>
     </Box>

@@ -9,11 +9,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 import CommentIcon from '@mui/icons-material/Comment';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { Button, Card, CardContent, CardHeader, Avatar, CardActions, CardMedia, IconButton, Typography, Collapse, InputAdornment } from "@mui/material";
+import { Button, Card, CardContent, CardHeader, Avatar, CardActions, CardMedia, IconButton, Typography, Collapse, InputAdornment, Paper } from "@mui/material";
 import TextField from '@mui/material/TextField';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import CloseIcon from '@mui/icons-material/Close';
+import SendIcon from '@mui/icons-material/Send';
+import InputBase from '@mui/material/InputBase';
+
 
 export default function PostDetail({ show, setShow, item }) {
     const [open, setOpen] = React.useState(show);
@@ -45,14 +48,14 @@ export default function PostDetail({ show, setShow, item }) {
                             <CloseIcon />
                         </IconButton>
                         <CardHeader
-                                avatar={
-                                    <Avatar sx={{ bgcolor: 'orange', fontVariant: 'small-caps' }} aria-label="user image">
-                                        {item?.author.charAt(0)}
-                                    </Avatar>
-                                }
-                                title={item?.author + "'s Post"}
-                                subheader={"posted on: " + item?.date}
-                            />
+                            avatar={
+                                <Avatar sx={{ bgcolor: 'orange', fontVariant: 'small-caps' }} aria-label="user image">
+                                    {item?.author.charAt(0)}
+                                </Avatar>
+                            }
+                            title={item?.author + "'s Post"}
+                            subheader={"posted on: " + item?.date}
+                        />
                     </Toolbar>
                 </AppBar>
                 <DialogContent>
@@ -96,7 +99,7 @@ export default function PostDetail({ show, setShow, item }) {
                                                 </Avatar>
                                                 <Typography ml={1} fontWeight={'bold'}>{user?.author}</Typography>
                                             </div>
-                                            <Typography sx={{ paddingLeft: "45px", marginBottom: "10px", fontSize:"18px"}}>{user?.comment}</Typography>
+                                            <Typography sx={{ paddingLeft: "45px", marginBottom: "10px", fontSize: "18px" }}>{user?.comment}</Typography>
                                         </>
                                     )
                                 })
@@ -106,12 +109,22 @@ export default function PostDetail({ show, setShow, item }) {
                 </DialogContent>
                 <DialogActions>
                     <Typography fontSize={15}>Write your own..</Typography>
-                    <TextField
-                        id="outlined-multiline-flexible"
-                        multiline
-                        minRows={2}
-                        fullWidth
-                    />
+                    <Paper
+                        component="form"
+                        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width:"100%"}}
+                    >
+                        <InputBase
+                            sx={{ ml: 1, flex: 1 }}
+                            placeholder="Your comment goes here"
+                            // inputProps={{ 'aria-label': 'write a comment' }}
+                            multiline
+                            rows={2}
+                        />
+                        <IconButton sx={{ p: '10px' }} aria-label="menu">
+                            <SendIcon />
+                        </IconButton>
+
+                    </Paper>
                 </DialogActions>
             </Dialog>
         </React.Fragment>

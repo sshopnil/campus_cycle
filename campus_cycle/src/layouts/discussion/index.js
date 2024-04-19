@@ -1,3 +1,4 @@
+import * as React from 'react';
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DiscussionNavbar from "examples/Navbars/DiscussionNavbar";
@@ -6,15 +7,20 @@ import { Button, Card, CardContent, CardHeader, Avatar } from "@mui/material";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import groups from 'layouts/discussion/data/groupData'
 import GroupsIcon from '@mui/icons-material/Groups';
+
+
 import Post from "./components/posts";
 import postData from "./data/postData";
 import { useSoftUIController } from "context";
 import SoftInput from "components/SoftInput";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import TabNavigation from "./components/tab_navigation";
+import PostForm from "./components/post_form";
 
 
 function BasicCard({ groups, type }) {
+    const [search, setSearch] = React.useState('');
+    // console.log(otherG)
     return (
         <Card sx={{ minWidth: "300px", padding: "20px", marginBottom: "20px" }}>
             <CardHeader
@@ -31,12 +37,14 @@ function BasicCard({ groups, type }) {
             <SoftInput
                 placeholder="Search groups..."
                 icon={{ component: "search", direction: "left" }}
+                value={search}
+                onChange={(e)=>setSearch(e.target.value)}
             />
             {/* <hr style={{width: '80%', alignSelf: 'center', color:"#666C8F", border: '1px solid'}}/> */}
             <CardContent>
 
                 {groups.length !== 0 ? groups.map((item) => {
-                    return <CardHeader
+                    return item?.name.toLowerCase().includes(search.toLowerCase()) && <CardHeader
                         avatar={
                             <Avatar sx={{ bgcolor: item.color, fontVariant: 'small-caps' }} aria-label="Group logo">
                                 {item.name.charAt(0)}
@@ -62,15 +70,21 @@ function BasicCard({ groups, type }) {
 };
 
 const PostContents = ({ topic, filteredGroup, userGroup }) => {
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = ()=>{
+        setOpen(!open);
+    }
     return (
         <>
             <Grid item sm={12} xl={8}>
                 <Post data={postData} topic={topic} />
             </Grid>
             <Grid item xl={4} mt={1} sx={{ flexDirection: "column" }}>
+                <Button fullWidth variant='contained' color='info' sx={{marginBottom: '10px'}} onClick={handleOpen}>Create a post</Button>
                 <BasicCard groups={filteredGroup} type='all' />
                 <BasicCard groups={userGroup} type='user' />
             </Grid>
+            <PostForm open={open} setOpen={handleOpen}/>
         </>
     );
 }
@@ -91,15 +105,15 @@ const Discussion = () => {
         <DashboardLayout>
             <DashboardNavbar />
             <DiscussionNavbar topics={topicdata} />
-            <header style={{marginBottom: '5px', color: 'black', fontSize:'40px'}}>{userGroup[0].name}</header>
-            
-            <TabNavigation 
-                content1={<PostContents topic={topic} filteredGroup={filtered_all_group} userGroup={userGroup}/>}
-                content1_name = {userGroup[0].name}
-                content1_topic = {topic}
-                />
+            <header style={{ marginBottom: '5px', color: 'black', fontSize: '40px' }}>{userGroup[0].name}</header>
+
+            <TabNavigation
+                content1={<PostContents topic={topic} filteredGroup={filtered_all_group} userGroup={userGroup} />}
+                content1_name={userGroup[0].name}
+                content1_topic={topic}
+            />
         </DashboardLayout>
-                // <PostContents topic={topic} filteredGroup={filtered_all_group} userGroup={userGroup} />
+        // <PostContents topic={topic} filteredGroup={filtered_all_group} userGroup={userGroup} />
 
     );
 }
