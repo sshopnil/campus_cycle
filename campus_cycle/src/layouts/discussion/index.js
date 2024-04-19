@@ -123,7 +123,7 @@ const EventContents = ({ topic }) => {
             <Events/>
             </Grid>
             <Grid item xl={4} mt={1} sx={{
-                flexDirection: "column",
+                flexDirection: "column"
             }}>
                 
             </Grid>
