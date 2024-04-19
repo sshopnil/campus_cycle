@@ -10,6 +10,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
+import PostDetail from './post_details';
 
 export default function Post({ data, topic}) {
 
@@ -84,7 +85,8 @@ export default function Post({ data, topic}) {
                                 </IconButton>
                                 <span>{item?.comments.length}</span>
                             </CardActions>
-                            <Collapse in={expanded} timeout="auto" unmountOnExit sx={{ padding: "10px" }}>
+                            <PostDetail show={expanded} setShow={handleExpandClick} item={item}/>
+                            {/* <Collapse in={expanded} timeout="auto" unmountOnExit sx={{ padding: "10px" }}>
                                 <CardContent>
 
                                     {
@@ -110,7 +112,7 @@ export default function Post({ data, topic}) {
                                     minRows={2}
                                     fullWidth
                                 />
-                            </Collapse>
+                            </Collapse> */}
                         </Card>
                     )
                 })
