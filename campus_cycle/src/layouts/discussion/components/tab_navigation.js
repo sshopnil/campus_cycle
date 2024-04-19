@@ -7,7 +7,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import { Grid, Link, Typography } from "@mui/material";
 
 
-export default function TabNavigation({ content1, content1_name, content1_topic }) {
+export default function TabNavigation({ content1, content1_name, content1_topic, content2 }) {
   const [value, setValue] = React.useState('1');
 
   const handleChange = (event, newValue) => {
@@ -31,7 +31,12 @@ export default function TabNavigation({ content1, content1_name, content1_topic 
             {content1}
           </Grid>
         </TabPanel>
-        <TabPanel value="2">Item Two</TabPanel>
+        <TabPanel value="2">
+          <Grid container spacing={3}>
+
+            {content2}
+          </Grid>
+        </TabPanel>
       </TabContext>
     </Box>
   );

@@ -42,7 +42,7 @@ function ColorToggleButton() {
     );
 }
 
-export default function PostForm({ open, setOpen }) {
+export default function CreateGroup({ open, setOpen }) {
 
     // console.log(open)
     return (
@@ -71,7 +71,7 @@ export default function PostForm({ open, setOpen }) {
                         >
                             <CloseIcon />
                         </IconButton>
-                        <header style={{ margin: "0px 10px" }}>Create a post</header>
+                        <header style={{ margin: "0px 10px" }}>New Group</header>
                     </Toolbar>
                 </AppBar>
                 <DialogContent>
@@ -79,7 +79,7 @@ export default function PostForm({ open, setOpen }) {
                         <SoftBox mb={2}>
                             <SoftBox mb={1} ml={0.5}>
                                 <SoftTypography component="label" variant="caption" fontWeight="bold">
-                                    Post title
+                                    Group Name
                                 </SoftTypography>
                             </SoftBox>
                             <SoftInput type="text" placeholder="title" />
@@ -87,15 +87,7 @@ export default function PostForm({ open, setOpen }) {
                         <SoftBox mb={2}>
                             <SoftBox mb={1} ml={0.5}>
                                 <SoftTypography component="label" variant="caption" fontWeight="bold">
-                                    Description
-                                </SoftTypography>
-                            </SoftBox>
-                            <SoftInput type="Text" placeholder="Post content here..." multiline rows={4} />
-                        </SoftBox>
-                        <SoftBox mb={2}>
-                            <SoftBox mb={1} ml={0.5}>
-                                <SoftTypography component="label" variant="caption" fontWeight="bold">
-                                    Tags
+                                    Group Tags
                                 </SoftTypography>
                             </SoftBox>
                             <SoftInput type="Text" placeholder="i.e. sports, news etc.." />
@@ -103,7 +95,7 @@ export default function PostForm({ open, setOpen }) {
                         <SoftBox mb={2}>
                             <SoftBox mb={1} ml={0.5}>
                                 <SoftTypography component="label" variant="caption" fontWeight="bold">
-                                    Post Type
+                                    Group Type
                                 </SoftTypography>
                             </SoftBox>
                             <ColorToggleButton />
@@ -112,7 +104,7 @@ export default function PostForm({ open, setOpen }) {
                     </SoftBox>
                 </DialogContent>
                 <DialogActions>
-                    <Button type='submit' variant='contained' sx={{ color: "white !important" }} onClick={setOpen}>Post</Button>
+                    <Button type='submit' variant='contained' sx={{ color: "white !important" }} onClick={setOpen}>Create Group</Button>
                 </DialogActions>
             </Dialog>
         </React.Fragment>
