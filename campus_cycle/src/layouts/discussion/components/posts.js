@@ -51,7 +51,7 @@ export default function Post({ data, topic}) {
                                 <CardActions>
                                     <Typography display={readmore ? "none" : "inline"}>
                                         {item?.description.substring(0, 100)}
-                                        <button style={{ border: "none", background: "transparent", color: "#17C1E8" }} onClick={handleExpandClick}>{!readmore && "Read More"}</button>
+                                        <button style={{ border: "none", background: "transparent", color: "#17C1E8", cursor:"pointer"}} onClick={handleExpandClick}>{!readmore && "Read More"}</button>
                                     </Typography>
                                 </CardActions>
                                 {/* <Collapse in={readmore} timeout={'auto'} unmountOnExit>
@@ -67,6 +67,10 @@ export default function Post({ data, topic}) {
                                 height="auto"
                                 image={item?.post_img}
                                 alt="fighting"
+                                onClick={handleExpandClick}
+                                sx={{
+                                    cursor:"pointer"
+                                }}
                             />
                             <CardContent>
 
