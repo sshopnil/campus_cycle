@@ -10,6 +10,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
+import PostDetail from './post_details';
 
 export default function Post({ data, topic}) {
 
@@ -50,16 +51,16 @@ export default function Post({ data, topic}) {
                                 <CardActions>
                                     <Typography display={readmore ? "none" : "inline"}>
                                         {item?.description.substring(0, 100)}
-                                        <button style={{ border: "none", background: "transparent", color: "#17C1E8" }} onClick={handleReadClick}>{!readmore && "Read More"}</button>
+                                        <button style={{ border: "none", background: "transparent", color: "#17C1E8" }} onClick={handleExpandClick}>{!readmore && "Read More"}</button>
                                     </Typography>
                                 </CardActions>
-                                <Collapse in={readmore} timeout={'auto'} unmountOnExit>
+                                {/* <Collapse in={readmore} timeout={'auto'} unmountOnExit>
                                     {item?.description}
 
                                 </Collapse>
                                 <CardActions>
                                     <button style={{ border: "none", background: "transparent", color: "#17C1E8" }} onClick={handleReadClick}>{readmore && "....shrink"}</button>
-                                </CardActions>
+                                </CardActions> */}
                             </CardContent>
                             <CardMedia
                                 component="img"
@@ -84,33 +85,7 @@ export default function Post({ data, topic}) {
                                 </IconButton>
                                 <span>{item?.comments.length}</span>
                             </CardActions>
-                            <Collapse in={expanded} timeout="auto" unmountOnExit sx={{ padding: "10px" }}>
-                                <CardContent>
-
-                                    {
-                                        item?.comments.map((user) => {
-                                            return (
-                                                <>
-                                                    <div style={{ display: "flex", flexDirection: "row" }} key={user.author}>
-                                                        <Avatar sx={{ bgcolor: 'grey' }}>
-                                                            {user?.img}
-                                                        </Avatar>
-                                                        <Typography ml={1} fontWeight={'bold'}>{user?.author}</Typography>
-                                                    </div>
-                                                    <Typography sx={{ paddingLeft: "45px", marginBottom: "10px" }}>{user?.comment}</Typography>
-                                                </>
-                                            )
-                                        })
-                                    }
-                                </CardContent>
-                                <Typography fontSize={15}>Write your own..</Typography>
-                                <TextField
-                                    id="outlined-multiline-flexible"
-                                    multiline
-                                    minRows={2}
-                                    fullWidth
-                                />
-                            </Collapse>
+                            <PostDetail show={expanded} setShow={handleExpandClick} item={item}/>
                         </Card>
                     )
                 })
