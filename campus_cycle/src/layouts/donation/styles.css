@@ -13,3 +13,14 @@
     rx: 20px; /* Adjust the value to change the roundness of corners */
   }
   
+  .glass-box {
+    margin: 10px;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .glass-box-content {
+    background-image: linear-gradient(to right top, rgba(255, 255, 255, 0.5), rgba(240, 240, 240, 0.5));
+  }
+  

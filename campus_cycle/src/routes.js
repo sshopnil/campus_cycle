@@ -25,6 +25,7 @@ import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 
 import Diversity2Icon from '@mui/icons-material/Diversity2';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import DonationCardDetails from "layouts/donation/donationCardDetails";
 
 
 const routes = [
@@ -59,10 +60,19 @@ const routes = [
   {
     type: "collapse",
     name: "Donation",
-    key: "Donation",
-    route: "/Donation",
+    key: "donation",
+    route: "/donation",
     icon: <VolunteerActivismIcon size="12px" />,
     component: <Donation />,
+    noCollapse: true,
+  },
+  {
+    type: "static_collapse",
+    name: "Donation Card Details",
+    key: "donation",
+    route: "/donationCardDetails/:cardId",
+    icon: <VolunteerActivismIcon size="12px" />,
+    component: <DonationCardDetails />,
     noCollapse: true,
   },
   // {
