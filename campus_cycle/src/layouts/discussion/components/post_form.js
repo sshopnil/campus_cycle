@@ -4,8 +4,7 @@ import { useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import { Button, Card, CardContent, CardHeader, Avatar, CardActions, CardMedia, IconButton, Typography, Collapse, InputAdornment, Box } from "@mui/material";
-import TextField from '@mui/material/TextField';
+import { Button,IconButton} from "@mui/material";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import CloseIcon from '@mui/icons-material/Close';
@@ -13,7 +12,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 import SoftInput from "components/SoftInput";
-import SoftButton from "components/SoftButton";
 import ImageUpload from './image_upload';
 
 
