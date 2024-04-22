@@ -34,7 +34,7 @@ export default function TabNavigation({ content1, content1_name, content1_topic,
         <TabPanel value="2">
           <Grid container spacing={3}>
 
-            {content2}
+            <Typography>Event</Typography>
           </Grid>
         </TabPanel>
       </TabContext>
