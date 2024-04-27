@@ -40,12 +40,14 @@ import Footer from "examples/Footer";
 
 // Overview page components
 import ProductCard from './components/card';
+import AuctionProductCard from './components/AuctionCard';
 import FilterBar from "layouts/market/components/FilterBar";
 
 
 
 // Data
 import cardData from "layouts/market/data/cardData";
+import auctionCardData from './data/actionCardData';
 
 // Images
 
@@ -85,11 +87,31 @@ function Overview() {
       <SoftBox mt={2} mb={3}> 
         <Grid container spacing={2}>
           {cardData?.map((item)=>{
-            return (<Grid item key={item.id}>
-              <ProductCard images={item.images} price={item.price} date={item.date}/>
+            return (
+            <Grid item key={item.id}>
+              <ProductCard id ={item.id} images={item.images} price={item.price} date={item.date} details={item.details}/>
             </Grid>)
           })}
-          
+        </Grid>
+      </SoftBox>
+
+
+      {/* Auction products */}
+      <SoftBox mt={2}>
+        <Typography style={{fontSize: "30px", fontWeight: "bold", color: "#666C8F"}}>
+          Auction Products
+        </Typography>
+      </SoftBox>
+
+      {/*Auction product cards */}
+      <SoftBox mt={2} mb={3}> 
+        <Grid container spacing={2}>
+          {auctionCardData?.map((item)=>{
+            return (
+            <Grid item key={item.id}>
+              <AuctionProductCard images={item.images} price={item.price} date={item.date}/>
+            </Grid>)
+          })}
         </Grid>
       </SoftBox>
       <Footer />

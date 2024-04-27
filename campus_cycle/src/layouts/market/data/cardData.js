@@ -24,47 +24,83 @@ const cardData = [
   {
     "id": 1,
     "images": [kal, marie, ivana, team3, team4],
-    "price": 100,
+    "price": "100",
     "title": "Sophie B.",
-    "description": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
+    "details": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
     "date": "24/03/2023",
-    
+    "username": "random username 1"
   },
   {
     "id": 2,
     "images": [marie, kal, ivana, team3, team4],
-    "price": 500,
+    "price": "500",
     "title": "Lorem bul",
-    "description": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
+    "details": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
     "date": "02/03/2024",
-    
+    "username": "random username 2"
   },
   {
     "id": 3,
     "images": [ivana, marie, kal, team3, team4],
-    "price": 900,
+    "price": "900",
     "title": "kul chublu",
-    "description": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
+    "details": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
     "date": "07/03/2024",
-    
+    "username": "random username 3"
   },
   {
     "id": 4,
     "images": [team3, ivana, marie, kal, team4],
-    "price": 900,
+    "price": "900",
     "title": "ksj slfnsf",
-    "description": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
+    "details": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
     "date": "19/03/2024",
-    
+    "username": "random username 4"
   },
   {
     "id": 5,
     "images": [team4, team3, ivana, marie, kal],
-    "price": 650,
+    "price": "650",
     "title": "ksj slfnsf",
-    "description": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
+    "details": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
     "date": "11/03/2024",
-    
+    "username": "random username 5"
+  },
+  {
+    "id": 6,
+    "images": [kal,team4, team3, ivana, marie],
+    "price": "650",
+    "title": "ksj slfnsf",
+    "details": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
+    "date": "11/03/2024",
+    "username": "random username 5"
+  },
+  {
+    "id": 7,
+    "images": [ marie, kal,team4, team3, ivana],
+    "price": "650",
+    "title": "ksj slfnsf",
+    "details": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
+    "date": "11/03/2024",
+    "username": "random username 5"
+  },
+  {
+    "id": 8,
+    "images": [ ivana, marie, kal,team4, team3],
+    "price": "650",
+    "title": "ksj slfnsf",
+    "details": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
+    "date": "11/03/2024",
+    "username": "random username 5"
+  },
+  {
+    "id": 9,
+    "images": [ team3, ivana, marie, kal,team4 ],
+    "price": "650",
+    "title": "ksj slfnsf",
+    "details": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
+    "date": "11/03/2024",
+    "username": "random username 5"
   },
 ];
 

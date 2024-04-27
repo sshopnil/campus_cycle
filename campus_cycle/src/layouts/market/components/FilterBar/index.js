@@ -2,11 +2,13 @@ import React, { useState,useEffect } from 'react';
 import PropTypes from 'prop-types'; // Import PropTypes
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+// icons
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ChairIcon from '@mui/icons-material/Chair';
 import TableChartIcon from '@mui/icons-material/TableChart';
 import BedIcon from '@mui/icons-material/Bed';
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 
 function FilterBar({ onSelectFilter }) {
   // // State to track the active button
@@ -95,6 +97,21 @@ function FilterBar({ onSelectFilter }) {
           onClick={() => handleButtonClick('Bed')}
         >
           Bed
+        </Button>
+      </Grid>
+
+      <Grid item>
+        <Button
+          variant="contained"
+          size="small"
+          startIcon={<FilterAltOutlinedIcon />}
+          style={{
+            backgroundColor: activeButton === 'Filter' ? '#17C1E8' : '#EAE8E8',
+            color: activeButton === 'Filter' ? 'white' : '#666C8F'
+          }}
+          onClick={() => handleButtonClick('Filter')}
+        >
+          Filter
         </Button>
       </Grid>
     </Grid>

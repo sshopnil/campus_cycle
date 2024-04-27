@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types'; // Import PropTypes
-import { Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -24,6 +23,7 @@ function CustomCard({ children }) {
   return (
     <Card 
     style={{ 
+        backgroundColor: "#E4D37B",
         width: "320px",
         padding: "15px",
         boxShadow: "2px 2px 4px 0 rgba(0, 0, 0, 0.1)"
@@ -51,7 +51,7 @@ function Section1({ url }) {
   );
 }
 
-function Section2({id,  price, details, postingDate }) {
+function Section2({ price, details, postingDate }) {
     // Truncate details after 30 characters
     const modifieddetails = details.length > 30 ? details.substring(0, 30) + '...' : details;
   return (
@@ -59,22 +59,19 @@ function Section2({id,  price, details, postingDate }) {
       <Typography variant="h3" style={{color: "green" , fontSize: "15px"}}>Price: {price}</Typography>
       <Typography variant="h6" style={{fontSize:"12px", marginBottom: "10px", marginTop: "5px"}}>Details: {modifieddetails}</Typography>
       <Typography variant="body2" style={{fontSize: "12px"}}>{postingDate}</Typography>
-      <Link to={"/market/product-details/"+id}>
-        <Button size='small' variant="contained" style={{width: "70px",borderRadius: "20px",fontSize: "10px", color: "white", marginTop: "5px"}}>Details</Button>
-      </Link>
+      <Button size='small' variant="contained" style={{width: "70px",borderRadius: "20px",fontSize: "10px", color: "white", marginTop: "5px"}}>Details</Button>
     </Grid>
   );
 }
 
-function ProductCard({id, images, price, date, details}) {
+function AuctionProductCard({images, price, date}) {
 
   return (
     <CustomCard>
       <Section1 url={images[1]} />
       <Section2
-        id = {id}
         price={price}
-        details={details}
+        details="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         postingDate={date}
       />
     </CustomCard>
@@ -98,4 +95,4 @@ Section2.propTypes = {
     postingDate: PropTypes.string.isRequired, // Ensure postingDate is of type string and is required
   };
 
-export default ProductCard;
+export default AuctionProductCard;
