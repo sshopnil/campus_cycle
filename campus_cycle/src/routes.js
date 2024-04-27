@@ -11,6 +11,8 @@ import Market from "layouts/market";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
+import ProductDetails from "layouts/market/components/productDetails";
+import ProductForm from "layouts/market/components/productForm";
 
 // Soft UI Dashboard React icons
 import Shop from "examples/Icons/Shop";
@@ -131,6 +133,24 @@ const routes = [
     component: <SignUp />,
     noCollapse: true,
   },
+  {
+    type: "sub_route",
+    name: "Product Details",
+    key: "product-details",
+    route: "/market/product-details/:id",
+    // icon: none,
+    component: <ProductDetails />,
+    noCollapse: true,
+  },
+  {
+    type: "sub_route",
+    name: "Product Form",
+    key: "product-form",
+    route: "/market/product-form",
+    // icon: none,
+    component: <ProductForm />,
+    noCollapse: true,
+  }
 ];
 
 export default routes;
