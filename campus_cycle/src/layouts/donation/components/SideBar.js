@@ -1,21 +1,39 @@
-import React from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardHeader from "@mui/material/CardHeader";
-import Avatar from "@mui/material/Avatar";
+import React, { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Avatar,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+} from "@mui/material";
 import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
 import PaidIcon from "@mui/icons-material/Paid";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import GroupIcon from "@mui/icons-material/Group";
 import DataSaverOffIcon from "@mui/icons-material/DataSaverOff";
-import Button from "@mui/material/Button"; // Add Button import
+import FundForm from "./fundForm/fundForm";
 
 const SideBar = () => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // State to control the visibility of the popup
+
   const groups = [
     { name: "Group 1", color: "#ff0000" },
     { name: "Group 2", color: "#00ff00" },
     { name: "Group 3", color: "#0000ff" },
   ];
+
+  const handleOpenPopup = () => {
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+  };
 
   return (
     <Card sx={{ minWidth: "300px" }}>
@@ -58,11 +76,15 @@ const SideBar = () => {
             color: "black", // Set text color to black
             fontWeight: "bold", // Set text weight to bold
           }}
+          onClick={handleOpenPopup} // Open the popup on button click
         >
           Start a Fund
         </Button>
       </div>
-      {/* Additional content */}
+      {/* ProductForm Popup */}
+      <Dialog open={isPopupOpen} onClose={handleClosePopup}>
+        <FundForm />
+      </Dialog>
       <div
         style={{ display: "flex", justifyContent: "center", marginTop: "20px", padding: "10px" }}
       >

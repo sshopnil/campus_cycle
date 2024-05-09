@@ -2,29 +2,49 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Grid } from "@mui/material";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
-import CardHeader from "@mui/material/CardHeader";
-import jsonData from "../data/data.json";
-import img from "../data/bruce-mars.jpg";
+import { Grid, Card, CardContent, CardMedia, Typography, Button } from "@mui/material";
 import ProgressBar from "@ramonak/react-progress-bar";
-import Button from "@mui/material/Button";
-
+import DonatePayment from "../components/donationPayment"; // Import the DonatePayment component
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
+import axios from "axios";
 
 const DonationCardDetails = () => {
   const { cardId } = useParams();
   const [cardDetails, setCardDetails] = useState(null);
+  const [raisedAmount, setRaisedAmount] = useState(0); // State to hold the raised amount
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [customAmount, setCustomAmount] = useState(""); // State to hold the custom input amount
+
+  const handleCustomInput = (amount) => {
+    setCustomAmount(amount); // Set the custom amount when predefined button is clicked
+  };
 
   useEffect(() => {
-    const selectedCard = jsonData.find((card) => card.id === parseInt(cardId));
-    setCardDetails(selectedCard);
+    const fetchCardDetails = async () => {
+      try {
+        const [cardResponse, raisedResponse] = await Promise.all([
+          axios.get(`http://localhost:3000/donations/${cardId}`),
+          axios.get(`http://localhost:3000/donation-amounts/total/${cardId}`),
+        ]);
+        setCardDetails(cardResponse.data);
+        setRaisedAmount(raisedResponse.data);
+        
+      } catch (error) {
+        console.error("Error fetching card details:", error);
+      }
+    };
+
+    fetchCardDetails();
   }, [cardId]);
+
+  const handleOpenDialog = () => {
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
 
   return (
     <DashboardLayout>
@@ -46,7 +66,7 @@ const DonationCardDetails = () => {
                   component="img"
                   alt="Card Image"
                   height="400"
-                  image={img}
+                  image={cardDetails.imageUrl}
                   sx={{ objectFit: "cover" }}
                 />
                 <CardContent>
@@ -56,9 +76,8 @@ const DonationCardDetails = () => {
                       color="text.secondary"
                       style={{ marginTop: "30px", marginBottom: "20px" }}
                     >
-                      Content crated by: NAME NAME
+                      Content created by: {cardDetails.creator || "Unknown"}
                     </Typography>
-
                     <hr
                       style={{
                         width: "100%",
@@ -69,7 +88,7 @@ const DonationCardDetails = () => {
                     />
                   </Typography>
                   <Typography variant="body2" color="text.secondary" style={{ marginTop: "30px" }}>
-                    {cardDetails.description}
+                    {cardDetails.details}
                   </Typography>
                   <div
                     style={{
@@ -83,6 +102,7 @@ const DonationCardDetails = () => {
                     <Button
                       variant="outlined"
                       style={{ padding: "20px", width: "40%", color: "black" }}
+                      onClick={handleOpenDialog}
                     >
                       Donate Now
                     </Button>
@@ -95,12 +115,11 @@ const DonationCardDetails = () => {
                       border: "1px solid",
                     }}
                   />
-
                   <Typography variant="body1" color="text.primary" style={{ marginTop: "30px" }}>
                     <div style={{ fontWeight: "bold" }}>Organizer</div>
                     <div style={{ padding: "15px" }}>
                       <Stack direction="row" spacing={2}>
-                        <Avatar src="/broken-image.jpg" />
+                        <Avatar src={cardDetails.organizerImage} />
                         <div
                           style={{
                             paddingLeft: "5px",
@@ -109,7 +128,7 @@ const DonationCardDetails = () => {
                             alignItems: "center",
                           }}
                         >
-                          Sahadat Islama Evan
+                          {cardDetails.organizer || "Unknown"}
                         </div>
                       </Stack>
                     </div>
@@ -127,12 +146,11 @@ const DonationCardDetails = () => {
                     fontFamily: "Montserrat, sans-serif",
                   }}
                 >
-                  ${cardDetails.progress.current}
+                  ${raisedAmount}
                   <Typography color="text.secondary">
-                    raised of ${cardDetails.progress.goal} goal
+                    raised of ${cardDetails.goalAmount || 0} goal
                   </Typography>
                 </Typography>
-
                 <div
                   style={{
                     paddingLeft: "15px",
@@ -141,12 +159,12 @@ const DonationCardDetails = () => {
                   }}
                 >
                   <ProgressBar
-                    completed={(cardDetails.progress.current / cardDetails.progress.goal) * 100}
+                    completed={(raisedAmount / cardDetails.goalAmount) * 100}
                     bgColor="#17c1e8"
                     height="6px"
                     labelSize="0px"
                     borderRadius="8px"
-                    customLabel={cardDetails.progress.current}
+                    customLabel={raisedAmount}
                   />
                 </div>
                 <div style={{ padding: "15px" }}>
@@ -160,17 +178,26 @@ const DonationCardDetails = () => {
                       fontSize: "1rem",
                       backgroundColor: "#f99a32",
                     }}
+                    onClick={handleOpenDialog}
                   >
                     Donate Now
                   </Button>
                 </div>
-
                 <CardContent style={{ height: "400px", overflowY: "auto" }}></CardContent>
               </Card>
             </Grid>
           </>
         )}
       </Grid>
+
+      {/* Render DonatePayment component passing necessary props */}
+      <DonatePayment
+        open={dialogOpen}
+        onClose={handleCloseDialog}
+        handleCustomInput={handleCustomInput}
+        customAmount={customAmount}
+        setCustomAmount={setCustomAmount}
+      />
     </DashboardLayout>
   );
 };
