@@ -9,6 +9,9 @@ import FundForm from "./fundForm/fundForm";
 import axios from "axios";
 import LOCAL_ADDR from "../../../GLOBAL_ADDRESS";
 import { CardBody, Typography } from "@material-tailwind/react";
+import PostForm from "./post_form";
+import PlaylistAddCircleIcon from "@mui/icons-material/PlaylistAddCircle";
+import UpdateCard from "./updateCards"
 
 const SideBar = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false); // State to control the visibility of the popup
@@ -29,7 +32,7 @@ const SideBar = () => {
   const fetchTopDonors = async () => {
     try {
       const response = await axios.get(`${LOCAL_ADDR}donation-amounts/top-donor-whole`);
-      const donorIds = response.data.map((donor) => donor.donorId);
+      const donorIds = response.data.slice(0, 5).map((donor) => donor.donorId);
       const donorsDetails = await Promise.all(
         donorIds.map(async (id) => {
           const userDetails = await axios.get(`${LOCAL_ADDR}users/${id}`);
@@ -98,26 +101,33 @@ const SideBar = () => {
           variant="contained"
           color="primary"
           style={{
-            width: "200px", // Adjust the width as needed
-            background: "rgba(255, 255, 255, 0.1)", // Apply glass effect
+            width: "220px", // Increased width for a more prominent appearance
+            background: "#f99a32", // Slightly transparent background
             backdropFilter: "blur(10px)", // Apply glass effect
-            border: "1px solid rgba(255, 255, 255, 0.2)", // Apply glass effect
+            border: "1px solid rgba(255, 255, 255, 0.3)", // Thicker border for contrast
             color: "black", // Set text color to black
             fontWeight: "bold", // Set text weight to bold
+            borderRadius: "8px", // Rounded corners
+            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)", // Soft shadow
           }}
           onClick={handleOpenPopup} // Open the popup on button click
         >
+          <PlaylistAddCircleIcon fontSize="large" style={{ marginRight: "8px" }} />{" "}
+          {/* Larger icon with some margin */}
           Start a Fund
         </Button>
       </div>
+
       {/* ProductForm Popup */}
-      <Dialog open={isPopupOpen} onClose={handleClosePopup}>
-        <FundForm />
-      </Dialog>
+      <PostForm open={isPopupOpen} onClose={handleClosePopup} />
+
       {/* List of sections */}
       <div style={{ padding: "10px" }}>
         {/* Total Donation */}
-        <div className="glass-box glass-box-content" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div
+          className="glass-box glass-box-content"
+          style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+        >
           <div style={{ display: "flex", alignItems: "center" }}>
             <PaidIcon style={{ width: "40px", height: "40px", marginRight: "10px" }} />
             <div style={{ fontSize: "12px", fontWeight: "bold" }}>Total donation</div>
@@ -125,7 +135,10 @@ const SideBar = () => {
           <div style={{ fontSize: "12px", marginTop: "8px" }}>${totalDonation}</div>
         </div>
         {/* Donation Today */}
-        <div className="glass-box glass-box-content" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div
+          className="glass-box glass-box-content"
+          style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+        >
           <div style={{ display: "flex", alignItems: "center" }}>
             <CalendarTodayIcon style={{ width: "40px", height: "40px", marginRight: "10px" }} />
             <div style={{ fontSize: "12px" }}>Donation today</div>
@@ -133,7 +146,10 @@ const SideBar = () => {
           <div style={{ fontSize: "12px", marginTop: "8px" }}>{donationToday}</div>
         </div>
         {/* Total Donner */}
-        <div className="glass-box glass-box-content" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div
+          className="glass-box glass-box-content"
+          style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+        >
           <div style={{ display: "flex", alignItems: "center" }}>
             <GroupIcon style={{ width: "40px", height: "40px", marginRight: "10px" }} />
             <div style={{ fontSize: "12px" }}>Total donner</div>
@@ -141,13 +157,17 @@ const SideBar = () => {
           <div style={{ fontSize: "12px", marginTop: "8px" }}>{totalDonner}</div>
         </div>
         {/* Avg Donation */}
-        <div className="glass-box glass-box-content" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div
+          className="glass-box glass-box-content"
+          style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+        >
           <div style={{ display: "flex", alignItems: "center" }}>
             <DataSaverOffIcon style={{ width: "40px", height: "40px", marginRight: "10px" }} />
             <div style={{ fontSize: "12px" }}>Avg donation</div>
           </div>
           <div style={{ fontSize: "12px", marginTop: "8px" }}>{avgDonation}</div>
         </div>
+        <UpdateCard/>
       </div>
     </Card>
   );
