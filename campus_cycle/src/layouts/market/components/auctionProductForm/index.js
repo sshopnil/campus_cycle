@@ -1,11 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { Link } from "react-router-dom";
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 import SoftInput from "components/SoftInput";
 import SoftButton from "components/SoftButton";
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import Alert from '@mui/material/Alert';
 import Dialog from '@mui/material/Dialog';
@@ -14,10 +11,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Typography from '@mui/material/Typography';
-import './ProductForm.css';
+import './AuctionProductForm.css';
 
-const ProductForm = () => {
-  const [username, setUsername] = useState('');
+const AuctionProductForm = () => {
+  // const [username, setUsername] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
@@ -30,14 +27,14 @@ const ProductForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log({
-      username,
+      // username,
       title,
       description,
       date,
       images,
       price,
     });
-    setUsername('');
+    // setUsername('');
     setTitle('');
     setDescription('');
     setDate('');
@@ -69,11 +66,14 @@ const ProductForm = () => {
   };
 
   return (
+    // <DashboardLayout>
     <>
+      {/* <DashboardNavbar /> */}
+     
       <SoftBox maxWidth="100%" mx="auto">
-      <Typography variant='h1'>Product Submision</Typography>
+      <Typography variant='h1'>Auction Product Submision</Typography>
         <SoftBox component="form" role="form" onSubmit={handleSubmit}>
-          <SoftBox mb={2}>
+          {/* <SoftBox mb={2}>
             <SoftBox mb={1} ml={0.5}>
               <SoftTypography component="label" variant="caption" fontWeight="bold">
                 Username:
@@ -87,7 +87,7 @@ const ProductForm = () => {
               placeholder="Username"
               required
             />
-          </SoftBox>
+          </SoftBox> */}
           <SoftBox mb={2}>
             <SoftBox mb={1} ml={0.5}>
               <SoftTypography component="label" variant="caption" fontWeight="bold">
@@ -194,7 +194,8 @@ const ProductForm = () => {
         </DialogActions>
       </Dialog>
     </>
+    // </DashboardLayout>
   );
 };
 
-export default ProductForm;
+export default AuctionProductForm;
