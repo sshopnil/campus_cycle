@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Grid, Card, CardContent, CardMedia, Typography, Button } from "@mui/material";
 import ProgressBar from "@ramonak/react-progress-bar";
-import DonatePayment from "../components/donationPayment"; // Import the DonatePayment component
+import DonatePayment from "../components/donationPayment";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
@@ -12,24 +12,43 @@ import axios from "axios";
 const DonationCardDetails = () => {
   const { cardId } = useParams();
   const [cardDetails, setCardDetails] = useState(null);
-  const [raisedAmount, setRaisedAmount] = useState(0); // State to hold the raised amount
+  const [raisedAmount, setRaisedAmount] = useState(0);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [customAmount, setCustomAmount] = useState(""); // State to hold the custom input amount
+  const [customAmount, setCustomAmount] = useState("");
 
   const handleCustomInput = (amount) => {
-    setCustomAmount(amount); // Set the custom amount when predefined button is clicked
+    setCustomAmount(amount);
   };
 
   useEffect(() => {
     const fetchCardDetails = async () => {
       try {
-        const [cardResponse, raisedResponse] = await Promise.all([
-          axios.get(`http://localhost:3000/donations/${cardId}`),
-          axios.get(`http://localhost:3000/donation-amounts/total/${cardId}`),
-        ]);
-        setCardDetails(cardResponse.data);
+        const response = await axios.get(`http://localhost:3000/donations/${cardId}`);
+        const cardData = response.data;
+
+        setCardDetails({
+          title: cardData.title,
+          imageUrl: cardData.imageUrl,
+          goalAmount: cardData.goalAmount,
+          details: cardData.details,
+          creator: {
+            id: cardData.creator.id,
+            name: cardData.creator.name,
+            email: cardData.creator.email,
+            dob: cardData.creator.dob,
+            imageUrl: cardData.creator.imageUrl,
+          },
+          organizer: {
+            id: cardData.organizer.id,
+            name: cardData.organizer.name,
+            email: cardData.organizer.email,
+            dob: cardData.organizer.dob,
+            imageUrl: cardData.organizer.imageUrl,
+          }
+        });
+
+        const raisedResponse = await axios.get(`http://localhost:3000/donation-amounts/total/${cardId}`);
         setRaisedAmount(raisedResponse.data);
-        
       } catch (error) {
         console.error("Error fetching card details:", error);
       }
@@ -76,7 +95,7 @@ const DonationCardDetails = () => {
                       color="text.secondary"
                       style={{ marginTop: "30px", marginBottom: "20px" }}
                     >
-                      Content created by: {cardDetails.creator || "Unknown"}
+                      Content created by: {cardDetails.creator.name || "Unknown"}
                     </Typography>
                     <hr
                       style={{
@@ -119,7 +138,7 @@ const DonationCardDetails = () => {
                     <div style={{ fontWeight: "bold" }}>Organizer</div>
                     <div style={{ padding: "15px" }}>
                       <Stack direction="row" spacing={2}>
-                        <Avatar src={cardDetails.organizerImage} />
+                        <Avatar src={cardDetails.organizer.imageUrl} />
                         <div
                           style={{
                             paddingLeft: "5px",
@@ -128,7 +147,7 @@ const DonationCardDetails = () => {
                             alignItems: "center",
                           }}
                         >
-                          {cardDetails.organizer || "Unknown"}
+                          {cardDetails.organizer.name || "Unknown"}
                         </div>
                       </Stack>
                     </div>
@@ -190,7 +209,6 @@ const DonationCardDetails = () => {
         )}
       </Grid>
 
-      {/* Render DonatePayment component passing necessary props */}
       <DonatePayment
         open={dialogOpen}
         onClose={handleCloseDialog}

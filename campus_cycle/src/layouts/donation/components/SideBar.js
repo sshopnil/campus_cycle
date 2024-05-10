@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -17,15 +17,31 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import GroupIcon from "@mui/icons-material/Group";
 import DataSaverOffIcon from "@mui/icons-material/DataSaverOff";
 import FundForm from "./fundForm/fundForm";
+import axios from "axios";
 
 const SideBar = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false); // State to control the visibility of the popup
+  const [topDonors, setTopDonors] = useState([]);
 
-  const groups = [
-    { name: "Group 1", color: "#ff0000" },
-    { name: "Group 2", color: "#00ff00" },
-    { name: "Group 3", color: "#0000ff" },
-  ];
+  useEffect(() => {
+    fetchTopDonors();
+  }, []);
+
+  const fetchTopDonors = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/donation-amounts/top-donor-whole");
+      const donorIds = response.data.map((donor) => donor.donorId);
+      const donorsDetails = await Promise.all(
+        donorIds.map(async (id) => {
+          const userDetails = await axios.get(`http://localhost:3000/users/${id}`);
+          return userDetails.data;
+        })
+      );
+      setTopDonors(donorsDetails);
+    } catch (error) {
+      console.error("Error fetching top donors:", error);
+    }
+  };
 
   const handleOpenPopup = () => {
     setIsPopupOpen(true);
@@ -48,18 +64,11 @@ const SideBar = () => {
       />
       <hr style={{ width: "80%", alignSelf: "center", color: "#666C8F", border: "1px solid" }} />
       <CardContent style={{ height: "400px", overflowY: "auto" }}>
-        {groups.map((item) => (
+        {topDonors.map((donor) => (
           <CardHeader
-            avatar={
-              <Avatar
-                sx={{ bgcolor: item.color, fontVariant: "small-caps" }}
-                aria-label="Group logo"
-              >
-                {item.name.charAt(0)}
-              </Avatar>
-            }
-            key={item.name}
-            title={item.name}
+            key={donor.id}
+            avatar={<Avatar alt={donor.name} src={donor.imageUrl} />}
+            title={donor.name}
           />
         ))}
       </CardContent>
