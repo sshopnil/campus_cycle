@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  Avatar,
-  Button,
-  Dialog
-} from "@mui/material";
+import { Card, CardContent, CardHeader, Avatar, Button, Dialog } from "@mui/material";
 import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
 import PaidIcon from "@mui/icons-material/Paid";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
@@ -14,18 +7,23 @@ import GroupIcon from "@mui/icons-material/Group";
 import DataSaverOffIcon from "@mui/icons-material/DataSaverOff";
 import FundForm from "./fundForm/fundForm";
 import axios from "axios";
-import LOCAL_ADDR from "../../../GLOBAL_ADDRESS"
-import {
-  CardBody,
-  Typography
-} from "@material-tailwind/react";
+import LOCAL_ADDR from "../../../GLOBAL_ADDRESS";
+import { CardBody, Typography } from "@material-tailwind/react";
 
 const SideBar = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false); // State to control the visibility of the popup
   const [topDonors, setTopDonors] = useState([]);
+  const [totalDonation, setTotalDonation] = useState("");
+  const [donationToday, setDonationToday] = useState("");
+  const [totalDonner, setTotalDonner] = useState("");
+  const [avgDonation, setAvgDonation] = useState("");
 
   useEffect(() => {
     fetchTopDonors();
+    fetchTotalDonation();
+    fetchDonationToday();
+    fetchTotalDonner();
+    fetchAvgDonation();
   }, []);
 
   const fetchTopDonors = async () => {
@@ -42,6 +40,27 @@ const SideBar = () => {
     } catch (error) {
       console.error("Error fetching top donors:", error);
     }
+  };
+
+  const fetchTotalDonation = async () => {
+    try {
+      const response = await axios.get(`${LOCAL_ADDR}donation-amounts/all`);
+      setTotalDonation(response.data);
+    } catch (error) {
+      console.error("Error fetching total donation:", error);
+    }
+  };
+
+  const fetchDonationToday = async () => {
+    // Implement logic to fetch donation today
+  };
+
+  const fetchTotalDonner = async () => {
+    // Implement logic to fetch total donner
+  };
+
+  const fetchAvgDonation = async () => {
+    // Implement logic to fetch avg donation
   };
 
   const handleOpenPopup = () => {
@@ -95,38 +114,39 @@ const SideBar = () => {
       <Dialog open={isPopupOpen} onClose={handleClosePopup}>
         <FundForm />
       </Dialog>
-      <div
-        style={{ display: "flex", justifyContent: "center", marginTop: "20px", padding: "10px" }}
-      >
-        <div className="glass-box glass-box-content">
-          <div style={{ width: "85px", height: "95px" }}>
-            <PaidIcon />
+      {/* List of sections */}
+      <div style={{ padding: "10px" }}>
+        {/* Total Donation */}
+        <div className="glass-box glass-box-content" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <PaidIcon style={{ width: "40px", height: "40px", marginRight: "10px" }} />
             <div style={{ fontSize: "12px", fontWeight: "bold" }}>Total donation</div>
           </div>
-          {/* Add content for Total donation */}
+          <div style={{ fontSize: "12px", marginTop: "8px" }}>${totalDonation}</div>
         </div>
-        <div className="glass-box glass-box-content">
-          <div style={{ width: "85px", height: "95px" }}>
-            <CalendarTodayIcon />
+        {/* Donation Today */}
+        <div className="glass-box glass-box-content" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <CalendarTodayIcon style={{ width: "40px", height: "40px", marginRight: "10px" }} />
             <div style={{ fontSize: "12px" }}>Donation today</div>
           </div>
-          {/* Add content for Donation today */}
+          <div style={{ fontSize: "12px", marginTop: "8px" }}>{donationToday}</div>
         </div>
-      </div>
-      <div style={{ display: "flex", justifyContent: "center", padding: "10px" }}>
-        <div className="glass-box glass-box-content">
-          <div style={{ width: "85px", height: "95px" }}>
-            <GroupIcon />
+        {/* Total Donner */}
+        <div className="glass-box glass-box-content" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <GroupIcon style={{ width: "40px", height: "40px", marginRight: "10px" }} />
             <div style={{ fontSize: "12px" }}>Total donner</div>
           </div>
-          {/* Add content for Total donner */}
+          <div style={{ fontSize: "12px", marginTop: "8px" }}>{totalDonner}</div>
         </div>
-        <div className="glass-box glass-box-content">
-          <div style={{ width: "85px", height: "95px" }}>
-            <DataSaverOffIcon />
+        {/* Avg Donation */}
+        <div className="glass-box glass-box-content" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <DataSaverOffIcon style={{ width: "40px", height: "40px", marginRight: "10px" }} />
             <div style={{ fontSize: "12px" }}>Avg donation</div>
           </div>
-          {/* Add content for Avg donation */}
+          <div style={{ fontSize: "12px", marginTop: "8px" }}>{avgDonation}</div>
         </div>
       </div>
     </Card>
