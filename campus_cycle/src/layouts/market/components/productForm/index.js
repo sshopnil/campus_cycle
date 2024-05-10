@@ -23,11 +23,26 @@ const ProductForm = () => {
   const [date, setDate] = useState('');
   const [images, setImages] = useState([]);
   const [price, setPrice] = useState('');
+  const [formData, setFormData] = useState({
+    userId: '',
+    title: '',
+    description: '',
+    date: '',
+    images: [],
+    price: '',
+  });
   const [alertOpen, setAlertOpen] = useState(false); // State for controlling alert visibility
   const [alertMessage, setAlertMessage] = useState(''); // State for setting alert message
   const fileInputRef = useRef(null); // Create a ref for file input
 
-  const handleSubmit = (e) => {
+  const handleInputChange = (e) =>{
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  }
+  const handleFormSubmit = (e) => {
     e.preventDefault();
     console.log({
       username,
@@ -72,11 +87,11 @@ const ProductForm = () => {
     <>
       <SoftBox maxWidth="100%" mx="auto">
       <Typography variant='h1'>Product Submision</Typography>
-        <SoftBox component="form" role="form" onSubmit={handleSubmit}>
-          <SoftBox mb={2}>
+        <SoftBox component="form" role="form" onSubmit={handleFormSubmit}>
+          {/* <SoftBox mb={2}>
             <SoftBox mb={1} ml={0.5}>
               <SoftTypography component="label" variant="caption" fontWeight="bold">
-                Username:
+                User Id:
               </SoftTypography>
             </SoftBox>
             <SoftInput
@@ -87,7 +102,7 @@ const ProductForm = () => {
               placeholder="Username"
               required
             />
-          </SoftBox>
+          </SoftBox> */}
           <SoftBox mb={2}>
             <SoftBox mb={1} ml={0.5}>
               <SoftTypography component="label" variant="caption" fontWeight="bold">
@@ -97,6 +112,7 @@ const ProductForm = () => {
             <SoftInput
               type="text"
               id="title"
+              name = "title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Product Title"
@@ -112,6 +128,7 @@ const ProductForm = () => {
             <SoftInput
               as="textarea"
               id="description"
+              name="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Product Description"
@@ -128,6 +145,7 @@ const ProductForm = () => {
             <SoftInput
               type="date"
               id="date"
+              name="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
               required
