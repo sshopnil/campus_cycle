@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Card, CardActions, CardMedia } from '@mui/material';
 
-const ImageUpload = ({setImg}) => {
+const ImageUpload = () => {
   const [image, setImage] = useState(null);
 
   // Function to handle file input change
@@ -11,12 +11,12 @@ const ImageUpload = ({setImg}) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result);
-        setImg(reader.result);
+        // setImg(reader.result);
       };
       reader.readAsDataURL(file);
     } else {
       setImage(null);
-      setImg(null);
+      // setImg(null);
     }
   };
 

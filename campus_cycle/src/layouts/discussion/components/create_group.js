@@ -3,7 +3,7 @@ import * as React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import { Button,IconButton} from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import CloseIcon from '@mui/icons-material/Close';
@@ -19,7 +19,7 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 function ColorToggleButton() {
-    const [alignment, setAlignment] = React.useState('web');
+    const [alignment, setAlignment] = React.useState('local');
 
     const handleChange = (event, newAlignment) => {
         setAlignment(newAlignment);
@@ -39,7 +39,35 @@ function ColorToggleButton() {
     );
 }
 
+
+const MyForm = () => {
+    return (
+        <>
+            <SoftBox mb={2}>
+                <SoftBox mb={1} ml={0.5}>
+                    <SoftTypography component="label" variant="caption" fontWeight="bold">
+                        Group Name
+                    </SoftTypography>
+                </SoftBox>
+                <SoftInput type="text" placeholder="title" />
+            </SoftBox>
+            <SoftBox mb={2}>
+                <SoftBox mb={1} ml={0.5}>
+                    <SoftTypography component="label" variant="caption" fontWeight="bold">
+                        Group Type
+                    </SoftTypography>
+                </SoftBox>
+                <ColorToggleButton />
+            </SoftBox>
+        </>
+    );
+}
+
 export default function CreateGroup({ open, setOpen }) {
+
+    const [en, setEn] = React.useState(true);
+    const [showImg, setShowImg] = React.useState(false);
+    // const []
 
     // console.log(open)
     return (
@@ -73,35 +101,16 @@ export default function CreateGroup({ open, setOpen }) {
                 </AppBar>
                 <DialogContent>
                     <SoftBox component="form" role="form">
-                        <SoftBox mb={2}>
-                            <SoftBox mb={1} ml={0.5}>
-                                <SoftTypography component="label" variant="caption" fontWeight="bold">
-                                    Group Name
-                                </SoftTypography>
-                            </SoftBox>
-                            <SoftInput type="text" placeholder="title" />
-                        </SoftBox>
-                        <SoftBox mb={2}>
-                            <SoftBox mb={1} ml={0.5}>
-                                <SoftTypography component="label" variant="caption" fontWeight="bold">
-                                    Group Tags
-                                </SoftTypography>
-                            </SoftBox>
-                            <SoftInput type="Text" placeholder="i.e. sports, news etc.." />
-                        </SoftBox>
-                        <SoftBox mb={2}>
-                            <SoftBox mb={1} ml={0.5}>
-                                <SoftTypography component="label" variant="caption" fontWeight="bold">
-                                    Group Type
-                                </SoftTypography>
-                            </SoftBox>
-                            <ColorToggleButton />
-                        </SoftBox>
-                        <ImageUpload />
+                        {showImg ? <ImageUpload /> : <MyForm/>}
                     </SoftBox>
                 </DialogContent>
                 <DialogActions>
-                    <Button type='submit' variant='contained' sx={{ color: "white !important" }} onClick={setOpen}>Create Group</Button>
+                    { en && <Button variant='contained' sx={{ color: "white !important" }} onClick={()=>{setShowImg(!showImg); setEn(!en)}}>Next</Button>}
+                    { !en && <>
+                        <Button variant='contained' sx={{ color: "white !important" }} onClick={()=>{setShowImg(!showImg); setEn(!en)}}>Back</Button>
+                        <Button type='submit' variant='contained' sx={{ color: "white !important" }} onClick={setOpen}>Create Group</Button>
+                        </>
+                        }
                 </DialogActions>
             </Dialog>
         </React.Fragment>

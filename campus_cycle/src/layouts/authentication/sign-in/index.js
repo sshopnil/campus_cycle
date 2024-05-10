@@ -23,6 +23,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LOCAL_ADDR from "GLOBAL_ADDRESS";
 import { useNavigate } from 'react-router-dom';
+import { Widgets } from "@mui/icons-material";
 
 
 function SignIn() {
@@ -60,7 +61,7 @@ function SignIn() {
       }
       catch (error) {
       if(error.response.statusText === "Not Found"){
-        toast('Password does not match😔!');
+        toast.warn('Password does not match😔!');
       }
       console.error('API error:', error.response);
     }
@@ -83,6 +84,7 @@ return (
       draggable
       pauseOnHover
       theme="light"
+      style={{width: "400px"}}
     />
     <SoftBox component="form" role="form" onSubmit={handleFormSubmit}>
       <SoftBox mb={2}>
