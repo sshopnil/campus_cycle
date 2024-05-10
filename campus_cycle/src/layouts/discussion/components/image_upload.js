@@ -24,7 +24,7 @@ const ImageUpload = ({setImg}) => {
         };
         setImage(reader.result);
         setImg(file);
-        console.log(file);
+        // console.log(file);
       };
       reader.readAsDataURL(file);
     } else {

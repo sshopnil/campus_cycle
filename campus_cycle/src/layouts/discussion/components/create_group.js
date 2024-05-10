@@ -111,7 +111,7 @@ export default function CreateGroup({ open, setOpen }) {
         const formData = new FormData();
         formData.append('image', img);
 
-        console.log(formData);
+        // console.log(formData);
 
         try {
             const response = await axios.patch(`${LOCAL_ADDR}groups/image_upload/${imgId}`, formData, {
@@ -120,6 +120,7 @@ export default function CreateGroup({ open, setOpen }) {
                 },
               });
             toast.success('Successfully Created!');
+            location.reload();
         }
         catch (error) {
             console.error('API error:', error.response);
@@ -174,7 +175,7 @@ export default function CreateGroup({ open, setOpen }) {
                     {en && <Button variant='contained' sx={{ color: "white !important" }} onClick={(e) => { setShowImg(!showImg); setEn(!en); handleFormSubmit(e) }}>Next</Button>}
                     {!en && <>
                         <Button variant='contained' sx={{ color: "white !important" }} onClick={() => { setShowImg(!showImg); setEn(!en); setOpen(false) }}>Cancel</Button>
-                        <Button type='submit' variant='contained' sx={{ color: "white !important" }}>Create Group</Button>
+                        <Button type='submit' variant='contained' sx={{ color: "white !important" }} onClick={(e)=>{handleFormSubmit2(e); setOpen(false);}}>Create Group</Button>
                     </>
                     }
                 </DialogActions>
