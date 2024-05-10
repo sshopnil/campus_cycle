@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import ProgressBar from "@ramonak/react-progress-bar";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import LOCAL_ADDR from "../../../GLOBAL_ADDRESS"
 
 const DonationCard = () => {
   const [cardsData, setCardsData] = useState([]);
@@ -22,7 +23,7 @@ const DonationCard = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/donations");
+      const response = await axios.get(`${LOCAL_ADDR}donations`);
       setCardsData(response.data);
       setRemainingCardData(response.data.length);
     } catch (error) {
@@ -32,7 +33,7 @@ const DonationCard = () => {
 
   const fetchRaisedData = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:3000/donation-amounts/total/${id}`);
+      const response = await axios.get(`${LOCAL_ADDR}donation-amounts/total/${id}`);
       setRaisedData((prevState) => [...prevState, { id, raisedAmount: response.data }]);
     } catch (error) {
       console.error("Error fetching raised data:", error);
@@ -43,7 +44,7 @@ const DonationCard = () => {
     const fetchRaisedDataForAllCards = async () => {
       try {
         const promises = cardsData.map(async (card) => {
-          const response = await axios.get(`http://localhost:3000/donation-amounts/total/${card.id}`);
+          const response = await axios.get(`${LOCAL_ADDR}donation-amounts/total/${card.id}`);
           return { id: card.id, raisedAmount: response.data };
         });
         const raisedDataForAllCards = await Promise.all(promises);

@@ -8,6 +8,7 @@ import DonatePayment from "../components/donationPayment";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
+import LOCAL_ADDR from "../../../GLOBAL_ADDRESS"
 
 const DonationCardDetails = () => {
   const { cardId } = useParams();
@@ -23,7 +24,7 @@ const DonationCardDetails = () => {
   useEffect(() => {
     const fetchCardDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/donations/${cardId}`);
+        const response = await axios.get(`${LOCAL_ADDR}donations/${cardId}`);
         const cardData = response.data;
 
         setCardDetails({
@@ -47,7 +48,7 @@ const DonationCardDetails = () => {
           }
         });
 
-        const raisedResponse = await axios.get(`http://localhost:3000/donation-amounts/total/${cardId}`);
+        const raisedResponse = await axios.get(`${LOCAL_ADDR}donation-amounts/total/${cardId}`);
         setRaisedAmount(raisedResponse.data);
       } catch (error) {
         console.error("Error fetching card details:", error);

@@ -5,11 +5,7 @@ import {
   CardHeader,
   Avatar,
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
+  Dialog
 } from "@mui/material";
 import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
 import PaidIcon from "@mui/icons-material/Paid";
@@ -18,6 +14,11 @@ import GroupIcon from "@mui/icons-material/Group";
 import DataSaverOffIcon from "@mui/icons-material/DataSaverOff";
 import FundForm from "./fundForm/fundForm";
 import axios from "axios";
+import LOCAL_ADDR from "../../../GLOBAL_ADDRESS"
+import {
+  CardBody,
+  Typography
+} from "@material-tailwind/react";
 
 const SideBar = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false); // State to control the visibility of the popup
@@ -29,11 +30,11 @@ const SideBar = () => {
 
   const fetchTopDonors = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/donation-amounts/top-donor-whole");
+      const response = await axios.get(`${LOCAL_ADDR}donation-amounts/top-donor-whole`);
       const donorIds = response.data.map((donor) => donor.donorId);
       const donorsDetails = await Promise.all(
         donorIds.map(async (id) => {
-          const userDetails = await axios.get(`http://localhost:3000/users/${id}`);
+          const userDetails = await axios.get(`${LOCAL_ADDR}users/${id}`);
           return userDetails.data;
         })
       );

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { DialogTitle, DialogContent, DialogActions, TextField, Button, Typography } from "@mui/material";
 import axios from "axios";
+import LOCAL_ADDR from "../../../../GLOBAL_ADDRESS"
 
 export default function FundForm() {
   const [formData, setFormData] = useState({
@@ -15,7 +16,7 @@ export default function FundForm() {
   const handleSubmit = async () => {
     try {
       // Add formData to the request body
-      const response = await axios.post("http://localhost:3000/donations/create", formData);
+      const response = await axios.post(`${LOCAL_ADDR}donations/create`, formData);
       console.log("Form submitted successfully:", response.data);
       // Reset the form fields after successful submission
       setFormData({
