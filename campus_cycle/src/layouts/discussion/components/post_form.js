@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import { Button,IconButton} from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import CloseIcon from '@mui/icons-material/Close';
@@ -40,7 +40,48 @@ function ColorToggleButton() {
     );
 }
 
+const MyForm = () => {
+    return (
+        <>
+            <SoftBox mb={2}>
+                <SoftBox mb={1} ml={0.5}>
+                    <SoftTypography component="label" variant="caption" fontWeight="bold">
+                        Post title
+                    </SoftTypography>
+                </SoftBox>
+                <SoftInput type="text" placeholder="title" />
+            </SoftBox>
+            <SoftBox mb={2}>
+                <SoftBox mb={1} ml={0.5}>
+                    <SoftTypography component="label" variant="caption" fontWeight="bold">
+                        Description
+                    </SoftTypography>
+                </SoftBox>
+                <SoftInput type="Text" placeholder="Post content here..." multiline rows={4} />
+            </SoftBox>
+            <SoftBox mb={2}>
+                <SoftBox mb={1} ml={0.5}>
+                    <SoftTypography component="label" variant="caption" fontWeight="bold">
+                        Tags
+                    </SoftTypography>
+                </SoftBox>
+                <SoftInput type="Text" placeholder="i.e. sports, news etc.." />
+            </SoftBox>
+            <SoftBox mb={2}>
+                <SoftBox mb={1} ml={0.5}>
+                    <SoftTypography component="label" variant="caption" fontWeight="bold">
+                        Post Type
+                    </SoftTypography>
+                </SoftBox>
+                <ColorToggleButton />
+            </SoftBox>
+        </>
+    );
+}
+
 export default function PostForm({ open, setOpen }) {
+    const [en, setEn] = React.useState(true);
+    const [showImg, setShowImg] = React.useState(false);
 
     // console.log(open)
     return (
@@ -74,43 +115,16 @@ export default function PostForm({ open, setOpen }) {
                 </AppBar>
                 <DialogContent>
                     <SoftBox component="form" role="form">
-                        <SoftBox mb={2}>
-                            <SoftBox mb={1} ml={0.5}>
-                                <SoftTypography component="label" variant="caption" fontWeight="bold">
-                                    Post title
-                                </SoftTypography>
-                            </SoftBox>
-                            <SoftInput type="text" placeholder="title" />
-                        </SoftBox>
-                        <SoftBox mb={2}>
-                            <SoftBox mb={1} ml={0.5}>
-                                <SoftTypography component="label" variant="caption" fontWeight="bold">
-                                    Description
-                                </SoftTypography>
-                            </SoftBox>
-                            <SoftInput type="Text" placeholder="Post content here..." multiline rows={4} />
-                        </SoftBox>
-                        <SoftBox mb={2}>
-                            <SoftBox mb={1} ml={0.5}>
-                                <SoftTypography component="label" variant="caption" fontWeight="bold">
-                                    Tags
-                                </SoftTypography>
-                            </SoftBox>
-                            <SoftInput type="Text" placeholder="i.e. sports, news etc.." />
-                        </SoftBox>
-                        <SoftBox mb={2}>
-                            <SoftBox mb={1} ml={0.5}>
-                                <SoftTypography component="label" variant="caption" fontWeight="bold">
-                                    Post Type
-                                </SoftTypography>
-                            </SoftBox>
-                            <ColorToggleButton />
-                        </SoftBox>
-                        <ImageUpload />
+                    {showImg ? <ImageUpload /> : <MyForm />}
                     </SoftBox>
                 </DialogContent>
                 <DialogActions>
-                    <Button type='submit' variant='contained' sx={{ color: "white !important" }} onClick={setOpen}>Post</Button>
+                    {en && <Button variant='contained' sx={{ color: "white !important" }} onClick={() => { setShowImg(!showImg); setEn(!en) }}>Next</Button>}
+                    {!en && <>
+                        <Button variant='contained' sx={{ color: "white !important" }} onClick={() => { setShowImg(!showImg); setEn(!en); setOpen(false)}}>Cancel</Button>
+                        <Button type='submit' variant='contained' sx={{ color: "white !important" }} onClick={setOpen}> Post</Button>
+                    </>
+                    }
                 </DialogActions>
             </Dialog>
         </React.Fragment>
