@@ -11,7 +11,7 @@ import LOCAL_ADDR from "../../../GLOBAL_ADDRESS";
 import { CardBody, Typography } from "@material-tailwind/react";
 import PostForm from "./post_form";
 import PlaylistAddCircleIcon from "@mui/icons-material/PlaylistAddCircle";
-import UpdateCard from "./updateCards"
+import UpdateCard from "./updateCards";
 
 const SideBar = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false); // State to control the visibility of the popup
@@ -167,7 +167,7 @@ const SideBar = () => {
           </div>
           <div style={{ fontSize: "12px", marginTop: "8px" }}>{avgDonation}</div>
         </div>
-        <UpdateCard/>
+        <UpdateCard />
       </div>
     </Card>
   );
