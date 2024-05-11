@@ -1,0 +1,53 @@
+.custom-textarea {
+    border: 1px solid #ced4da; /* Default border color */
+    border-radius: 0.50rem;
+    padding: 0.5rem;
+    width: 100%;
+    min-height: 150px;
+    transition: border-color 0.3s; /* Add transition for smooth color change */
+    resize: vertical;
+    outline: none; /* Remove default outline */
+  }
+  
+  .custom-textarea:focus {
+    border-color: skyblue !important; /* Change border color to sky blue when textarea is focused */
+  }
+  
+  .input-images {
+    border: 1px solid #ced4da; /* Default border color */
+    border-radius: 0.50rem;
+    padding: 0.5rem;
+    width: 100%;
+    transition: border-color 0.3s; /* Add transition for smooth color change */
+  }
+  
+  .image-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .image-item {
+    position: relative;
+  }
+  
+  .image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 0.15rem solid #ced4da;
+    border-radius: 10px;
+    margin-right: 10px;
+  }
+  
+  .remove-image {
+    position: absolute;
+    font-size: 20px;
+    /* top: 5px; */
+    right: 5px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 17, 0, 0.697);
+    cursor: pointer;
+  }
+  
