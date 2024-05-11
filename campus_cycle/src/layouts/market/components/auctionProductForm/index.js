@@ -14,42 +14,40 @@ import Typography from '@mui/material/Typography';
 import './AuctionProductForm.css';
 
 const AuctionProductForm = () => {
-  // const [username, setUsername] = useState('');
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [date, setDate] = useState('');
-  const [images, setImages] = useState([]);
-  const [price, setPrice] = useState('');
-  const [alertOpen, setAlertOpen] = useState(false); // State for controlling alert visibility
-  const [alertMessage, setAlertMessage] = useState(''); // State for setting alert message
-  const fileInputRef = useRef(null); // Create a ref for file input
+  const [formData, setFormData] = useState({
+    username: '',
+    title: '',
+    description: '',
+    lastSellingDate: '',
+    images: [],
+    price: '',
+    productTypeId: '',
+  });
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const fileInputRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({
-      // username,
-      title,
-      description,
-      date,
-      images,
-      price,
+    console.log({ formData });
+    setFormData({
+      username: '',
+      title: '',
+      description: '',
+      lastSellingDate: '',
+      images: [],
+      price: '',
+      productTypeId: '',
     });
-    // setUsername('');
-    setTitle('');
-    setDescription('');
-    setDate('');
-    setImages([]);
-    setPrice('');
   };
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     let selectedImages = [];
 
-    if (files.length + images.length > 5) {
+    if (files.length + formData.images.length > 5) {
       setAlertMessage("You can only select up to 5 images.");
       setAlertOpen(true);
-      // Clear file input value
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
@@ -57,23 +55,30 @@ const AuctionProductForm = () => {
     }
 
     selectedImages = files;
-    setImages(prevImages => [...prevImages, ...selectedImages]);
+    setFormData(prevData => ({
+      ...prevData,
+      images: [...prevData.images, ...selectedImages]
+    }));
   };
 
-  // Close alert handler
   const handleCloseAlert = () => {
     setAlertOpen(false);
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   return (
-    // <DashboardLayout>
     <>
-      {/* <DashboardNavbar /> */}
-     
       <SoftBox maxWidth="100%" mx="auto">
-      <Typography variant='h1'>Auction Product Submision</Typography>
+        <Typography variant='h1'>Auction Product Submission</Typography>
         <SoftBox component="form" role="form" onSubmit={handleSubmit}>
-          {/* <SoftBox mb={2}>
+          <SoftBox mb={2}>
             <SoftBox mb={1} ml={0.5}>
               <SoftTypography component="label" variant="caption" fontWeight="bold">
                 Username:
@@ -82,12 +87,13 @@ const AuctionProductForm = () => {
             <SoftInput
               type="text"
               id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              name="username"
+              value={formData.username}
+              onChange={handleInputChange}
               placeholder="Username"
               required
             />
-          </SoftBox> */}
+          </SoftBox>
           <SoftBox mb={2}>
             <SoftBox mb={1} ml={0.5}>
               <SoftTypography component="label" variant="caption" fontWeight="bold">
@@ -97,8 +103,9 @@ const AuctionProductForm = () => {
             <SoftInput
               type="text"
               id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              name="title"
+              value={formData.title}
+              onChange={handleInputChange}
               placeholder="Product Title"
               required
             />
@@ -112,8 +119,9 @@ const AuctionProductForm = () => {
             <SoftInput
               as="textarea"
               id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              name="description"
+              value={formData.description}
+              onChange={handleInputChange}
               placeholder="Product Description"
               className='custom-textarea'
               required
@@ -122,16 +130,65 @@ const AuctionProductForm = () => {
           <SoftBox mb={2}>
             <SoftBox mb={1} ml={0.5}>
               <SoftTypography component="label" variant="caption" fontWeight="bold">
-                Date:
+                Last Selling Date:
               </SoftTypography>
             </SoftBox>
             <SoftInput
               type="date"
-              id="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
+              id="lastSellingDate"
+              name="lastSellingDate"
+              value={formData.lastSellingDate}
+              onChange={handleInputChange}
               required
             />
+          </SoftBox>
+          <SoftBox mb={2}>
+            <SoftBox mb={1} ml={0.5}>
+              <SoftTypography component="label" variant="caption" fontWeight="bold">
+                Product Type:
+              </SoftTypography>
+            </SoftBox>
+            <SoftBox mb={2} display="flex" alignItems="center" >
+            <SoftBox mr={2} width="50%">
+              <SoftBox mb={1} ml={0.5}>
+                <SoftTypography component="label" variant="caption" fontWeight="bold">
+                  Product Type:
+                </SoftTypography>
+              </SoftBox>
+              <SoftBox>
+                <select
+                  id="productTypeId"
+                  name="productTypeId"
+                  value={formData.productTypeId}
+                  className='input-images'
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="">Select Product Type</option>
+                  <option value="1">Chair</option>
+                  <option value="2">Table</option>
+                  <option value="3">Bed</option>
+                  <option value="4">Others</option>
+                </select>
+              </SoftBox>
+            </SoftBox>
+            <SoftBox width="50%">
+              <SoftBox mb={1} ml={0.5}>
+                <SoftTypography component="label" variant="caption" fontWeight="bold">
+                  Price:
+                </SoftTypography>
+              </SoftBox>
+              <SoftInput
+                type="number"
+                id="price"
+                name="price"
+                value={formData.price}
+                onChange={handleInputChange}
+                placeholder="Price"
+                required
+              />
+            </SoftBox>
+          </SoftBox>
           </SoftBox>
           <SoftBox mb={2}>
             <SoftBox mb={1} ml={0.5}>
@@ -142,39 +199,28 @@ const AuctionProductForm = () => {
             <input
               type="file"
               id="images"
-              multiple  // Allow multiple file selection
+              multiple
               accept="image/*"
               onChange={handleImageChange}
               className='input-images'
-              ref={fileInputRef} // Set ref to file input
+              ref={fileInputRef}
               required
             />
             <SoftBox mt={1} className='image-container'>
-              {images.map((image, index) => (
+              {formData.images.map((image, index) => (
                 <div key={index} className='image-item'>
                   <img src={URL.createObjectURL(image)} alt={`Image ${index}`} className='image' />
-                  <button className='remove-image' onClick={() => setImages(prevImages => prevImages.filter((_, i) => i !== index))}>
+                  <button className='remove-image' onClick={() => setFormData(prevData => ({
+                    ...prevData,
+                    images: prevData.images.filter((_, i) => i !== index)
+                  }))}>
                     <CancelRoundedIcon />
                   </button>
                 </div>
               ))}
             </SoftBox>
           </SoftBox>
-          <SoftBox mb={2}>
-            <SoftBox mb={1} ml={0.5}>
-              <SoftTypography component="label" variant="caption" fontWeight="bold">
-                Price:
-              </SoftTypography>
-            </SoftBox>
-            <SoftInput
-              type="number"
-              id="price"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              placeholder="Price"
-              required
-            />
-          </SoftBox>
+
           <SoftButton type="submit" variant="gradient" color="info" fullWidth>
             Submit
           </SoftButton>
@@ -194,7 +240,6 @@ const AuctionProductForm = () => {
         </DialogActions>
       </Dialog>
     </>
-    // </DashboardLayout>
   );
 };
 
