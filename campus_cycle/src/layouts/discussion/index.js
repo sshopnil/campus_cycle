@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DiscussionNavbar from "examples/Navbars/DiscussionNavbar";
@@ -17,11 +18,9 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import TabNavigation from "./components/tab_navigation";
 import PostForm from "./components/post_form";
 import CreateGroup from './components/create_group';
-import Events from './components/events';
-import eventData from './data/eventData';
-import CardActions from '@mui/joy/CardActions';
-import CircularProgress from '@mui/joy/CircularProgress';
-import SvgIcon from '@mui/joy/SvgIcon';
+import EventCard from './components/event_card';
+import LOCAL_ADDR from 'GLOBAL_ADDRESS';
+import axios from 'axios';
 
 function BasicCard({ groups, type }) {
     const [search, setSearch] = React.useState('');
@@ -48,7 +47,7 @@ function BasicCard({ groups, type }) {
             {/* <hr style={{width: '80%', alignSelf: 'center', color:"#666C8F", border: '1px solid'}}/> */}
             <CardContent>
 
-                {groups.length !== 0 ? groups.map((item) => {
+                {groups?.length !== 0 ? groups?.map((item) => {
                     return item?.name.toLowerCase().includes(search.toLowerCase()) && <CardHeader
                         avatar={
                             <Avatar sx={{ bgcolor: item.color, fontVariant: 'small-caps' }} aria-label="Group logo">
@@ -56,7 +55,7 @@ function BasicCard({ groups, type }) {
                             </Avatar>
                         }
                         // action={()=>#}
-                        key={item.name}
+                        key={item.id}
                         title={item.name}
                         action={
                             <Button variant="filled" startIcon={type == 'all' ? <AddBoxIcon /> : <PlayArrowIcon />} color="primary" sx={{ alignContent: "center" }}>
@@ -120,7 +119,7 @@ const EventContents = ({ topic }) => {
     return (
         <>
             <Grid item sm={12} xl={8}>
-            <Events/>
+            <EventCard/>
             </Grid>
             <Grid item xl={4} mt={1} sx={{
                 flexDirection: "column"
@@ -132,14 +131,48 @@ const EventContents = ({ topic }) => {
 }
 const Discussion = () => {
     // console.log(postData);
+
     const [controller, dispatch] = useSoftUIController();
+    const [groups, setGroupData] = React.useState();
     const { topic } = controller;
 
-    // const [topic, setTopic] = useState('');
+    useEffect(() => {
+        // Function to fetch data from API 1
+        const fetchData1 = async () => {
+          try {
+            const response = await axios.get(`${LOCAL_ADDR}groups`);
+            // console.log(response.data);
+            setGroupData(response.data);
+          } catch (error) {
+            console.error('Error fetching data from API 1:', error);
+          }
+        };
+    
+        // Function to fetch data from API 2
+        // const fetchData2 = async () => {
+        //   try {
+        //     const response = await axios.get('apiUrl2');
+        //     setData2(response.data);
+        //   } catch (error) {
+        //     console.error('Error fetching data from API 2:', error);
+        //   }
+        // };
+    
+        // Call both fetch functions when component mounts
+        fetchData1();
+        // fetchData2();
+    
+        // Clean-up function (optional)
+        // console.log(groupData);
+        return () => {
+          // Perform any clean-up if needed
+        };
+      }, []);
+
     const topicdata = [{ "name": "Sports" }, { "name": "Arts & Crafts" }, { "name": "Pets & Animal" }];
     const userGroup = [{ "name": "Gamers Of UIU", "color": "#666C8F" }];
 
-    const filtered_all_group = groups.filter(item => !userGroup.some(userItem => userItem.name === item.name));
+    const filtered_all_group = groups?.filter(item => !userGroup.some(userItem => userItem.name === item.name));
     // data = data.filter((item)=> !dynamicCretarias.some(t => item.includes(t)))
     // console.log(filtered_all_group);
     return (
@@ -152,7 +185,7 @@ const Discussion = () => {
                 content1={<PostContents topic={topic} filteredGroup={filtered_all_group} userGroup={userGroup} />}
                 content1_name={userGroup[0].name}
                 content1_topic={topic}
-                content2={<EventContents topic={topic}/>}
+                content2={<EventContents />}
             />
         </DashboardLayout>
         // <PostContents topic={topic} filteredGroup={filtered_all_group} userGroup={userGroup} />
