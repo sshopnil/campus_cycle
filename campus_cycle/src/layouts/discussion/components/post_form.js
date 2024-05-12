@@ -194,7 +194,7 @@ export default function PostForm({ open, setOpen, selectedGroup}) {
             {en && <Button variant='contained' sx={{ color: "white !important" }} onClick={(e) => { setShowImg(!showImg); setEn(!en); handleFormSubmit(e) }}>Next</Button>}
             {!en && <>
                 <Button variant='contained' sx={{ color: "white !important" }} onClick={() => { setShowImg(!showImg); setEn(!en); setOpen(false) }}>Cancel</Button>
-                <Button type='submit' variant='contained' sx={{ color: "white !important" }} onClick={(e)=>{handleFormSubmit2(e); setOpen(false);}}>Create Group</Button>
+                <Button type='submit' variant='contained' sx={{ color: "white !important" }} onClick={(e)=>{handleFormSubmit2(e); setOpen(false);}}>Post</Button>
             </>
             }
         </DialogActions>
