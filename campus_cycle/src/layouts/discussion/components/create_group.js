@@ -24,7 +24,7 @@ import LOCAL_ADDR from 'GLOBAL_ADDRESS';
 import axios from 'axios';
 
 function ColorToggleButton({ handleInput }) {
-    const [alignment, setAlignment] = React.useState('local');
+    const [alignment, setAlignment] = React.useState('');
 
     const handleChange = (event, newAlignment) => {
         setAlignment(newAlignment);
@@ -71,7 +71,7 @@ const MyForm = ({ handleInputChange }) => {
     );
 }
 
-export default function CreateGroup({ open, setOpen }) {
+export default function CreateGroup({ open, setOpen, updateGroup, groups}) {
 
     const [en, setEn] = React.useState(true);
     const [showImg, setShowImg] = React.useState(false);
@@ -101,6 +101,8 @@ export default function CreateGroup({ open, setOpen }) {
         try {
             const response = await axios.post(`${LOCAL_ADDR}groups/create`, formData);
             setImgId(response?.data?.id);
+            updateGroup([...groups, formData]);
+
         }
         catch (error) {
             console.error('API error:', error.response);
@@ -120,7 +122,7 @@ export default function CreateGroup({ open, setOpen }) {
                 },
               });
             toast.success('Successfully Created!');
-            location.reload();
+            // location.reload();
         }
         catch (error) {
             console.error('API error:', error.response);
