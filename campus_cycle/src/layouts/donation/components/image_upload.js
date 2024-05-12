@@ -1,57 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, Card, CardActions, CardMedia } from '@mui/material';
-import axios from 'axios';
+import { dataUriToBuffer } from 'data-uri-to-buffer';
 
-const ImageUpload = () => {
+const ImageUpload = ({setImg}) => {
   const [image, setImage] = useState(null);
-  const [tableLength, setTableLength] = useState(0);
 
-  useEffect(() => {
-    fetchTableLength();
-  }, []);
-
-  const fetchTableLength = () => {
-    axios.get('http://localhost:5000/donations')
-      .then(response => {
-        setTableLength(response.data.length);
-      })
-      .catch(error => {
-        console.error('Error fetching table length:', error);
-      });
-  };
-
+  // Function to handle file input change
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if (file && file.type.substr(0, 5) === 'image') {
+    if (file && file.type.substr(0, 5) === "image") {
       const reader = new FileReader();
+      
       reader.onloadend = () => {
+        // const base64Image = reader.result.replace(/^data:image\/(png|jpeg|gif);base64,/, '');
+        // console.log(Buffer.from(base64Image, 'base64'));
+        const fileMetadata = {
+          fieldname: 'image',
+          originalname: file.name,
+          encoding: file.encoding || '7bit', // Default encoding value for binary data
+          mimetype: file.type,
+          size: file.size,
+          buffer: dataUriToBuffer(reader.result).buffer
+        };
         setImage(reader.result);
+        setImg(file);
+        // console.log(file);
       };
       reader.readAsDataURL(file);
     } else {
       setImage(null);
+      setImg(null);
     }
   };
 
-  const handleUpload = () => {
-    if (!image) return;
-
-    const formData = new FormData();
-    formData.append('image', image);
-
-    axios.post(`http://localhost:5000/donations/image_upload/${tableLength}`, formData)
-      .then(response => {
-        console.log('Image uploaded successfully:', response.data);
-        // Handle success
-      })
-      .catch(error => {
-        console.error('Error uploading image:', error);
-        // Handle error
-      });
-  };
-
   return (
-    <div style={{ maxWidth: 345 }}>
+    <div style={{ maxWidth: 345}}>
       <input
         accept="image/*"
         style={{ display: 'none' }}
@@ -61,7 +44,7 @@ const ImageUpload = () => {
         onChange={handleImageChange}
       />
       <label htmlFor="raised-button-file">
-        <Button variant="contained" component="span" color="secondary" sx={{ color: 'white !important' }}>
+        <Button variant="contained" component="span" color='secondary' sx={{color:"white !important"}}>
           Upload Image
         </Button>
       </label>
@@ -76,9 +59,6 @@ const ImageUpload = () => {
           <CardActions>
             <Button size="small" color="primary" onClick={() => setImage(null)}>
               Remove
-            </Button>
-            <Button size="small" color="secondary" onClick={handleUpload}>
-              Confirm Upload
             </Button>
           </CardActions>
         </Card>

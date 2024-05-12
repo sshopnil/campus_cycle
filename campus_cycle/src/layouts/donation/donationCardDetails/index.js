@@ -8,7 +8,7 @@ import DonatePayment from "../components/donationPayment";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
-import LOCAL_ADDR from "../../../GLOBAL_ADDRESS"
+import LOCAL_ADDR from "../../../GLOBAL_ADDRESS";
 
 const DonationCardDetails = () => {
   const { cardId } = useParams();
@@ -45,7 +45,7 @@ const DonationCardDetails = () => {
             email: cardData.organizer.email,
             dob: cardData.organizer.dob,
             imageUrl: cardData.organizer.imageUrl,
-          }
+          },
         });
 
         const raisedResponse = await axios.get(`${LOCAL_ADDR}donation-amounts/total/${cardId}`);
@@ -166,7 +166,7 @@ const DonationCardDetails = () => {
                     fontFamily: "Montserrat, sans-serif",
                   }}
                 >
-                  ${raisedAmount}
+                  ${raisedAmount || 0}
                   <Typography color="text.secondary">
                     raised of ${cardDetails.goalAmount || 0} goal
                   </Typography>
@@ -216,6 +216,7 @@ const DonationCardDetails = () => {
         handleCustomInput={handleCustomInput}
         customAmount={customAmount}
         setCustomAmount={setCustomAmount}
+        postId={cardId} 
       />
     </DashboardLayout>
   );

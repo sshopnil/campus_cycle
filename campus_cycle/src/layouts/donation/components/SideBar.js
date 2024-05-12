@@ -5,10 +5,8 @@ import PaidIcon from "@mui/icons-material/Paid";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import GroupIcon from "@mui/icons-material/Group";
 import DataSaverOffIcon from "@mui/icons-material/DataSaverOff";
-import FundForm from "./fundForm/fundForm";
 import axios from "axios";
 import LOCAL_ADDR from "../../../GLOBAL_ADDRESS";
-import { CardBody, Typography } from "@material-tailwind/react";
 import PostForm from "./post_form";
 import PlaylistAddCircleIcon from "@mui/icons-material/PlaylistAddCircle";
 import UpdateCard from "./updateCards";
@@ -167,7 +165,7 @@ const SideBar = () => {
           </div>
           <div style={{ fontSize: "12px", marginTop: "8px" }}>{avgDonation}</div>
         </div>
-        <UpdateCard />
+        <UpdateCard amount={totalDonation} />
       </div>
     </Card>
   );

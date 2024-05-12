@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import SvgIcon from '@mui/material/SvgIcon';
 
-export default function UpdateCard() {
+export default function UpdateCard({amount}) {
   return (
     <Card variant="solid" color="primary" invertedColors>
       <CardContent orientation="horizontal">
@@ -29,18 +29,10 @@ export default function UpdateCard() {
           </SvgIcon>
         </CircularProgress>
         <CardContent>
-          <Typography variant="body1">Gross profit</Typography>
-          <Typography variant="h2">$ 432.6M</Typography>
+          <Typography variant="body1">Total Donation</Typography>
+          <Typography variant="h2">$  {amount}</Typography>
         </CardContent>
       </CardContent>
-      <CardActions>
-        <Button variant="soft" size="small">
-          Add to Watchlist
-        </Button>
-        <Button variant="solid" size="small">
-          See breakdown
-        </Button>
-      </CardActions>
     </Card>
   );
 }
