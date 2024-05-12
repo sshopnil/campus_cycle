@@ -71,6 +71,7 @@ const AuctionProductForm = () => {
       ...formData,
       [name]: value,
     });
+    
   };
 
   return (

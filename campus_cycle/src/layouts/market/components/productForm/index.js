@@ -4,7 +4,6 @@ import SoftTypography from "components/SoftTypography";
 import SoftInput from "components/SoftInput";
 import SoftButton from "components/SoftButton";
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
-import Alert from '@mui/material/Alert';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -15,13 +14,16 @@ import axios from 'axios'; // Import Axios for making HTTP requests
 import './ProductForm.css';
 //api address
 import LOCAL_ADDR from 'GLOBAL_ADDRESS';
+
 const ProductForm = () => {
+  
   const [formData, setFormData] = useState({
-    userId: '',
+    sellerId: 1,
     title: '',
     description: '',
-    price: '',
-    productTypeId: '',
+    price: 0,
+    productTypeId: 0,
+    lastSellingDate:''
   });
   const [images, setImages] = useState([]);
   const [alertOpen, setAlertOpen] = useState(false);
@@ -41,21 +43,21 @@ const ProductForm = () => {
     try {
       // Send form data to create product endpoint
       const response = await axios.post(`${LOCAL_ADDR}products/create`, formData);
-
+      
       // Extract productId from the response
       const productId = response.data.productId;
 
       // // Prepare form data for uploading images
-      // const formDataImages = new FormData();
-      // images.forEach((image, index) => {
-      //   formDataImages.append(`image_${index}`, image);
-      // });
+      const formDataImages = new FormData();
+      images.forEach((image, index) => {
+        formDataImages.append(`image_${index}`, image);
+      });
 
-      // // Send images to upload endpoint
-      // await axios.post(`${LOCAL_ADDR}product-images/image_upload/${productId}`, formDataImages);
+      // Send images to upload endpoint
+      await axios.post(`${LOCAL_ADDR}product-images/image_upload/${productId}`, formDataImages);
 
-      // // Upload all images in parallel
-      // await Promise.all(imageUploadPromises);
+      // Upload all images in parallel
+      await Promise.all(imageUploadPromises);
 
       // Reset form data and images state
       setFormData({
