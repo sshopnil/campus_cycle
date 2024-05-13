@@ -20,12 +20,13 @@ const PostForm = ({ open, onClose }) => {
   const [showImg, setShowImg] = useState(false);
   const [img, setImage] = useState(null);
   const [imgId, setImgId] = React.useState();
+  const userId = parseInt(localStorage.getItem("user"));
   const [formData, setFormData] = useState({
     title: '',
     details: '',
     goalAmount: '',
-    creatorId: localStorage.getItem("user"),
-    organizerId: localStorage.getItem("user")
+    creatorId: userId,
+    organizerId: userId
   });
 
   const handleInputChange = (e) => {
