@@ -170,10 +170,11 @@ const Discussion = () => {
         }
       };
 
-    const handleGo=(id)=>{
+    const handleGo=async (id)=>{
         // console.log(selectedGrp);
         setSelectedGrp(id);
-        fetchData3(id);
+        await fetchData3(id);
+        await localStorage.setItem("group", id);
         
     }
     useEffect(() => {
@@ -191,6 +192,8 @@ const Discussion = () => {
             
             const response = await axios.get(`${LOCAL_ADDR}users/groups/${userId}`);
             setUserGrps(response.data);
+            setSelectedGrp(response.data[0].id);
+
           } catch (error) {
             console.error('Error fetching data from API 2:', error);
           }
@@ -208,6 +211,11 @@ const Discussion = () => {
 
     const filtered_all_group = groups?.filter(item => !userGrps.some(userItem => userItem.name === item.name));
     const showGroup = userGrps?.find(item => selectedGrp === item.id);
+
+    useEffect(()=>{
+        fetchData3(selectedGrp);
+
+    }, [])
     // console.log(showGroup);
     // data = data.filter((item)=> !dynamicCretarias.some(t => item.includes(t)))
     // console.log(filtered_all_group);

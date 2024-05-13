@@ -92,7 +92,7 @@ const MyForm = ({selectedGroup, userId, handleInputChange}) => {
 
 export default function PostForm({ open, setOpen, selectedGroup}) {
     // console.log(selectedGroup);
-    const grpId = selectedGroup;
+    const grpId = parseInt(localStorage.getItem("group"));
     const [en, setEn] = React.useState(true);
     const [showImg, setShowImg] = React.useState(false);
     const [imgId, setImgId] = React.useState();
@@ -138,7 +138,7 @@ export default function PostForm({ open, setOpen, selectedGroup}) {
                   'Content-Type': 'multipart/form-data', // Important for file uploads
                 },
               });
-            toast.success("Posted!")
+            toast.success("Posted!");
             location.reload();
         }
         catch (error) {

@@ -58,12 +58,12 @@ export default function PostDetail({ show, setShow, item }) {
                         <CardContent>
                             {item?.content}
                         </CardContent>
-                        <CardMedia
+                        {item?.imageurl && <CardMedia
                             component="img"
                             height="auto"
                             image={item?.imageurl}
                             alt="fighting"
-                        />
+                        />}
                         <CardContent>
 
                         </CardContent>
