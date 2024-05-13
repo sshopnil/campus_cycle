@@ -15,10 +15,12 @@ function FilterBar({ onSelectFilter }) {
   const [activeButton, setActiveButton] = useState(null);
 
   // Function to handle button click
-  const handleButtonClick = (buttonName) => {
-    setActiveButton(buttonName)
-    onSelectFilter(buttonName); // Call onSelectFilter function with buttonName
-  };
+  // Function to handle button click
+const handleButtonClick = ({ name, value }) => {
+  setActiveButton(name); // Set active button based on name
+  onSelectFilter({name: name, value: value}); // Call onSelectFilter function with value
+};
+
   // Set 'All' button as active initially
   useEffect(() => {
     setActiveButton('All');
@@ -38,12 +40,12 @@ function FilterBar({ onSelectFilter }) {
             backgroundColor: activeButton === 'All' ? '#17C1E8' : '#EAE8E8',
             color: activeButton === 'All' ? 'white' : '#666C8F'
           }}
-          onClick={() => handleButtonClick('All')}
+          onClick={() => handleButtonClick({name: 'All', value: 0})}
         >
           All
         </Button>
       </Grid>
-      <Grid item>
+      {/* <Grid item>
         <Button
           variant="contained"
           size="small"
@@ -52,67 +54,71 @@ function FilterBar({ onSelectFilter }) {
             backgroundColor: activeButton === 'Today' ? '#17C1E8' : '#EAE8E8',
             color: activeButton === 'Today' ? 'white' : '#666C8F'
           }}
-          onClick={() => handleButtonClick('Today')}
+          onClick={() => handleButtonClick({name: 'Today'})}
         >
           Today
         </Button>
-      </Grid> 
+      </Grid>  */}
       <Grid item>
-        <Button
-          variant="contained"
-          size="small"
-          startIcon={<ChairIcon />}
-          style={{
-            backgroundColor: activeButton === 'Chair' ? '#17C1E8' : '#EAE8E8',
-            color: activeButton === 'Chair' ? 'white' : '#666C8F'
-          }}
-          onClick={() => handleButtonClick('Chair')}
-        >
-          Chair
-        </Button>
+      <Button
+        variant="contained"
+        size="small"
+        startIcon={<ChairIcon />}
+        style={{
+          backgroundColor: activeButton === 'Chair' ? '#17C1E8' : '#EAE8E8',
+          color: activeButton === 'Chair' ? 'white' : '#666C8F'
+        }}
+        onClick={() => handleButtonClick({ name: 'Chair', value: 1 })} // Pass both name and value
+      >
+        Chair
+      </Button>
+
       </Grid>
       <Grid item>
-        <Button
-          variant="contained"
-          size="small"
-          startIcon={<TableChartIcon />}
-          style={{
-            backgroundColor: activeButton === 'Table' ? '#17C1E8' : '#EAE8E8',
-            color: activeButton === 'Table' ? 'white' : '#666C8F'
-          }}
-          onClick={() => handleButtonClick('Table')}
-        >
-          Table
-        </Button>
+      <Button
+        variant="contained"
+        size="small"
+        startIcon={<ChairIcon />}
+        style={{
+          backgroundColor: activeButton === 'Table' ? '#17C1E8' : '#EAE8E8',
+          color: activeButton === 'Table' ? 'white' : '#666C8F'
+        }}
+        onClick={() => handleButtonClick({ name: 'Table', value: 2 })} // Pass both name and value
+      >
+        Table
+      </Button>
+
       </Grid>
       <Grid item>
-        <Button
-          variant="contained"
-          size="small"
-          startIcon={<BedIcon />}
-          style={{
-            backgroundColor: activeButton === 'Bed' ? '#17C1E8' : '#EAE8E8',
-            color: activeButton === 'Bed' ? 'white' : '#666C8F'
-          }}
-          onClick={() => handleButtonClick('Bed')}
-        >
-          Bed
-        </Button>
+      <Button
+        variant="contained"
+        size="small"
+        startIcon={<ChairIcon />}
+        style={{
+          backgroundColor: activeButton === 'Bed' ? '#17C1E8' : '#EAE8E8',
+          color: activeButton === 'Bed' ? 'white' : '#666C8F'
+        }}
+        onClick={() => handleButtonClick({ name: 'Bed', value: 3 })} // Pass both name and value
+      >
+        Bed
+      </Button>
+
       </Grid>
 
       <Grid item>
-        <Button
-          variant="contained"
-          size="small"
-          startIcon={<FilterAltOutlinedIcon />}
-          style={{
-            backgroundColor: activeButton === 'Filter' ? '#17C1E8' : '#EAE8E8',
-            color: activeButton === 'Filter' ? 'white' : '#666C8F'
-          }}
-          onClick={() => handleButtonClick('Filter')}
-        >
-          Filter
-        </Button>
+      <Button
+        variant="contained"
+        size="small"
+        startIcon={<ChairIcon />}
+        style={{
+          backgroundColor: activeButton === 'Other' ? '#17C1E8' : '#EAE8E8',
+          color: activeButton === 'Other' ? 'white' : '#666C8F'
+        }}
+        onClick={() => handleButtonClick({ name: 'Other', value: 4 })} // Pass both name and value
+      >
+        Other
+      </Button>
+
       </Grid>
     </Grid>
   );

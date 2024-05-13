@@ -36,7 +36,6 @@ function CustomCard({ children }) {
 }
 
 function Section1({ url }) {
-    // url = image;
   return (
     <Grid>
       <Grid container spacing={2}>
@@ -58,7 +57,7 @@ function Section2({id,  price, details, postingDate }) {
     <Grid item xs={6}>
       <Typography variant="h3" style={{color: "green" , fontSize: "15px"}}>Price: {price}</Typography>
       <Typography variant="h6" style={{fontSize:"12px", marginBottom: "10px", marginTop: "5px"}}>Details: {modifieddetails}</Typography>
-      <Typography variant="body2" style={{fontSize: "12px"}}>{postingDate}</Typography>
+      <Typography variant="body2" style={{fontSize: "12px"}}>{postingDate.split("T")[0]}</Typography>
       <Link to={"/market/product-details/"+id}>
         <Button size='small' variant="contained" style={{width: "70px",borderRadius: "20px",fontSize: "10px", color: "white", marginTop: "5px"}}>Details</Button>
       </Link>
@@ -70,7 +69,7 @@ function ProductCard({id, images, price, date, details}) {
 
   return (
     <CustomCard>
-      <Section1 url={images[1]} />
+      <Section1 url={images[0]} />
       <Section2
         id = {id}
         price={price}
