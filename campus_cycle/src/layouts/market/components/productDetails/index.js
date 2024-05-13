@@ -59,7 +59,7 @@ function ProductDetails() {
             {product && (
                 <Box my={4} display="flex" alignItems="center" gap={2} p={2} sx={{ display:'flex', flexWrap:'wrap' }}>
                     <div className='imagesContainer'>
-                        {product.productImages.map((image, index) => (
+                        {product.productImages?.map((image, index) => (
                             <img key={index} src={image.url} alt="Product" onClick={() => handleImageClick(image)} />
                         ))}
                     </div>
