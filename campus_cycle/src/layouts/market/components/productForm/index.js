@@ -18,10 +18,13 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import LOCAL_ADDR from 'GLOBAL_ADDRESS';
 
-const userString = localStorage.getItem("user");
-const userId = parseInt(userString);
+
 
 const ProductForm = () => {
+  
+  const userString = localStorage.getItem("user");
+  const userId = parseInt(userString);
+  const [productId, setProductId] = useState(0);
   const currentDate = new Date();
   const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}.${currentDate.getMilliseconds().toString().padStart(3, '0')}`;
 
@@ -36,6 +39,7 @@ const ProductForm = () => {
   const [images, setImages] = useState([]);
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [isFirstFormSubmitted, setIsFirstFormSubmitted] = useState(false);
   const fileInputRef = useRef(null);
 
   const handleInputChange = (e) => {
@@ -46,24 +50,38 @@ const ProductForm = () => {
     });
   };
 
-  const handleFormSubmit = async (e) => {
+  const handleFirstFormSubmit = async (e) => {
     e.preventDefault();
     try {
       // Send form data to create product endpoint
       const response = await axios.post(`${LOCAL_ADDR}products/create`, formData);
-      
       // Extract productId from the response
-      const productId = response.data.productId;
-      console.log(response.data);
-    
-      // Prepare FormData for uploading images
-      const formDataImages = new FormData();
-      images.forEach((image, index) => {
-        formDataImages.append(`image_${index}`, image);
-      });
-    
-      // Send images to upload endpoint
-      await axios.patch(`${LOCAL_ADDR}product-images/image_upload/${productId}`, formDataImages);
+      const Id = response.data.id;
+      // Set productId in state
+      setProductId(await response.data.id);
+      // console.log(productId);
+      setIsFirstFormSubmitted(true);
+    } catch (error) {
+      // Handle errors
+      console.error('Error submitting product:', error);
+      setAlertMessage('An error occurred while submitting the product.');
+      setAlertOpen(true);
+    }
+  };
+
+  const handleSecondFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+
+      // Upload images one by one
+      for (let i = 0; i < images.length; i++) {
+        const image = images[i];
+        const formDataImage = new FormData();
+        formDataImage.append('image', image);
+        
+        // Send image to upload endpoint
+        await axios.patch(`${LOCAL_ADDR}product-images/image_upload/${productId}`, formDataImage);
+      }
     
       // Reset form data and images state
       setFormData({
@@ -77,14 +95,14 @@ const ProductForm = () => {
       setImages([]);
       
       // Display success message using toast
-      toast.success('Product submitted successfully!');
+      toast.success('Product submitted successfully with images!');
+      setIsFirstFormSubmitted(false);
     } catch (error) {
       // Handle errors
       console.error('Error submitting product:', error);
       setAlertMessage('An error occurred while submitting the product.');
       setAlertOpen(true);
     }
-    
   };
 
   const handleImageChange = (e) => {
@@ -103,8 +121,6 @@ const ProductForm = () => {
     selectedImages = files;
     setImages((prevImages) => [...prevImages, ...selectedImages]);
   };
-  
-  
 
   const handleCloseAlert = () => {
     setAlertOpen(false);
@@ -114,113 +130,121 @@ const ProductForm = () => {
     <>
       <SoftBox maxWidth="100%" mx="auto">
         <Typography variant="h1">Product Submission</Typography>
-        <SoftBox component="form" role="form" onSubmit={handleFormSubmit}>
-          <SoftBox mb={2}>
-            <SoftBox mb={1} ml={0.5}>
-              <SoftTypography component="label" variant="caption" fontWeight="bold">
-                Product Title:
-              </SoftTypography>
-            </SoftBox>
-            <SoftInput
-              type="text"
-              id="title"
-              name="title"
-              value={formData.title}
-              onChange={handleInputChange}
-              placeholder="Product Title"
-              required
-            />
-          </SoftBox>
-          <SoftBox mb={2}>
-            <SoftBox mb={1} ml={0.5}>
-              <SoftTypography component="label" variant="caption" fontWeight="bold">
-                Product Description:
-              </SoftTypography>
-            </SoftBox>
-            <SoftInput
-              as="textarea"
-              id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleInputChange}
-              placeholder="Product Description"
-              className='custom-textarea'
-              required
-            />
-          </SoftBox>
-          <SoftBox mb={2} display="flex" alignItems="center" >
-            <SoftBox mr={2} width="50%">
+        {!isFirstFormSubmitted ? (
+          <SoftBox component="form" role="form" onSubmit={handleFirstFormSubmit}>
+            <SoftBox mb={2}>
               <SoftBox mb={1} ml={0.5}>
                 <SoftTypography component="label" variant="caption" fontWeight="bold">
-                  Product Type:
-                </SoftTypography>
-              </SoftBox>
-              <SoftBox>
-                <select
-                  id="productTypeId"
-                  name="productTypeId"
-                  value={formData.productTypeId}
-                  className='input-images'
-                  onChange={handleInputChange}
-                  required
-                >
-                  <option value="">Select Product Type</option>
-                  <option value="1">Chair</option>
-                  <option value="2">Table</option>
-                  <option value="3">Bed</option>
-                  <option value="4">Others</option>
-                </select>
-              </SoftBox>
-            </SoftBox>
-            <SoftBox width="50%">
-              <SoftBox mb={1} ml={0.5}>
-                <SoftTypography component="label" variant="caption" fontWeight="bold">
-                  Price:
+                  Product Title:
                 </SoftTypography>
               </SoftBox>
               <SoftInput
-                type="number"
-                id="price"
-                name="price"
-                value={formData.price}
+                type="text"
+                id="title"
+                name="title"
+                value={formData.title}
                 onChange={handleInputChange}
-                placeholder="Price"
+                placeholder="Product Title"
                 required
               />
             </SoftBox>
-          </SoftBox>
-          <SoftBox mb={2}>
-            <SoftBox mb={1} ml={0.5}>
-              <SoftTypography component="label" variant="caption" fontWeight="bold">
-                Product Images (up to 5):
-              </SoftTypography>
+            <SoftBox mb={2}>
+              <SoftBox mb={1} ml={0.5}>
+                <SoftTypography component="label" variant="caption" fontWeight="bold">
+                  Product Description:
+                </SoftTypography>
+              </SoftBox>
+              <SoftInput
+                as="textarea"
+                id="description"
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
+                placeholder="Product Description"
+                className='custom-textarea'
+                required
+              />
             </SoftBox>
-            <input
-              type="file"
-              id="images"
-              name="images"
-              multiple
-              accept="image/*"
-              onChange={handleImageChange}
-              className='input-images'
-              ref={fileInputRef}
-              required
-            />
-            <SoftBox mt={1} className='image-container'>
-              {images.map((image, index) => (
-                <div key={index} className='image-item'>
-                  <img src={URL.createObjectURL(image)} alt={`Image ${index}`} className='image' />
-                  <button className='remove-image' onClick={() => setImages(prevImages => prevImages.filter((_, i) => i !== index))}>
-                    <CancelRoundedIcon />
-                  </button>
-                </div>
-              ))}
+            <SoftBox mb={2} display="flex" alignItems="center" >
+              <SoftBox mr={2} width="50%">
+                <SoftBox mb={1} ml={0.5}>
+                  <SoftTypography component="label" variant="caption" fontWeight="bold">
+                    Product Type:
+                  </SoftTypography>
+                </SoftBox>
+                <SoftBox>
+                  <select
+                    id="productTypeId"
+                    name="productTypeId"
+                    value={formData.productTypeId}
+                    className='input-images'
+                    onChange={handleInputChange}
+                    required
+                  >
+                    <option value="">Select Product Type</option>
+                    <option value="1">Chair</option>
+                    <option value="2">Table</option>
+                    <option value="3">Bed</option>
+                    <option value="4">Others</option>
+                  </select>
+                </SoftBox>
+              </SoftBox>
+              <SoftBox width="50%">
+                <SoftBox mb={1} ml={0.5}>
+                  <SoftTypography component="label" variant="caption" fontWeight="bold">
+                    Price:
+                  </SoftTypography>
+                </SoftBox>
+                <SoftInput
+                  type="number"
+                  id="price"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleInputChange}
+                  placeholder="Price"
+                  required
+                />
+              </SoftBox>
             </SoftBox>
+            <SoftButton type="submit" variant="gradient" color="info" fullWidth>
+              Next
+            </SoftButton>
           </SoftBox>
-          <SoftButton type="submit" variant="gradient" color="info" fullWidth>
-            Submit
-          </SoftButton>
-        </SoftBox>
+        ) : (
+          <SoftBox component="form" role="form" onSubmit={handleSecondFormSubmit}>
+            <SoftBox mb={2}>
+              <SoftBox mb={1} ml={0.5}>
+                <SoftTypography component="label" variant="caption" fontWeight="bold">
+                  Product Images (up to 5):
+                </SoftTypography>
+              </SoftBox>
+              <input
+                type="file"
+                id="images"
+                name="images"
+                multiple
+                accept="image/*"
+                onChange={handleImageChange}
+                className='input-images'
+                ref={fileInputRef}
+                required
+              />
+              <SoftBox mt={1} className='image-container'>
+                {images.map((image, index) => (
+                  <div key={index} className='image-item'>
+                    <img src={URL.createObjectURL(image)} alt={`Image ${index}`} className='image' />
+                    <button className='remove-image' onClick={() => setImages(prevImages => prevImages.filter((_, i) => i !== index))}>
+                      <CancelRoundedIcon />
+                    </button>
+                  </div>
+                ))}
+              </SoftBox>
+            </SoftBox>
+            <SoftButton type="submit" variant="gradient" color="info" fullWidth>
+              Submit
+            </SoftButton>
+          </SoftBox>
+        )}
       </SoftBox>
       <Dialog open={alertOpen} onClose={handleCloseAlert}>
         <DialogTitle>Error</DialogTitle>
