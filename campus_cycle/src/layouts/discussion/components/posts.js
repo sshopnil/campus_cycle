@@ -59,7 +59,7 @@ export default function Post({ data, topic}) {
                                     <button style={{ border: "none", background: "transparent", color: "#17C1E8" }} onClick={handleReadClick}>{readmore && "....shrink"}</button>
                                 </CardActions> */}
                             </CardContent>
-                            <CardMedia
+                            {item?.imageurl && <CardMedia
                                 component="img"
                                 height="auto"
                                 image={item?.imageurl}
@@ -68,7 +68,7 @@ export default function Post({ data, topic}) {
                                 sx={{
                                     cursor:"pointer"
                                 }}
-                            />
+                            />}
                             <CardContent>
 
                             </CardContent>

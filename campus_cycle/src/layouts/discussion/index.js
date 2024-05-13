@@ -201,13 +201,7 @@ const Discussion = () => {
         // fetchData1();
         // fetchData2();
         Promise.all([fetchData1(), fetchData2()])
-        // console.log(userGrps);
-    
-        // Clean-up function (optional)
-        // console.log(groupData);
-        return () => {
-          // Perform any clean-up if needed
-        };
+        // console.log(userGrps)
       }, [userGrps, groups]);
 
     const topicdata = [{ "name": "Sports" }, { "name": "Arts & Crafts" }, { "name": "Pets & Animal" }];

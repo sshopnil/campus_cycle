@@ -91,6 +91,8 @@ const MyForm = ({selectedGroup, userId, handleInputChange}) => {
 //             </SoftBox>
 
 export default function PostForm({ open, setOpen, selectedGroup}) {
+    // console.log(selectedGroup);
+    const grpId = selectedGroup;
     const [en, setEn] = React.useState(true);
     const [showImg, setShowImg] = React.useState(false);
     const [imgId, setImgId] = React.useState();
@@ -102,7 +104,7 @@ export default function PostForm({ open, setOpen, selectedGroup}) {
         content: '',
         upVote: 0,
         postType: '',
-        groupId: selectedGroup,
+        groupId: grpId,
         userId: userId
     });
 
