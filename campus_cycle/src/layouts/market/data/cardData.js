@@ -14,19 +14,19 @@ Coded by www.creative-tim.com
 */
 
 // Images
-import kal from "assets/images/kal-visuals-square.jpg";
-import marie from "assets/images/marie.jpg";
-import ivana from "assets/images/ivana-square.jpg";
-import team3 from "assets/images/team-3.jpg";
-import team4 from "assets/images/team-4.jpg";
+import kal from "assets/images/freeze.jpg";
+import marie from "assets/images/freeze2.jpeg";
+import ivana from "assets/images/freeze3.jpeg";
+import team3 from "assets/images/freeze4.jpeg";
+import team4 from "assets/images/freeze5.jpeg";
 
 const cardData = [
   {
     "id": 1,
     "images": [kal, marie, ivana, team3, team4],
     "price": "100",
-    "title": "Sophie B.",
-    "details": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
+    "title": "Compact Freezer with Quick Freeze Feature",
+    "details": "This compact freezer offers ample storage space while featuring a quick freeze feature, ensuring your food stays fresh for longer periods. Perfect for small apartments or dorm rooms.",
     "date": "24/03/2023",
     "username": "random username 1"
   },
@@ -34,8 +34,8 @@ const cardData = [
     "id": 2,
     "images": [marie, kal, ivana, team3, team4],
     "price": "500",
-    "title": "Lorem bul",
-    "details": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
+    "title": "Large Capacity Deep Freezer",
+    "details": "With its large capacity, this deep freezer provides ample space to store your frozen foods. Keep your meats, vegetables, and other perishables frozen and fresh for extended periods.",
     "date": "02/03/2024",
     "username": "random username 2"
   },
@@ -43,8 +43,8 @@ const cardData = [
     "id": 3,
     "images": [ivana, marie, kal, team3, team4],
     "price": "900",
-    "title": "kul chublu",
-    "details": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
+    "title": "Commercial Grade Freezer for Restaurants",
+    "details": "Designed for commercial use, this freezer is perfect for restaurants, cafes, or catering businesses. With its sturdy build and ample storage space, it ensures your food items stay frozen and fresh.",
     "date": "07/03/2024",
     "username": "random username 3"
   },
@@ -52,8 +52,8 @@ const cardData = [
     "id": 4,
     "images": [team3, ivana, marie, kal, team4],
     "price": "900",
-    "title": "ksj slfnsf",
-    "details": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
+    "title": "Energy Efficient Chest Freezer",
+    "details": "Save on energy costs with this energy-efficient chest freezer. Its sleek design and spacious interior make it an ideal choice for households looking to maximize freezer space.",
     "date": "19/03/2024",
     "username": "random username 4"
   },
@@ -61,8 +61,8 @@ const cardData = [
     "id": 5,
     "images": [team4, team3, ivana, marie, kal],
     "price": "650",
-    "title": "ksj slfnsf",
-    "details": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
+    "title": "Stainless Steel Upright Freezer",
+    "details": "Upgrade your kitchen with this sleek stainless steel upright freezer. Its modern design and ample storage space make it a perfect addition to any contemporary kitchen.",
     "date": "11/03/2024",
     "username": "random username 5"
   },
@@ -70,8 +70,8 @@ const cardData = [
     "id": 6,
     "images": [kal,team4, team3, ivana, marie],
     "price": "650",
-    "title": "ksj slfnsf",
-    "details": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
+    "title": "Portable Mini Freezer for Camping",
+    "details": "Take your frozen foods with you on your camping trips with this portable mini freezer. Keep your drinks and perishables cold wherever you go, ensuring you always have fresh food at your fingertips.",
     "date": "11/03/2024",
     "username": "random username 5"
   },
@@ -79,8 +79,8 @@ const cardData = [
     "id": 7,
     "images": [ marie, kal,team4, team3, ivana],
     "price": "650",
-    "title": "ksj slfnsf",
-    "details": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
+    "title": "Smart Freezer with Temperature Control",
+    "details": "Control the temperature of your freezer with ease using this smart freezer. Monitor and adjust settings remotely using your smartphone, ensuring your food stays at the perfect temperature.",
     "date": "11/03/2024",
     "username": "random username 5"
   },
@@ -88,8 +88,8 @@ const cardData = [
     "id": 8,
     "images": [ ivana, marie, kal,team4, team3],
     "price": "650",
-    "title": "ksj slfnsf",
-    "details": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
+    "title": "Frost-Free Freezer for Easy Maintenance",
+    "details": "Say goodbye to manual defrosting with this frost-free freezer. Its convenient design prevents ice buildup, making maintenance a breeze. Enjoy hassle-free frozen food storage with this modern freezer.",
     "date": "11/03/2024",
     "username": "random username 5"
   },
@@ -97,8 +97,8 @@ const cardData = [
     "id": 9,
     "images": [ team3, ivana, marie, kal,team4 ],
     "price": "650",
-    "title": "ksj slfnsf",
-    "details": "Hi! I need more information to think about you, but dont get angry, i do not have much time to spend with you",
+    "title": "Premium Freezer with LED Lighting",
+    "details": "Illuminate your frozen goods with this premium freezer featuring LED lighting. Its sleek design and advanced features make it a standout addition to any kitchen, providing both functionality and style.",
     "date": "11/03/2024",
     "username": "random username 5"
   },

@@ -22,10 +22,7 @@
     "@mui/material": "5.13.0",
     "@mui/styled-engine": "5.12.3",
     "@mui/utils": "^5.15.14",
-
-
     "@mui/x-date-pickers": "^7.3.2",
-
     "@ramonak/react-progress-bar": "^5.2.0",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "14.0.0",

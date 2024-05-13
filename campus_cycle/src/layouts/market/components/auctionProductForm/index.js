@@ -4,64 +4,60 @@ import SoftTypography from "components/SoftTypography";
 import SoftInput from "components/SoftInput";
 import SoftButton from "components/SoftButton";
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+import Alert from '@mui/material/Alert';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Typography from '@mui/material/Typography';
-import axios from 'axios'; // Import Axios for making HTTP requests
+import './AuctionProductForm.css';
 
-import { toast } from 'react-toastify';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-import LOCAL_ADDR from 'GLOBAL_ADDRESS';
-
-const ProductForm = () => {
-  const userString = localStorage.getItem("user");
-  const userId = parseInt(userString);
-  const currentDate = new Date();
-  const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}.${currentDate.getMilliseconds().toString().padStart(3, '0')}`;
-
+const AuctionProductForm = () => {
   const [formData, setFormData] = useState({
-    sellerId: userId,
+    username: '',
     title: '',
     description: '',
-    price: 0,
-    productTypeId: 0,
-    lastSellingDate: formattedDate,
-    images: []
+    lastSellingDate: '',
+    images: [],
+    price: '',
+    productTypeId: '',
   });
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const fileInputRef = useRef(null);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log({ formData });
     setFormData({
-      ...formData,
-      [name]: name === 'price' || name === 'productTypeId' ? parseInt(value) : value,
+      username: '',
+      title: '',
+      description: '',
+      lastSellingDate: '',
+      images: [],
+      price: '',
+      productTypeId: '',
     });
   };
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     let selectedImages = [];
-  
+
     if (files.length + formData.images.length > 5) {
-      setAlertMessage('You can only select up to 5 images.');
+      setAlertMessage("You can only select up to 5 images.");
       setAlertOpen(true);
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
       return;
     }
-  
+
     selectedImages = files;
-    setFormData(prevState => ({
-      ...prevState,
-      images: [...prevState.images, ...selectedImages]
+    setFormData(prevData => ({
+      ...prevData,
+      images: [...prevData.images, ...selectedImages]
     }));
   };
 
@@ -69,58 +65,36 @@ const ProductForm = () => {
     setAlertOpen(false);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      // Send form data to create product endpoint
-      const response = await axios.post(`${LOCAL_ADDR}products/create`, {
-        sellerId: formData.sellerId,
-        title: formData.title,
-        description: formData.description,
-        price: formData.price,
-        productTypeId: formData.productTypeId,
-        lastSellingDate: formData.lastSellingDate
-      });
-
-      // Extract productId from the response
-      const productId = response.data.id;
-
-      // Upload images
-      for (let i = 0; i < formData.images.length; i++) {
-        const image = formData.images[i];
-        const formDataImage = new FormData();
-        formDataImage.append('image', image);
-        
-        // Send image to upload endpoint
-        await axios.patch(`${LOCAL_ADDR}product-images/image_upload/${productId}`, formDataImage);
-      }
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
     
-      // Reset form data
-      setFormData({
-        sellerId: userId,
-        title: '',
-        description: '',
-        price: 0,
-        productTypeId: 0,
-        lastSellingDate: '',
-        images: []
-      });
-      
-      // Display success message using toast
-      toast.success('Product submitted successfully with images!');
-    } catch (error) {
-      // Handle errors
-      console.error('Error submitting product:', error);
-      setAlertMessage('An error occurred while submitting the product.');
-      setAlertOpen(true);
-    }
   };
 
   return (
     <>
       <SoftBox maxWidth="100%" mx="auto">
-        <Typography variant="h1">Product Submission</Typography>
+        <Typography variant='h1'>Auction Product Submission</Typography>
         <SoftBox component="form" role="form" onSubmit={handleSubmit}>
+          <SoftBox mb={2}>
+            <SoftBox mb={1} ml={0.5}>
+              <SoftTypography component="label" variant="caption" fontWeight="bold">
+                Username:
+              </SoftTypography>
+            </SoftBox>
+            <SoftInput
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleInputChange}
+              placeholder="Username"
+              required
+            />
+          </SoftBox>
           <SoftBox mb={2}>
             <SoftBox mb={1} ml={0.5}>
               <SoftTypography component="label" variant="caption" fontWeight="bold">
@@ -154,7 +128,28 @@ const ProductForm = () => {
               required
             />
           </SoftBox>
-          <SoftBox mb={2} display="flex" alignItems="center" >
+          <SoftBox mb={2}>
+            <SoftBox mb={1} ml={0.5}>
+              <SoftTypography component="label" variant="caption" fontWeight="bold">
+                Last Selling Date:
+              </SoftTypography>
+            </SoftBox>
+            <SoftInput
+              type="date"
+              id="lastSellingDate"
+              name="lastSellingDate"
+              value={formData.lastSellingDate}
+              onChange={handleInputChange}
+              required
+            />
+          </SoftBox>
+          <SoftBox mb={2}>
+            <SoftBox mb={1} ml={0.5}>
+              <SoftTypography component="label" variant="caption" fontWeight="bold">
+                Product Type:
+              </SoftTypography>
+            </SoftBox>
+            <SoftBox mb={2} display="flex" alignItems="center" >
             <SoftBox mr={2} width="50%">
               <SoftBox mb={1} ml={0.5}>
                 <SoftTypography component="label" variant="caption" fontWeight="bold">
@@ -195,6 +190,7 @@ const ProductForm = () => {
               />
             </SoftBox>
           </SoftBox>
+          </SoftBox>
           <SoftBox mb={2}>
             <SoftBox mb={1} ml={0.5}>
               <SoftTypography component="label" variant="caption" fontWeight="bold">
@@ -204,7 +200,6 @@ const ProductForm = () => {
             <input
               type="file"
               id="images"
-              name="images"
               multiple
               accept="image/*"
               onChange={handleImageChange}
@@ -216,13 +211,17 @@ const ProductForm = () => {
               {formData.images.map((image, index) => (
                 <div key={index} className='image-item'>
                   <img src={URL.createObjectURL(image)} alt={`Image ${index}`} className='image' />
-                  <button className='remove-image' onClick={() => setFormData(prevState => ({ ...prevState, images: prevState.images.filter((_, i) => i !== index) }))}>
+                  <button className='remove-image' onClick={() => setFormData(prevData => ({
+                    ...prevData,
+                    images: prevData.images.filter((_, i) => i !== index)
+                  }))}>
                     <CancelRoundedIcon />
                   </button>
                 </div>
               ))}
             </SoftBox>
           </SoftBox>
+
           <SoftButton type="submit" variant="gradient" color="info" fullWidth>
             Submit
           </SoftButton>
@@ -231,7 +230,9 @@ const ProductForm = () => {
       <Dialog open={alertOpen} onClose={handleCloseAlert}>
         <DialogTitle>Error</DialogTitle>
         <DialogContent>
-          <DialogContentText>{alertMessage}</DialogContentText>
+          <DialogContentText>
+            {alertMessage}
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <SoftButton onClick={handleCloseAlert} color="info">
@@ -239,9 +240,8 @@ const ProductForm = () => {
           </SoftButton>
         </DialogActions>
       </Dialog>
-      <ToastContainer />
     </>
   );
 };
 
-export default ProductForm;
+export default AuctionProductForm;
