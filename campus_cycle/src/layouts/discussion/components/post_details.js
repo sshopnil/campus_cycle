@@ -46,29 +46,24 @@ export default function PostDetail({ show, setShow, item }) {
                         </IconButton>
                         <CardHeader
                             avatar={
-                                <Avatar sx={{ bgcolor: 'orange', fontVariant: 'small-caps' }} aria-label="user image">
-                                    {item?.author.charAt(0)}
-                                </Avatar>
+                                <Avatar sx={{ bgcolor: 'orange', fontVariant: 'small-caps' }} aria-label="user image" src={item.user.imageUrl}/>
                             }
-                            title={item?.author + "'s Post"}
-                            subheader={"posted on: " + item?.date}
+                            title={item?.user.name + "'s Post"}
+                            subheader={"posted on: " + item?.time}
                         />
                     </Toolbar>
                 </AppBar>
                 <DialogContent>
                     <Card sx={{ minWidth: "100%", marginBottom: "20px" }} key={item?.id}>
                         <CardContent>
-                            <Typography sx={{ fontWeight: "bold", fontSize: "24px" }}>
-                                {item?.caption}
-                            </Typography>
-                            {item?.description}
+                            {item?.content}
                         </CardContent>
-                        <CardMedia
+                        {item?.imageurl && <CardMedia
                             component="img"
                             height="auto"
-                            image={item?.post_img}
+                            image={item?.imageurl}
                             alt="fighting"
-                        />
+                        />}
                         <CardContent>
 
                         </CardContent>
@@ -76,32 +71,14 @@ export default function PostDetail({ show, setShow, item }) {
                             <IconButton aria-label="add to favorites" onClick={() => setFav(!fav)}>
                                 {fav ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                             </IconButton>
-                            <span>{item?.like_count}</span>
+                            <span>{item?.upVote}</span>
                             <IconButton
                                 aria-label="show comments"
                             >
                                 <CommentIcon />
                             </IconButton>
-                            <span>{item?.comments.length}</span>
                         </CardActions>
-                        <CardContent>
-
-                            {
-                                item?.comments.map((user) => {
-                                    return (
-                                        <>
-                                            <div style={{ display: "flex", flexDirection: "row" }} key={user.author}>
-                                                <Avatar sx={{ bgcolor: 'grey' }}>
-                                                    {user?.img}
-                                                </Avatar>
-                                                <Typography ml={1} fontWeight={'bold'}>{user?.author}</Typography>
-                                            </div>
-                                            <Typography sx={{ paddingLeft: "45px", marginBottom: "10px", fontSize: "18px" }}>{user?.comment}</Typography>
-                                        </>
-                                    )
-                                })
-                            }
-                        </CardContent>
+                        
                     </Card>
                 </DialogContent>
                 <DialogActions>
@@ -127,3 +104,23 @@ export default function PostDetail({ show, setShow, item }) {
         </React.Fragment>
     );
 }
+
+
+// <CardContent>
+
+//                             {
+//                                 item?.comments.map((user) => {
+//                                     return (
+//                                         <>
+//                                             <div style={{ display: "flex", flexDirection: "row" }} key={user.author}>
+//                                                 <Avatar sx={{ bgcolor: 'grey' }}>
+//                                                     {user?.img}
+//                                                 </Avatar>
+//                                                 <Typography ml={1} fontWeight={'bold'}>{user?.author}</Typography>
+//                                             </div>
+//                                             <Typography sx={{ paddingLeft: "45px", marginBottom: "10px", fontSize: "18px" }}>{user?.comment}</Typography>
+//                                         </>
+//                                     )
+//                                 })
+//                             }
+//                         </CardContent>

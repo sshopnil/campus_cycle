@@ -15,7 +15,7 @@ export default function TabNavigation({ content1, content1_name, content1_topic,
   };
 
   return (
-    <Box sx={{ width: '100%', typography: 'body1' }}>
+    <Box sx={{ width: '100%', typography: 'body1' }} mt={10}>
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
@@ -34,7 +34,7 @@ export default function TabNavigation({ content1, content1_name, content1_topic,
         <TabPanel value="2">
           <Grid container spacing={3}>
 
-            <Typography>Event</Typography>
+            {content2}
           </Grid>
         </TabPanel>
       </TabContext>

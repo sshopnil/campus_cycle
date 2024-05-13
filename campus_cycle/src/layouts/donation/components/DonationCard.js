@@ -4,23 +4,58 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import jsonData from "../data/data.json";
-import img from "../data/bruce-mars.jpg";
 import ProgressBar from "@ramonak/react-progress-bar";
-import { useNavigate, useParams } from "react-router-dom";
-import Link from "@mui/material/Link";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import LOCAL_ADDR from "../../../GLOBAL_ADDRESS"
 
 const DonationCard = () => {
   const [cardsData, setCardsData] = useState([]);
+  const [raisedData, setRaisedData] = useState([]);
   const [showAll, setShowAll] = useState(false);
   const [showMore, setShowMore] = useState(3);
   const [remainingCardData, setRemainingCardData] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setCardsData(jsonData);
-    setRemainingCardData(jsonData.length);
+    fetchData(); // Fetch data when component mounts
   }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${LOCAL_ADDR}donations`);
+      setCardsData(response.data);
+      setRemainingCardData(response.data.length);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const fetchRaisedData = async (id) => {
+    try {
+      const response = await axios.get(`${LOCAL_ADDR}donation-amounts/total/${id}`);
+      setRaisedData((prevState) => [...prevState, { id, raisedAmount: response.data }]);
+    } catch (error) {
+      console.error("Error fetching raised data:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchRaisedDataForAllCards = async () => {
+      try {
+        const promises = cardsData.map(async (card) => {
+          const response = await axios.get(`${LOCAL_ADDR}donation-amounts/total/${card.id}`);
+          return { id: card.id, raisedAmount: response.data };
+        });
+        const raisedDataForAllCards = await Promise.all(promises);
+        setRaisedData(raisedDataForAllCards);
+      } catch (error) {
+        console.error("Error fetching raised data:", error);
+      }
+    };
+  
+    fetchRaisedDataForAllCards();
+  }, [cardsData]);
 
   const visibleCards = showAll ? cardsData : cardsData.slice(0, showMore);
 
@@ -44,7 +79,12 @@ const DonationCard = () => {
                 boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
               }}
             >
-              <CardMedia component="img" alt="Image" height="180" image={img} />
+              <CardMedia
+                component="img"
+                alt="Image"
+                height="180"
+                image={card.imageUrl || 'https://via.placeholder.com/280x180'} 
+              />
               <CardContent>
                 <Typography
                   gutterBottom
@@ -55,15 +95,15 @@ const DonationCard = () => {
                   {card.title}
                 </Typography>
                 <Typography style={{ marginBottom: "8px", fontSize: "0.9rem" }}>
-                  ${card.progress.goal} of ${card.progress.current} is raised
+                  ${card.goalAmount} of {raisedData.find(data => data.id === card.id)?.raisedAmount || 0} is raised
                 </Typography>
                 <ProgressBar
-                  completed={(card.progress.current / card.progress.goal) * 100}
+                  completed={(raisedData.find(data => data.id === card.id)?.raisedAmount || 0) / card.goalAmount * 100}
                   bgColor="#17c1e8"
                   height="6px"
                   labelSize="0px"
                   borderRadius="8px"
-                  customLabel={card.progress.current}
+                  customLabel={raisedData.find(data => data.id === card.id)?.raisedAmount || 0}
                   style={{ position: "absolute", bottom: "0", left: "0", right: "0" }}
                 />
               </CardContent>
