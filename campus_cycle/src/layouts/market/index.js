@@ -1,18 +1,4 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 // @mui material components
@@ -20,12 +6,6 @@ import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import Typography from '@mui/material/Typography';
 
-
-
-// @mui icons
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import InstagramIcon from "@mui/icons-material/Instagram";
 
 // Soft UI Dashboard React components
 import SoftBox from "components/SoftBox";
@@ -49,10 +29,28 @@ import FilterBar from "layouts/market/components/FilterBar";
 import cardData from "layouts/market/data/cardData";
 import auctionCardData from './data/actionCardData';
 
-// Images
-
+// local address
+import LOCAL_ADDR from 'GLOBAL_ADDRESS';
 
 function Overview() {
+  const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        fetchProducts();
+    }, []);
+
+    const fetchProducts = async () => {
+        try {
+            const response = await fetch(`${LOCAL_ADDR}products`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch products');
+            }
+            const data = await response.json();
+            setProducts(data);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    };
   
     // State to track the selected filter
     const [selectedFilter, setSelectedFilter] = useState('All');
@@ -81,15 +79,19 @@ function Overview() {
         </Typography>
       </SoftBox>
 
-
-
       {/* product cards */}
       <SoftBox mt={2} mb={3}> 
         <Grid container spacing={2}>
-          {cardData?.map((item)=>{
+          {products?.map((item)=>{
             return (
             <Grid item key={item.id}>
-              <ProductCard id ={item.id} images={item.images} price={item.price} date={item.date} details={item.details}/>
+              <ProductCard 
+                id={item.id}
+                images={item.productImages.map(image => image.url)}
+                price={item.price}
+                date={item.time}
+                details={item.description}
+              />
             </Grid>)
           })}
         </Grid>
