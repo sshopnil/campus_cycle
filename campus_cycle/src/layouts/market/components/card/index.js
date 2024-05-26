@@ -5,6 +5,7 @@ import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import TimeAgo from '../TimeAgo';
 
 //image
 import image from "layouts/market/data/Screenshot 2024-03-22 162045.png";
@@ -16,6 +17,7 @@ import FavoriteCheckbox from "layouts/market/components/FavoriteCheckbox";
 import Checkbox from '@mui/material/Checkbox';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
+
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
@@ -58,7 +60,7 @@ function Section2({id,  price, details, postingDate }) {
     <Grid item xs={6}>
       <Typography variant="h3" style={{color: "green" , fontSize: "15px"}}>Price: {price}</Typography>
       <Typography variant="h6" style={{fontSize:"12px", marginBottom: "10px", marginTop: "5px"}}>Details: {modifieddetails}</Typography>
-      <Typography variant="body2" style={{fontSize: "12px"}}>{postingDate}</Typography>
+      <Typography variant="body2" style={{fontSize: "12px"}}> {postingDate} </Typography>
       <Link to={"/market/product-details/"+id}>
         <Button size='small' variant="contained" style={{width: "70px",borderRadius: "20px",fontSize: "10px", color: "white", marginTop: "5px"}}>Details</Button>
       </Link>
@@ -93,6 +95,7 @@ Section1.propTypes = {
 
 // Prop types validation for Section2
 Section2.propTypes = {
+    id: PropTypes.string.isRequired, // Ensure id is of type string and is required
     price: PropTypes.string.isRequired, // Ensure price is of type string and is required
     details: PropTypes.string.isRequired, // Ensure details is of type string and is required
     postingDate: PropTypes.string.isRequired, // Ensure postingDate is of type string and is required
