@@ -11,6 +11,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import ProductCard from "../card";
 import { useParams } from 'react-router-dom';
+import TimeAgo from '../TimeAgo';
 import axios from 'axios';
 import "./style.css";
 
@@ -53,24 +54,6 @@ function ProductDetails() {
         setZoomedImage(image.url);
     }
 
-    function getTimeAgo(dateString) {
-        const date = new Date(dateString);
-        const now = new Date();
-        const timeDiff = Math.abs(now - date);
-        
-        const minutesDiff = Math.floor(timeDiff / (1000 * 60));
-        const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
-        const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-        
-        if (minutesDiff < 60) {
-            return `${minutesDiff} minute${minutesDiff !== 1 ? 's' : ''} ago`;
-        } else if (hoursDiff < 24) {
-            return `${hoursDiff} hour${hoursDiff !== 1 ? 's' : ''} ago`;
-        } else {
-            return `${daysDiff} day${daysDiff !== 1 ? 's' : ''} ago`;
-        }
-    }
-    
     return (
         <DashboardLayout>
             <DashboardNavbar />
@@ -93,7 +76,7 @@ function ProductDetails() {
                                 {product.seller.name}
                             </Typography>
                             <Typography variant="body2">
-                                {getTimeAgo(product.time)}
+                                <TimeAgo date={product.time} />
                             </Typography>
                         </div>
 
