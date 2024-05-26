@@ -73,14 +73,7 @@ const ProductForm = () => {
     e.preventDefault();
     try {
       // Send form data to create product endpoint
-      const response = await axios.post(`${LOCAL_ADDR}products/create`, {
-        sellerId: formData.sellerId,
-        title: formData.title,
-        description: formData.description,
-        price: formData.price,
-        productTypeId: formData.productTypeId,
-        lastSellingDate: formData.lastSellingDate
-      });
+      const response = await axios.post(`${LOCAL_ADDR}products/create`, formData);
 
       // Extract productId from the response
       const productId = response.data.id;
