@@ -170,11 +170,12 @@ const Discussion = () => {
         }
       };
 
-    const handleGo=async (id)=>{
+    const handleGo= (id)=>{
         // console.log(selectedGrp);
         setSelectedGrp(id);
-        await fetchData3(id);
-        await localStorage.setItem("group", id);
+        localStorage.setItem("group", id);
+        setGroupPost(userGrps?.find(item => id === item.id));
+        fetchData3(id);
         
     }
     useEffect(() => {
@@ -212,10 +213,6 @@ const Discussion = () => {
     const filtered_all_group = groups?.filter(item => !userGrps.some(userItem => userItem.name === item.name));
     const showGroup = userGrps?.find(item => selectedGrp === item.id);
 
-    useEffect(()=>{
-        fetchData3(selectedGrp);
-
-    }, [])
     // console.log(showGroup);
     // data = data.filter((item)=> !dynamicCretarias.some(t => item.includes(t)))
     // console.log(filtered_all_group);
@@ -249,7 +246,7 @@ const Discussion = () => {
                                     selectedGrp={selectedGrp}
                                     postData={selectedPost}
                                     />}
-                content1_name={showGroup?.name}
+                content1_name={showGroupPost?.name}
                 content1_topic={topic}
                 content2={<EventContents />}
             />
