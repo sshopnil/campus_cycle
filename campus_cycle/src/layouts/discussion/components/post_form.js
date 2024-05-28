@@ -19,10 +19,12 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 import LOCAL_ADDR from 'GLOBAL_ADDRESS';
 import axios from 'axios';
-import { useSoftUIController, setPosts } from "context";
+import { useSoftUIController, setPosts, setTopic} from "context";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 
 function ColorToggleButton({ handleInput }) {
     const [alignment, setAlignment] = React.useState('');
@@ -50,7 +52,8 @@ function ColorToggleButton({ handleInput }) {
     );
 }
 
-const MyForm = ({ handleInputChange }) => {
+const MyForm = ({ handleInputChange, handleChangeTags, handleCreateOption, selectedOptions, options }) => {
+
     return (
         <>
             <SoftBox mb={2}>
@@ -67,7 +70,22 @@ const MyForm = ({ handleInputChange }) => {
                         Tags
                     </SoftTypography>
                 </SoftBox>
-                <SoftInput type="Text" placeholder="i.e. sports, news etc.." />
+                <CreatableSelect
+                    sx
+                    value={selectedOptions}
+                    onChange={handleChangeTags}
+                    onCreateOption={handleCreateOption}
+                    options={options}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    isMulti
+                    isClearable
+                    formatCreateLabel={(inputValue) => `Create "${inputValue}"`}
+                    styles={{ color: "yellow" }}
+                    components={{
+                        DropdownIndicator: null
+                    }}
+                />
             </SoftBox>
             <SoftBox mb={2}>
                 <SoftBox mb={1} ml={0.5}>
@@ -89,7 +107,7 @@ export default function PostForm({ open, setOpen }) {
     const [img, setImage] = React.useState();
     const [uploadProgress, setUploadProgress] = useState(0);
     const userId = parseInt(localStorage.getItem("user"));
-    const { selected_group, posts } = controller;
+    const { selected_group, topic } = controller;
 
     const [formData, setFormData] = useState({
         content: '',
@@ -98,6 +116,7 @@ export default function PostForm({ open, setOpen }) {
         groupId: selected_group,
         userId: userId
     });
+
 
     // Update formData.groupId whenever selected_group changes
     useEffect(() => {
@@ -114,12 +133,83 @@ export default function PostForm({ open, setOpen }) {
         }
     };
 
+
+
+    // const convertedTopics = topic.map(item => ({
+    //     value: item.id,
+    //     label: item.name
+    //   }));
+
+    const [options, setOptions] = useState();
+    const [selectedOptions, setSelectedOptions] = useState([]);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            //   console.log(topic);
+            const convertedTopics = topic.map(item => ({
+                value: item.id,
+                label: item.name,
+            }));
+            setOptions(convertedTopics);
+        }, 5000);
+
+        return () => clearTimeout(timer);
+    }, [topic]);
+
+
+    const handleCreateOption = (inputValue) => {
+        const newId = options.length ? Math.max(...options?.map(option => option.value)) + 1 : 1;
+        const newOption = { value: newId, label: inputValue };
+        setOptions((prevOptions) => [...prevOptions, newOption]);
+        setSelectedOptions((prevSelected) => [...prevSelected, newOption]);
+        // console.log(convertedTopics);
+
+    };
+
+    const handleChangeTags = (selected) => {
+        setSelectedOptions(selected || []);
+        // console.log(convertedTopics);
+    };
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        // console.log(selected_group);
+        const originalTopics = selectedOptions.map(item => ({
+            name: item.label,
+        }));
+
+        const filtered = originalTopics.filter(
+            ot => !topic.some(t => t.name === ot.name)
+        );
+
+
+        // console.log(postTags);
 
         try {
             const response = await axios.post(`${LOCAL_ADDR}posts/create`, formData);
+            const postRequests = filtered.map(item =>
+                axios.post(`${LOCAL_ADDR}posttags/create`, item)
+            );
+
+            const responses = await Promise.all(postRequests);
+
+            responses.forEach(response => {
+                console.log('Post successful:', response.data);
+                setTopic([...topic, response.data]);
+            });
+            const postTags = selectedOptions.map(item => ({
+                postTagId: item.value,
+                postId: response?.data?.id
+            }));
+
+            const postTagRequests = postTags.map(item =>
+                axios.post(`${LOCAL_ADDR}posts/posttags/add`, item)
+            );
+
+            const responsesTag = await Promise.all(postTagRequests);
+            responsesTag.forEach(response => {
+                console.log('Post-tag successful:', response.data);
+            });
+
             setImgId(response?.data?.id);
         } catch (error) {
             console.error('API error:', error.response);
@@ -155,24 +245,24 @@ export default function PostForm({ open, setOpen }) {
             console.error('API error:', error.response);
         }
     };
-    const handleSubmit3 = async(e) =>{
+    const handleSubmit3 = async (e) => {
         e.preventDefault();
         toast.success("Posted!");
         let updatedPosts = null;
-        try{
-            updatedPosts = await axios.get(`${LOCAL_ADDR}posts/group/${selected_group}`);
+        try {
+            const updatedPosts = await axios.get(`${LOCAL_ADDR}posts/group/${selected_group}`);
+            setPosts(dispatch, updatedPosts.data);
 
         }
-        catch(e){
+        catch (e) {
             console.error('API error:', error.response);
 
         }
-        finally{
-            setPosts(dispatch, updatedPosts.data);
-        }
-        setEn(!en); 
+        finally {
+            setEn(!en);
         setOpen(false);
         setUploadProgress(0);
+        }  
 
     }
 
@@ -220,7 +310,13 @@ export default function PostForm({ open, setOpen }) {
                 </AppBar>
                 <DialogContent>
                     <SoftBox component="form" role="form" onSubmit={handleFormSubmit2}>
-                        {showImg ? <ImageUpload setImg={setImage} /> : <MyForm handleInputChange={handleInputChange} />}
+                        {showImg ? <ImageUpload setImg={setImage} /> : <MyForm
+                            handleInputChange={handleInputChange}
+                            handleChangeTags={handleChangeTags}
+                            handleCreateOption={handleCreateOption}
+                            selectedOptions={selectedOptions}
+                            options={options}
+                        />}
                         {uploadProgress > 0 && (
                             <SoftBox mt={2}>
                                 <LinearProgress variant="determinate" value={uploadProgress} />

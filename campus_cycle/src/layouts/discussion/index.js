@@ -8,7 +8,7 @@ import { Button, Card, CardContent, CardHeader, Avatar } from "@mui/material";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import GroupsIcon from '@mui/icons-material/Groups';
 import Post from "./components/posts";
-import { useSoftUIController, setGroup, setPosts } from "context";
+import { useSoftUIController, setGroup, setPosts, setTopic, setActiveTopic} from "context";
 import SoftInput from "components/SoftInput";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import TabNavigation from "./components/tab_navigation";
@@ -67,7 +67,7 @@ function BasicCard({ groups, type, handleJoin, handleGo }) {
     );
 }
 
-const PostContents = ({ topic, filteredGroup, userGroup, setGroupData, handleJoin, handleGo, postData }) => {
+const PostContents = ({filteredGroup, userGroup, setGroupData, handleJoin, handleGo, postData }) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => {
         setOpen(!open);
@@ -80,7 +80,7 @@ const PostContents = ({ topic, filteredGroup, userGroup, setGroupData, handleJoi
         <>
             <Grid item sm={12} xl={8}>
                 {postData && postData.length > 0 ? (
-                    <Post data={postData} topic={topic} />
+                    <Post data={postData}/>
                 ) : (
                     <Typography>No posts available</Typography>
                 )}
@@ -107,7 +107,7 @@ const PostContents = ({ topic, filteredGroup, userGroup, setGroupData, handleJoi
                 <BasicCard groups={filteredGroup} type='all' handleJoin={handleJoin} handleGo={handleGo} />
                 <BasicCard groups={userGroup} type='user' handleGo={handleGo} handleJoin={handleJoin} />
             </Grid>
-            <PostForm open={open} setOpen={handleOpen} />
+            <PostForm open={open} setOpen={handleOpen}/>
             <CreateGroup open={openG} setOpen={handleOpenG} updateGroup={setGroupData} groups={filteredGroup} />
         </>
     );
@@ -133,7 +133,7 @@ const Discussion = () => {
     const [userGrps, setUserGrps] = React.useState([]);
     const userId = parseInt(localStorage.getItem("user"));
     const [showGroupPost, setGroupPost] = React.useState([]);
-    const { topic, posts, selected_group} = controller;
+    const { topic, posts, active_topic} = controller;
 
     const handleJoin = async (id) => {
         const body = {
@@ -189,18 +189,27 @@ const Discussion = () => {
             }
         };
 
+        const fetchTopics = async () =>{
+            try {
+                const response = await axios.get(`${LOCAL_ADDR}posttags`);
+                setTopic(dispatch, response.data);
+                setActiveTopic(dispatch, response.data[0]);
+            } catch (error) {
+                console.error('Error fetching user groups:', error);
+            }
+        }
+
         fetchGroups();
         fetchUserGroups();
+        fetchTopics();
     }, [userId]);
-
-    const topicdata = [{ "name": "Sports" }, { "name": "Arts & Crafts" }, { "name": "Pets & Animal" }];
 
     const filtered_all_group = groups?.filter(item => !userGrps.some(userItem => userItem.name === item.name));
 
     return (
         <DashboardLayout>
             <DashboardNavbar />
-            <DiscussionNavbar topics={topicdata} />
+            <DiscussionNavbar topics={topic} />
             <ToastContainer
                 position="bottom-center"
                 autoClose={5000}
@@ -217,7 +226,6 @@ const Discussion = () => {
 
             <TabNavigation
                 content1={<PostContents
-                    topic={topic}
                     filteredGroup={filtered_all_group}
                     userGroup={userGrps}
                     setGroupData={setUserGrps}
@@ -226,7 +234,6 @@ const Discussion = () => {
                     postData={posts}
                 />}
                 content1_name={showGroupPost?.name}
-                content1_topic={topic}
                 content2={<EventContents />}
             />
         </DashboardLayout>

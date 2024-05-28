@@ -7,8 +7,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PostDetail from './post_details';
 
-export default function Post({ data, topic }) {
-    // Initialize states for each post item
+export default function Post({ data }) {
     const [expanded, setExpanded] = useState(Array(data?.length).fill(false));
     const [readmore, setReadMore] = useState(Array(data?.length).fill(false));
     const [fav, setFav] = useState(Array(data?.length).fill(false));
@@ -35,7 +34,7 @@ export default function Post({ data, topic }) {
                             subheader={"posted on: " + item?.time}
                         />
                         <CardContent>
-                            <CardActions onClick={() => handleExpandClick(index)}>
+                            <CardActions onClick={() => handleExpandClick(index)} sx={{cursor:'pointer'}}>
                                 <Typography display={readmore[index] ? "none" : "inline"}>
                                     {item?.content}
                                 </Typography>

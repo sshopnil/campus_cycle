@@ -5,15 +5,19 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { Grid, Link, Typography } from "@mui/material";
+import { useSoftUIController} from "context";
 
 
-export default function TabNavigation({ content1, content1_name, content1_topic, content2 }) {
+
+export default function TabNavigation({ content1, content1_name, content2 }) {
   const [value, setValue] = React.useState('1');
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  const [controller, dispatch] = useSoftUIController();
+  
+  const { active_topic } = controller;
   return (
     <Box sx={{ width: '100%', typography: 'body1' }} mt={10}>
       <TabContext value={value}>
@@ -25,7 +29,7 @@ export default function TabNavigation({ content1, content1_name, content1_topic,
         </Box>
         <TabPanel value="1">
           <Typography sx={{ fontWeight: "bold", fontSize: "34px" }}>{content1_name}</Typography>
-          <header style={{ marginTop: '5px', color: 'black', fontSize: '14px', color: "#17C1E8" }}><Link>{"#" + content1_topic}</Link></header>
+          <header style={{ marginTop: '5px', color: 'black', fontSize: '14px', color: "#17C1E8" }}><Link>{"#" + active_topic}</Link></header>
           <Grid container spacing={3}>
 
             {content1}

@@ -43,6 +43,9 @@ function reducer(state, action) {
     case "DIS_TOPIC":{
       return {...state, topic: action.value}
     }
+    case "DIS_TOPIC_ACTIVE":{
+      return {...state, active_topic: action.value}
+    }
     case "DIS_GROUP":{
       return {...state, selected_group: action.value}
     }
@@ -66,9 +69,10 @@ function SoftUIControllerProvider({ children }) {
     openConfigurator: false,
     direction: "ltr",
     layout: "dashboard",
-    topic: "Sports",
+    topic: [],
     selected_group:0,
-    posts:[]
+    posts:[],
+    active_topic : ""
   };
 
   const [controller, dispatch] = useReducer(reducer, initialState);
@@ -106,6 +110,7 @@ const setLayout = (dispatch, value) => dispatch({ type: "LAYOUT", value });
 const setTopic = (dispatch, value) => dispatch({ type: "DIS_TOPIC", value });
 const setGroup = (dispatch, value) => dispatch({ type: "DIS_GROUP", value });
 const setPosts = (dispatch, value) => dispatch({ type: "DIS_POSTS", value });
+const setActiveTopic = (dispatch, value) => dispatch({ type: "DIS_TOPIC_ACTIVE", value });
 
 
 export {
@@ -121,5 +126,6 @@ export {
   setLayout,
   setTopic,
   setGroup,
-  setPosts
+  setPosts,
+  setActiveTopic
 };
