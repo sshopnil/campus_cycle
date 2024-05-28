@@ -53,6 +53,24 @@ function ProductDetails() {
         setZoomedImage(image.url);
     }
 
+    function getTimeAgo(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const timeDiff = Math.abs(now - date);
+        
+        const minutesDiff = Math.floor(timeDiff / (1000 * 60));
+        const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
+        const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+        
+        if (minutesDiff < 60) {
+            return `${minutesDiff} minute${minutesDiff !== 1 ? 's' : ''} ago`;
+        } else if (hoursDiff < 24) {
+            return `${hoursDiff} hour${hoursDiff !== 1 ? 's' : ''} ago`;
+        } else {
+            return `${daysDiff} day${daysDiff !== 1 ? 's' : ''} ago`;
+        }
+    }
+    
     return (
         <DashboardLayout>
             <DashboardNavbar />
@@ -75,7 +93,7 @@ function ProductDetails() {
                                 {product.seller.name}
                             </Typography>
                             <Typography variant="body2">
-                                {product.time}
+                                {getTimeAgo(product.time)}
                             </Typography>
                         </div>
 
@@ -90,26 +108,6 @@ function ProductDetails() {
                         </div>
                     </div>
 
-                    <h1>Related Products</h1>
-                    <div className='relatedProductsContainer'>
-                        <Typography variant="h6" component="div" sx={{display:'flex', alignItems:"center"}}>
-                            <ArrowBackIosNewIcon fontSize='medium' sx={{ marginRight:'5px'}} onClick={handleBackwardClick} />
-                        </Typography>
-                        
-                        <SoftBox mt={2} mb={3}> 
-                            <Grid container spacing={2}>
-                                {product.relatedProducts && Array.isArray(product.relatedProducts) && product.relatedProducts.slice(initial, initial + itemsPerPage).map((item) => (
-                                    <Grid item key={item.id}>
-                                        <ProductCard id={item.id} images={item.productImages} price={item.price} date={item.time} details={item.description} />
-                                    </Grid>
-                                ))}
-                            </Grid>
-                        </SoftBox>
-
-                        <Typography variant="h6" component="div" sx={{display:'flex', alignItems:"center"}}>
-                            <ArrowForwardIosIcon fontSize='medium' sx={{ marginRight:'5px'}} onClick={handleForwardClick} />
-                        </Typography>
-                    </div>
                 </Box>
             )}
         </DashboardLayout>
