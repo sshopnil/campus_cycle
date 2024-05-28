@@ -43,6 +43,12 @@ function reducer(state, action) {
     case "DIS_TOPIC":{
       return {...state, topic: action.value}
     }
+    case "DIS_GROUP":{
+      return {...state, selected_group: action.value}
+    }
+    case "DIS_POSTS":{
+      return {...state, posts: action.value}
+    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -60,7 +66,9 @@ function SoftUIControllerProvider({ children }) {
     openConfigurator: false,
     direction: "ltr",
     layout: "dashboard",
-    topic: "Sports"
+    topic: "Sports",
+    selected_group:0,
+    posts:[]
   };
 
   const [controller, dispatch] = useReducer(reducer, initialState);
@@ -96,6 +104,9 @@ const setOpenConfigurator = (dispatch, value) => dispatch({ type: "OPEN_CONFIGUR
 const setDirection = (dispatch, value) => dispatch({ type: "DIRECTION", value });
 const setLayout = (dispatch, value) => dispatch({ type: "LAYOUT", value });
 const setTopic = (dispatch, value) => dispatch({ type: "DIS_TOPIC", value });
+const setGroup = (dispatch, value) => dispatch({ type: "DIS_GROUP", value });
+const setPosts = (dispatch, value) => dispatch({ type: "DIS_POSTS", value });
+
 
 export {
   SoftUIControllerProvider,
@@ -108,5 +119,7 @@ export {
   setOpenConfigurator,
   setDirection,
   setLayout,
-  setTopic
+  setTopic,
+  setGroup,
+  setPosts
 };

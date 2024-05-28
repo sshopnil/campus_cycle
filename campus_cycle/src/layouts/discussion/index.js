@@ -8,7 +8,7 @@ import { Button, Card, CardContent, CardHeader, Avatar } from "@mui/material";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import GroupsIcon from '@mui/icons-material/Groups';
 import Post from "./components/posts";
-import { useSoftUIController } from "context";
+import { useSoftUIController, setGroup, setPosts } from "context";
 import SoftInput from "components/SoftInput";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import TabNavigation from "./components/tab_navigation";
@@ -67,7 +67,7 @@ function BasicCard({ groups, type, handleJoin, handleGo }) {
     );
 }
 
-const PostContents = ({ topic, filteredGroup, userGroup, setGroupData, handleJoin, handleGo, selectedGrp, postData }) => {
+const PostContents = ({ topic, filteredGroup, userGroup, setGroupData, handleJoin, handleGo, postData }) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => {
         setOpen(!open);
@@ -79,7 +79,11 @@ const PostContents = ({ topic, filteredGroup, userGroup, setGroupData, handleJoi
     return (
         <>
             <Grid item sm={12} xl={8}>
-                <Post data={postData} topic={topic} />
+                {postData && postData.length > 0 ? (
+                    <Post data={postData} topic={topic} />
+                ) : (
+                    <Typography>No posts available</Typography>
+                )}
             </Grid>
             <Grid item xl={4} mt={1} sx={{
                 flexDirection: "column",
@@ -103,7 +107,7 @@ const PostContents = ({ topic, filteredGroup, userGroup, setGroupData, handleJoi
                 <BasicCard groups={filteredGroup} type='all' handleJoin={handleJoin} handleGo={handleGo} />
                 <BasicCard groups={userGroup} type='user' handleGo={handleGo} handleJoin={handleJoin} />
             </Grid>
-            <PostForm open={open} setOpen={handleOpen} selectedGroup={selectedGrp} />
+            <PostForm open={open} setOpen={handleOpen} />
             <CreateGroup open={openG} setOpen={handleOpenG} updateGroup={setGroupData} groups={filteredGroup} />
         </>
     );
@@ -129,10 +133,7 @@ const Discussion = () => {
     const [userGrps, setUserGrps] = React.useState([]);
     const userId = parseInt(localStorage.getItem("user"));
     const [showGroupPost, setGroupPost] = React.useState([]);
-    const [selectedGrp, setSelectedGrp] = React.useState(0);
-    const [selectedPost, setSelectedPost] = React.useState([]);
-
-    const { topic } = controller;
+    const { topic, posts, selected_group} = controller;
 
     const handleJoin = async (id) => {
         const body = {
@@ -151,14 +152,14 @@ const Discussion = () => {
     const fetchPostsByGroupId = async (groupId) => {
         try {
             const response = await axios.get(`${LOCAL_ADDR}posts/group/${groupId}`);
-            setSelectedPost(response.data);
+            setPosts(dispatch, response.data);
         } catch (error) {
             console.error('Error fetching posts:', error);
         }
     };
 
     const handleGo = (id) => {
-        setSelectedGrp(id);
+        setGroup(dispatch, id);
         setGroupPost(userGrps?.find(item => id === item.id));
         fetchPostsByGroupId(id);
     }
@@ -179,7 +180,7 @@ const Discussion = () => {
                 setUserGrps(response.data);
                 if (response.data.length > 0) {
                     const initialGroupId = response.data[0].id;
-                    setSelectedGrp(initialGroupId);
+                    setGroup(dispatch, initialGroupId);
                     setGroupPost(response.data[0]);
                     fetchPostsByGroupId(initialGroupId);
                 }
@@ -222,8 +223,7 @@ const Discussion = () => {
                     setGroupData={setUserGrps}
                     handleJoin={handleJoin}
                     handleGo={handleGo}
-                    selectedGrp={selectedGrp}
-                    postData={selectedPost}
+                    postData={posts}
                 />}
                 content1_name={showGroupPost?.name}
                 content1_topic={topic}

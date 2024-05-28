@@ -1,15 +1,10 @@
 import * as React from 'react';
 import { useState } from 'react';
 import Stack from '@mui/material/Stack';
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
 import { Button, Card, CardContent, CardHeader, Avatar, CardActions, CardMedia, IconButton, Typography, Collapse, InputAdornment } from "@mui/material";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CommentIcon from '@mui/icons-material/Comment';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import TextField from '@mui/material/TextField';
-import SendIcon from '@mui/icons-material/Send';
 import PostDetail from './post_details';
 
 export default function Post({ data, topic }) {
@@ -18,12 +13,9 @@ export default function Post({ data, topic }) {
     const [readmore, setReadMore] = useState(Array(data?.length).fill(false));
     const [fav, setFav] = useState(Array(data?.length).fill(false));
 
-    const handleReadClick = (index) => {
-        setReadMore(readmore.map((item, i) => (i === index ? !item : item)));
-    }
-
     const handleExpandClick = (index) => {
         setExpanded(expanded.map((item, i) => (i === index ? !item : item)));
+        // console.log(expanded);
     };
 
     const handleFavClick = (index) => {
@@ -43,7 +35,7 @@ export default function Post({ data, topic }) {
                             subheader={"posted on: " + item?.time}
                         />
                         <CardContent>
-                            <CardActions>
+                            <CardActions onClick={() => handleExpandClick(index)}>
                                 <Typography display={readmore[index] ? "none" : "inline"}>
                                     {item?.content}
                                 </Typography>
