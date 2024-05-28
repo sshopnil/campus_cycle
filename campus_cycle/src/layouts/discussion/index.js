@@ -193,7 +193,7 @@ const Discussion = () => {
             try {
                 const response = await axios.get(`${LOCAL_ADDR}posttags`);
                 setTopic(dispatch, response.data);
-                setActiveTopic(dispatch, response.data[0]);
+                // setActiveTopic(dispatch, response.data[0]);
             } catch (error) {
                 console.error('Error fetching user groups:', error);
             }
@@ -202,9 +202,10 @@ const Discussion = () => {
         fetchGroups();
         fetchUserGroups();
         fetchTopics();
-    }, [userId]);
+    }, [userId, active_topic]);
 
     const filtered_all_group = groups?.filter(item => !userGrps.some(userItem => userItem.name === item.name));
+    // const filtered_posts = 
 
     return (
         <DashboardLayout>
