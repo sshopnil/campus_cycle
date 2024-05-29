@@ -15,12 +15,12 @@ import ProductCard from './components/card';
 import AuctionProductCard from './components/AuctionCard';
 import FilterBar from "layouts/market/components/FilterBar";
 
-import auctionCardData from './data/actionCardData';
 // Local address
 import LOCAL_ADDR from 'GLOBAL_ADDRESS';
 
 function Overview() {
   const [products, setProducts] = useState([]);
+  const [auctionProducts, setAuctionProducts] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState({ name: 'All', value: 0 });
 
   useEffect(() => {
@@ -29,6 +29,7 @@ function Overview() {
 
   const fetchProducts = async () => {
     try {
+      // Fetch normal products
       let url = `${LOCAL_ADDR}products`;
       if (selectedFilter.value !== 0) {
         url += `/product_type/${selectedFilter.value}`;
@@ -39,6 +40,18 @@ function Overview() {
       }
       const data = await response.json();
       setProducts(data);
+
+      // Fetch auction products
+      let auctionUrl = `${LOCAL_ADDR}products-bidded`;
+      if (selectedFilter.value !== 0) {
+        auctionUrl += `/product_type/${selectedFilter.value}`;
+      }
+      const auctionResponse = await fetch(auctionUrl);
+      if (!auctionResponse.ok) {
+        throw new Error('Failed to fetch auction products');
+      }
+      const auctionData = await auctionResponse.json();
+      setAuctionProducts(auctionData);
     } catch (error) {
       console.error('Error fetching products:', error);
     }
@@ -73,7 +86,7 @@ function Overview() {
             <Grid item key={item.id}>
               <ProductCard
                 id={item.id}
-                images={item.productImages.map(image => image.url)}
+                images={item.productImages?.map(image => image.url) || []}
                 price={item.price}
                 date={item.time}
                 details={item.description}
@@ -93,9 +106,15 @@ function Overview() {
       {/* Auction product cards */}
       <SoftBox mt={2} mb={3}>
         <Grid container spacing={2}>
-          {auctionCardData?.map((item) => (
+          {auctionProducts?.map((item) => (
             <Grid item key={item.id}>
-              <AuctionProductCard images={item.images} price={item.price} date={item.date} />
+              <AuctionProductCard
+                id={item.id}
+                images={item.images?.map(image => image.url) || []}
+                price={item.price}
+                date={item.lastSellingDate}
+                details={item.description}
+              />
             </Grid>
           ))}
         </Grid>
