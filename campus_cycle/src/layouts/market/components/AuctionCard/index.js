@@ -4,6 +4,7 @@ import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
@@ -36,7 +37,7 @@ function Section1({ url }) {
   );
 }
 
-function Section2({ price, details, timer }) {
+function Section2({id, price, details, timer }) {
   const modifieddetails = details.length > 30 ? details.substring(0, 30) + '...' : details;
 
   return (
@@ -44,7 +45,10 @@ function Section2({ price, details, timer }) {
       <Typography variant="h3" style={{ color: "green", fontSize: "15px" }}>Price: {price}</Typography>
       <Typography variant="h6" style={{ fontSize: "12px", marginBottom: "10px", marginTop: "5px" }}>Details: {modifieddetails}</Typography>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', marginBottom: '10px' }}>
-        <Button size='small' variant="contained" style={{ borderRadius: "20px", fontSize: "10px", color: "white" }}>Details</Button>
+        <Link to={"/market/auctionproduct-details/"+id}>
+          <Button size='small' variant="contained" style={{ borderRadius: "20px", fontSize: "10px", color: "white" }}>Details</Button>
+        </Link>
+        
         <div style={{ display: 'flex' }}>
           {Object.entries(timer).map(([key, value]) => (
             <div key={key} style={{ textAlign: 'center', padding: '5px', backgroundColor: '#333', color: 'white', borderRadius: '5px', minWidth: '30px', marginRight: '5px' }}>
@@ -96,6 +100,7 @@ function AuctionProductCard({ id, images, price, date, details }) {
     <CustomCard>
       <Section1 url={images[0]} />
       <Section2
+        id={id}
         price={price}
         details={details}
         timer={timer}

@@ -12,6 +12,7 @@ import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 import ProductDetails from "layouts/market/components/productDetails";
+import AuctionProductDetails from "layouts/market/components/AuctionProductDetails";
 import ProductForm from "layouts/market/components/productForm";
 
 // Soft UI Dashboard React icons
@@ -144,13 +145,14 @@ const routes = [
   },
   {
     type: "sub_route",
-    name: "Product Form",
-    key: "product-form",
-    route: "/market/product-form",
+    name: "AuctionProduct Details",
+    key: "auctionproduct-details",
+    route: "/market/auctionproduct-details/:id",
     // icon: none,
-    component: <ProductForm />,
+    component: <AuctionProductDetails />,
     noCollapse: true,
-  }
+  },
+  
 ];
 
 export default routes;

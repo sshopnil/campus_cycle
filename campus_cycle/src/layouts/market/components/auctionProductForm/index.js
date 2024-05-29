@@ -25,6 +25,7 @@ const AuctionProductForm = () => {
 
   const [formData, setFormData] = useState({
     sellerId: userId,
+    userId: userId,
     title: '',
     description: '',
     lastSellingDate: formattedDate,
@@ -90,6 +91,7 @@ const AuctionProductForm = () => {
       // Reset form data
       setFormData({
         sellerId: userId,
+        userId: userId,
         title: '',
         description: '',
         lastSellingDate: '',
