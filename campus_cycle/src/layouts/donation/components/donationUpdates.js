@@ -1,11 +1,10 @@
 import React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
 import CircularProgress from '@mui/material/CircularProgress';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import SvgIcon from '@mui/material/SvgIcon';
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 
 export default function UpdateCard({amount}) {
   return (
@@ -30,7 +29,7 @@ export default function UpdateCard({amount}) {
         </CircularProgress>
         <CardContent>
           <Typography variant="body1">Total Donation</Typography>
-          <Typography variant="h2">$  {amount}</Typography>
+          <Typography variant="h2"> <VolunteerActivismIcon /> $  {amount}</Typography>
         </CardContent>
       </CardContent>
     </Card>

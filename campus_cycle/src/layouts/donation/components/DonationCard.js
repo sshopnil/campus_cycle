@@ -18,7 +18,7 @@ const DonationCard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchData(); // Fetch data when component mounts
+    fetchData(); 
   }, []);
 
   const fetchData = async () => {
