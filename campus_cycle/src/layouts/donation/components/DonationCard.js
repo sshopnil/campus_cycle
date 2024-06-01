@@ -61,7 +61,7 @@ const DonationCard = () => {
   const visibleCards = showAll ? cardsData : cardsData.slice(0, showMore);
 
   const handleCardClick = (id) => {
-    navigate(`/DonationCardDetails/${id}`);
+    navigate(`/donation/card/${id}`);
   };
 
   return (

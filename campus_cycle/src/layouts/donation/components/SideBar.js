@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, Avatar, Button, Dialog, DialogContent } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Avatar,
+  Button,
+  Dialog,
+  DialogContent,
+} from "@mui/material";
 import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
 import axios from "axios";
 import LOCAL_ADDR from "../../../GLOBAL_ADDRESS";
 import PostForm from "./post_form";
-import QueueIcon from '@mui/icons-material/Queue';
-import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
+import QueueIcon from "@mui/icons-material/Queue";
+import DynamicFeedIcon from "@mui/icons-material/DynamicFeed";
 import MyFunds from "./myFunds"; // Assuming this is the path to your MyFunds component
 
 const SideBar = () => {
@@ -72,16 +80,20 @@ const SideBar = () => {
       </CardContent>
       <div style={{ textAlign: "center", marginTop: "20px" }}>
         <Button
-          variant="contained"
-          color="primary"
-          style={{
+          variant="outlined"
+          color="error"
+          sx={{
             margin: "10px",
             padding: "20px",
             width: "220px",
-            background: "#ffbd03",
             backdropFilter: "blur(10px)",
-            border: "1px solid rgba(255, 255, 255, 0.3)",
-            color: "white",
+            borderColor: "#ba165b",
+            color: "#ba165b",
+            "&:hover": {
+              backgroundColor: "#ffbd03",
+              borderColor: "#ffbd03",
+              color: "#fff",
+            },
             fontWeight: "bold",
             fontSize: "18px",
             borderRadius: "8px",
@@ -95,16 +107,20 @@ const SideBar = () => {
       </div>
       <div style={{ textAlign: "center", marginBottom: "15px" }}>
         <Button
-          variant="contained"
-          color="primary"
-          style={{
+          variant="outlined"
+          color="error"
+          sx={{
             margin: "10px",
             padding: "20px",
             width: "220px",
-            background: "#5adbb5",
             backdropFilter: "blur(10px)",
-            border: "1px solid rgba(255, 255, 255, 0.3)",
-            color: "white",
+            borderColor: "#5adbb5",
+            color: "gray",
+            "&:hover": {
+              backgroundColor: "#5adbb5",
+              borderColor: "#5adbb5",
+              color: "#fff",
+            },
             fontWeight: "bold",
             fontSize: "18px",
             borderRadius: "8px",
