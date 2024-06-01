@@ -1,6 +1,5 @@
 .imagesContainer {
     height: 72vh;
-    min-width: 10%;
     background-color: rgba(255, 255, 255, 0.25);
     display: flex;
     justify-content: center;
@@ -8,10 +7,11 @@
     flex-direction: column;
     border-radius: 15px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
 }
 
 .imagesContainer img {
-    width: 90%;
+    width: 95%;
     height: 15vh;
     padding: 10px;
     border-radius: 20px;
@@ -24,14 +24,10 @@
 
 .selectedImage {
     height: 71vh;
-    min-width: 30%;
-    max-width: 40%;
+    max-width: 100%;
     background-color: rgba(255, 255, 255, 0.25);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .selectedImage img {
@@ -41,13 +37,11 @@
 }
 
 .informationContainer {
-    margin-top: 5px;
     padding: 15px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     background-color: rgba(255, 255, 255, 0.25);
     height: 71vh;
-    width: 30%;
-    min-width: 371px;
+    max-width: 100%;
     border-radius: 15px;
 }
 
@@ -57,7 +51,7 @@
 }
 
 .details {
-    height: 80%;
+    height: 75%;
 }
 
 .details h4 {
@@ -74,6 +68,7 @@
     margin-top: 10px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .bottom button {
@@ -90,14 +85,18 @@
     transition: transform 0.3s ease;
     cursor: pointer;
 }
-.bottom label {
+.bottom .bidLabel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.bottom .bidLabel label {
     color: green;
     font-weight: bold;
 }
 
 .biddersContainer {
     height: 71vh;
-    min-width: 12%;
     padding: 15px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     background-color: rgba(255, 255, 255, 0.25);
@@ -105,8 +104,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%; /* Ensure full width in grid layout */
 }
-.biddersContainer h4{
+.biddersContainer h4 {
     border-bottom: solid black 1px;
 }
 

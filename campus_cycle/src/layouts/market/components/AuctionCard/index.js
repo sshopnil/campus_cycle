@@ -48,7 +48,7 @@ function Section2({id, price, details, timer }) {
         <Link to={"/market/auctionproduct-details/"+id}>
           <Button size='small' variant="contained" style={{ borderRadius: "20px", fontSize: "10px", color: "white" }}>Details</Button>
         </Link>
-        
+        {/* timer section */}
         <div style={{ display: 'flex' }}>
           {Object.entries(timer).map(([key, value]) => (
             <div key={key} style={{ textAlign: 'center', padding: '5px', backgroundColor: '#333', color: 'white', borderRadius: '5px', minWidth: '30px', marginRight: '5px' }}>
