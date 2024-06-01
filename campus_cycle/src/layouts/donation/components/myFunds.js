@@ -56,11 +56,19 @@ const MyFunds = () => {
   };
 
   const handleDelete = async (id) => {
-    // Placeholder for delete action
-    // You can implement the delete request here using axios
-    // Example: await axios.delete(`${LOCAL_ADDR}donations/${id}`);
-    console.log(`Delete card with id: ${id}`);
+    const confirmDelete = window.confirm("Are you sure you want to delete this donation?");
+    if (confirmDelete) {
+      try {
+        await axios.delete(`${LOCAL_ADDR}donations/${parseInt(id)}`);
+        // If the delete request is successful, update the state to remove the deleted card
+        setCardsData(cardsData.filter((card) => card.id !== id));
+        window.location.reload();
+      } catch (error) {
+        console.error("Error deleting donation:", error);
+      }
+    }
   };
+  
 
   return (
     <>
@@ -86,39 +94,49 @@ const MyFunds = () => {
                   image={card.imageUrl || "https://via.placeholder.com/280x180"}
                 />
                 <CardContent style={{ position: "relative" }}>
-  <Typography
-    gutterBottom
-    variant="h5"
-    component="div"
-    style={{ marginBottom: "20px" }}
-  >
-    {card.title}
-  </Typography>
-  <Typography style={{ marginBottom: "8px", fontSize: "0.9rem" }}>
-    ${card.goalAmount} of {raisedData.find(data => data.id === card.id)?.raisedAmount || 0} is raised
-  </Typography>
-  <ProgressBar
-    completed={(raisedData.find(data => data.id === card.id)?.raisedAmount || 0) / card.goalAmount * 100}
-    bgColor="#17c1e8"
-    height="6px"
-    labelSize="0px"
-    borderRadius="8px"
-    customLabel={raisedData.find(data => data.id === card.id)?.raisedAmount || 0}
-    style={{ position: "absolute", bottom: "0", left: "0", right: "0" }}
-  />
-  <Button
-    onClick={(e) => {
-      e.stopPropagation(); // Prevent the click from triggering the card click
-      handleDelete(card.id);
-    }}
-    variant="contained"
-    color="secondary"
-    style={{ margin: "22px", color: "white", backgroundColor: "red", position: "absolute", right: "0" }}
-  >
-    Delete
-  </Button>
-</CardContent>
-
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="div"
+                    style={{ marginBottom: "20px" }}
+                  >
+                    {card.title.length > 20 ? `${card.title.substring(0, 1)}...` : card.title}
+                  </Typography>
+                  <Typography style={{ marginBottom: "8px", fontSize: "0.9rem" }}>
+                    ${card.goalAmount} of{" "}
+                    {raisedData.find((data) => data.id === card.id)?.raisedAmount || 0} is raised
+                  </Typography>
+                  <ProgressBar
+                    completed={
+                      ((raisedData.find((data) => data.id === card.id)?.raisedAmount || 0) /
+                        card.goalAmount) *
+                      100
+                    }
+                    bgColor="#17c1e8"
+                    height="6px"
+                    labelSize="0px"
+                    borderRadius="8px"
+                    customLabel={raisedData.find((data) => data.id === card.id)?.raisedAmount || 0}
+                    style={{ position: "absolute", bottom: "0", left: "0", right: "0" }}
+                  />
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent the click from triggering the card click
+                      handleDelete(card.id);
+                    }}
+                    variant="contained"
+                    color="secondary"
+                    style={{
+                      margin: "22px",
+                      color: "white",
+                      backgroundColor: "red",
+                      position: "absolute",
+                      right: "0",
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </CardContent>
               </Card>
             </div>
           </Grid>

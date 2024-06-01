@@ -10,16 +10,16 @@ import PostForm from "./post_form";
 import DonationUpdates from "./donationUpdates";
 
 const SideBarUnder = () => {
-  const [isPopupOpen, setIsPopupOpen] = useState(false); // State to control the visibility of the popup
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [totalDonation, setTotalDonation] = useState("");
   const [donationToday, setDonationToday] = useState("");
-  const [totalDonner, setTotalDonner] = useState("");
+  const [totalDonor, setTotalDonor] = useState("");
   const [avgDonation, setAvgDonation] = useState("");
 
   useEffect(() => {
     fetchTotalDonation();
     fetchDonationToday();
-    fetchTotalDonner();
+    fetchTotalDonor();
     fetchAvgDonation();
   }, []);
 
@@ -33,15 +33,30 @@ const SideBarUnder = () => {
   };
 
   const fetchDonationToday = async () => {
-    // Implement logic to fetch donation today
+    try {
+      const response = await axios.get(`${LOCAL_ADDR}donation-amounts/today`);
+      setDonationToday(response.data);
+    } catch (error) {
+      console.error("Error fetching donation today:", error);
+    }
   };
 
-  const fetchTotalDonner = async () => {
-    // Implement logic to fetch total donner
+  const fetchTotalDonor = async () => {
+    try {
+      const response = await axios.get(`${LOCAL_ADDR}donation-amounts/total`);
+      setTotalDonor(response.data);
+    } catch (error) {
+      console.error("Error fetching total donor:", error);
+    }
   };
 
   const fetchAvgDonation = async () => {
-    // Implement logic to fetch avg donation
+    try {
+      const response = await axios.get(`${LOCAL_ADDR}donation-amounts/average`);
+      setAvgDonation(response.data);
+    } catch (error) {
+      console.error("Error fetching average donation:", error);
+    }
   };
 
   const handleOpenPopup = () => {
@@ -54,46 +69,16 @@ const SideBarUnder = () => {
 
   return (
     <Card sx={{ minWidth: "300px" }}>
-      {/* ProductForm Popup */}
       <PostForm open={isPopupOpen} onClose={handleClosePopup} />
-
-      {/* List of sections */}
       <div style={{ padding: "10px" }}>
         {/* Total Donation */}
-          <DonationUpdates amount={totalDonation}  />
+        <DonationUpdates title="Total Donation" amount={totalDonation} />
         {/* Donation Today */}
-        <div
-          className="glass-box glass-box-content"
-          style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
-        >
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <CalendarTodayIcon style={{ width: "40px", height: "40px", marginRight: "10px" }} />
-            <div style={{ fontSize: "12px" }}>Donation today</div>
-          </div>
-          <div style={{ fontSize: "12px", marginTop: "8px" }}>{donationToday}</div>
-        </div>
-        {/* Total Donner */}
-        <div
-          className="glass-box glass-box-content"
-          style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
-        >
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <GroupIcon style={{ width: "40px", height: "40px", marginRight: "10px" }} />
-            <div style={{ fontSize: "12px" }}>Total donner</div>
-          </div>
-          <div style={{ fontSize: "12px", marginTop: "8px" }}>{totalDonner}</div>
-        </div>
+        <DonationUpdates title="Donation Today" amount={donationToday} />
+        {/* Total Donor */}
+        <DonationUpdates title="Total Donor" amount={totalDonor} />
         {/* Avg Donation */}
-        <div
-          className="glass-box glass-box-content"
-          style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
-        >
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <DataSaverOffIcon style={{ width: "40px", height: "40px", marginRight: "10px" }} />
-            <div style={{ fontSize: "12px" }}>Avg donation</div>
-          </div>
-          <div style={{ fontSize: "12px", marginTop: "8px" }}>{avgDonation}</div>
-        </div>
+        <DonationUpdates title="Avg Donation" amount={avgDonation.toString().substring(0, 5)} />
       </div>
     </Card>
   );
