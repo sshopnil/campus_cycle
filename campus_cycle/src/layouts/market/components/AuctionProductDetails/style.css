@@ -1,0 +1,118 @@
+.imagesContainer {
+    height: 72vh;
+    background-color: rgba(255, 255, 255, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+.imagesContainer img {
+    width: 95%;
+    height: 15vh;
+    padding: 10px;
+    border-radius: 20px;
+}
+.imagesContainer img:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.selectedImage {
+    height: 71vh;
+    max-width: 100%;
+    background-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+}
+
+.selectedImage img {
+    border-radius: 15px;
+    height: 90%;
+    width: 90%;
+}
+
+.informationContainer {
+    padding: 15px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.25);
+    height: 71vh;
+    max-width: 100%;
+    border-radius: 15px;
+}
+
+.head {
+    display: flex;
+    justify-content: space-between;
+}
+
+.details {
+    height: 75%;
+}
+
+.details h4 {
+    border-top: 1px solid black;
+    color: rgba(0, 0, 0, 0.916);
+    margin-bottom: 20px;
+}
+
+.details h6:hover {
+    overflow-y: scroll;
+}
+
+.bottom {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bottom button {
+    background-color: transparent;
+    height: 40px;
+    width: 200px;
+    border-radius: 20px;
+    border: 1px solid #17C1E8;
+    font-size: small;
+    font-weight: bold;
+}
+.bottom button:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+.bottom .bidLabel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.bottom .bidLabel label {
+    color: green;
+    font-weight: bold;
+}
+
+.biddersContainer {
+    height: 71vh;
+    padding: 15px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.25);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Ensure full width in grid layout */
+}
+.biddersContainer h4 {
+    border-bottom: solid black 1px;
+}
+
+.bidder {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 5px;
+}

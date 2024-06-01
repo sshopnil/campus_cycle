@@ -5,6 +5,7 @@ import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import TimeAgo from '../TimeAgo';
 
 //image
 import image from "layouts/market/data/Screenshot 2024-03-22 162045.png";
@@ -17,26 +18,27 @@ import Checkbox from '@mui/material/Checkbox';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
 
+
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 
-function getTimeAgo(dateString) {
-  const date = new Date(dateString);
-  const now = new Date();
-  const timeDiff = Math.abs(now - date);
+// function getTimeAgo(dateString) {
+//   const date = new Date(dateString);
+//   const now = new Date();
+//   const timeDiff = Math.abs(now - date);
   
-  const minutesDiff = Math.floor(timeDiff / (1000 * 60));
-  const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
-  const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+//   const minutesDiff = Math.floor(timeDiff / (1000 * 60));
+//   const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
+//   const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
   
-  if (minutesDiff < 60) {
-      return `${minutesDiff} minute${minutesDiff !== 1 ? 's' : ''} ago`;
-  } else if (hoursDiff < 24) {
-      return `${hoursDiff} hour${hoursDiff !== 1 ? 's' : ''} ago`;
-  } else {
-      return `${daysDiff} day${daysDiff !== 1 ? 's' : ''} ago`;
-  }
-}
+//   if (minutesDiff < 60) {
+//       return `${minutesDiff} minute${minutesDiff !== 1 ? 's' : ''} ago`;
+//   } else if (hoursDiff < 24) {
+//       return `${hoursDiff} hour${hoursDiff !== 1 ? 's' : ''} ago`;
+//   } else {
+//       return `${daysDiff} day${daysDiff !== 1 ? 's' : ''} ago`;
+//   }
+// }
 
 
 function CustomCard({ children }) {
@@ -76,7 +78,7 @@ function Section2({id,  price, details, postingDate }) {
     <Grid item xs={6}>
       <Typography variant="h3" style={{color: "green" , fontSize: "15px"}}>Price: {price}</Typography>
       <Typography variant="h6" style={{fontSize:"12px", marginBottom: "10px", marginTop: "5px"}}>Details: {modifieddetails}</Typography>
-      <Typography variant="body2" style={{fontSize: "12px"}}>{getTimeAgo(postingDate)}</Typography>
+      <Typography variant="body2" style={{fontSize: "12px"}}><TimeAgo date={postingDate}/></Typography>
       <Link to={"/market/product-details/"+id}>
         <Button size='small' variant="contained" style={{width: "70px",borderRadius: "20px",fontSize: "10px", color: "white", marginTop: "5px"}}>Details</Button>
       </Link>
@@ -111,9 +113,9 @@ Section1.propTypes = {
 
 // Prop types validation for Section2
 Section2.propTypes = {
+    id: PropTypes.string.isRequired, // Ensure id is of type string and is required
     price: PropTypes.string.isRequired, // Ensure price is of type string and is required
     details: PropTypes.string.isRequired, // Ensure details is of type string and is required
     postingDate: PropTypes.string.isRequired, // Ensure postingDate is of type string and is required
   };
-
 export default ProductCard;

@@ -1,0 +1,14 @@
+Market place:
+	market
+	my product
+	my orders
+
+in market(auction product)
+	All bidders ranking with info(in data table material ui)
+
+	Normal product:
+		(buy now) click -> builling address + shipping address + contact (will be in form), after submitting(invoice occur in 			dialogbox) seller info + buyerinfo + product info+ payment method(cash on delivery default) --> print on submit.
+	
+	bidded product:
+		if bid own button -> enter order info --> (action) same as form from normal product + separate invoice
+		
