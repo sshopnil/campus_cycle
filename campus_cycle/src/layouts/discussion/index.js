@@ -20,8 +20,13 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function BasicCard({ groups, type, handleJoin, handleGo }) {
+function BasicCard({ groups, userGroups, type, handleJoin, handleGo }) {
     const [search, setSearch] = React.useState('');
+
+    const isUserGroup = (groupId) => {
+        return userGroups.some(group => group.id === groupId);
+    };
+
     return (
         <Card sx={{ minWidth: "300px", padding: "20px", marginBottom: "20px" }}>
             <CardHeader
@@ -51,7 +56,20 @@ function BasicCard({ groups, type, handleJoin, handleGo }) {
                             key={item.id}
                             title={item.name}
                             action={
-                                <Button variant="filled" startIcon={type === 'all' ? <AddBoxIcon /> : <PlayArrowIcon />} color="primary" sx={{ alignContent: "center" }} onClick={() => { type === "all" ? handleJoin(item.id) : handleGo(item.id); }}>
+                                <Button
+                                    variant="filled"
+                                    startIcon={type === 'all' ? <AddBoxIcon /> : <PlayArrowIcon />}
+                                    color="primary"
+                                    sx={{ alignContent: "center" }}
+                                    onClick={() => {
+                                        if (type === 'all') {
+                                            handleJoin(item.id);
+                                        } else {
+                                            handleGo(item.id);
+                                        }
+                                    }}
+                                    disabled={type === 'all' && isUserGroup(item.id)} // Disable if already joined
+                                >
                                     {type === 'all' ? "Join" : "Go"}
                                 </Button>
                             }
@@ -66,6 +84,7 @@ function BasicCard({ groups, type, handleJoin, handleGo }) {
         </Card>
     );
 }
+
 
 const PostContents = ({filteredGroup, userGroup, setGroupData, handleJoin, handleGo, postData }) => {
     const [open, setOpen] = React.useState(false);
@@ -104,8 +123,9 @@ const PostContents = ({filteredGroup, userGroup, setGroupData, handleJoin, handl
                     }}
                     onClick={handleOpenG}
                 >Create new group</Button>
-                <BasicCard groups={filteredGroup} type='all' handleJoin={handleJoin} handleGo={handleGo} />
-                <BasicCard groups={userGroup} type='user' handleGo={handleGo} handleJoin={handleJoin} />
+                <BasicCard groups={filteredGroup} userGroups={userGroup} type='all' handleJoin={handleJoin} handleGo={handleGo} />
+                <BasicCard groups={userGroup} userGroups={userGroup} type='user' handleJoin={handleJoin} handleGo={handleGo} />
+                {/* <BasicCard groups={userGroup} type='user' handleGo={handleGo} handleJoin={handleJoin} /> */}
             </Grid>
             <PostForm open={open} setOpen={handleOpen}/>
             <CreateGroup open={openG} setOpen={handleOpenG} updateGroup={setGroupData} groups={filteredGroup} />
@@ -204,7 +224,7 @@ const Discussion = () => {
         fetchTopics();
     }, [userId, active_topic]);
 
-    const filtered_all_group = groups?.filter(item => !userGrps.some(userItem => userItem.name === item.name));
+    // const filtered_all_group = groups?.filter(item => !userGrps.some(userItem => userItem.name === item.name));
     // const filtered_posts = 
 
     return (
@@ -227,7 +247,7 @@ const Discussion = () => {
 
             <TabNavigation
                 content1={<PostContents
-                    filteredGroup={filtered_all_group}
+                    filteredGroup={groups}
                     userGroup={userGrps}
                     setGroupData={setUserGrps}
                     handleJoin={handleJoin}

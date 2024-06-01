@@ -29,7 +29,7 @@ export default function TabNavigation({ content1, content1_name, content2 }) {
         </Box>
         <TabPanel value="1">
           <Typography sx={{ fontWeight: "bold", fontSize: "34px" }}>{content1_name}</Typography>
-          <header style={{ marginTop: '5px', color: 'black', fontSize: '14px', color: "#17C1E8" }}><Link>{"#" + active_topic}</Link></header>
+          {/* <header style={{ marginTop: '5px', color: 'black', fontSize: '14px', color: "#17C1E8" }}><Link>{"#" + active_topic}</Link></header> */}
           <Grid container spacing={3}>
 
             {content1}
