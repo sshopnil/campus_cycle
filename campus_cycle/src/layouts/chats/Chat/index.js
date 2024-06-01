@@ -58,7 +58,8 @@ function Chat({ user }) {
     };
 
     const joinHelp = (help_id) => {
-        navigate(`/private/${help_id}`);
+        
+        navigate(`/chats/PrivateChat/${help_id}/${user.username}`);
     };
 
     const scrollToBottom = () => {
@@ -97,15 +98,16 @@ function Chat({ user }) {
                 </Grid>
                 <Grid item xs={12} md={4}>
                 <h2>Help Requests</h2>
-                    <Card style={{ height: '400px', overflowY: 'scroll' }}>
-                        <CardContent>
+                    <div style={{ height: '400px', overflowY: 'scroll' }}>
+                        <div>
                             {helps.map((help, idx) => (
-                                <div key={idx}>
-                                    <SoftButton onClick={() => joinHelp(help.help_id)} color="success">{help.subject} - Help this person</SoftButton>
-                                </div>
+                                <Card key={idx}>
+                                    <Typography>{help.subject}</Typography>
+                                    <SoftButton onClick={() => joinHelp(help.help_id)} color="secondary">Help this person</SoftButton>
+                                </Card>
                             ))}
-                        </CardContent>
-                    </Card>
+                        </div>
+                    </div>
                     <SoftInput
                         type="text"
                         value={helpSubject}

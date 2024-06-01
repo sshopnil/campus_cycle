@@ -14,6 +14,7 @@ import SignUp from "layouts/authentication/sign-up";
 import ProductDetails from "layouts/market/components/productDetails";
 import ProductForm from "layouts/market/components/productForm";
 import Chat from "layouts/chats/Chat";
+import PrivateChat from "layouts/chats/PrivateChat";
 
 // Soft UI Dashboard React icons
 import Shop from "examples/Icons/Shop";
@@ -76,6 +77,15 @@ const routes = [
     key: "chats",
     route: "/chats/Chat",
     component: <Chat/>,
+    noCollapse: true,
+  },
+
+  {
+    type: "chat",
+    name: "PrivateChat",
+    key: "PrivateChat",
+    route: "/chats/PrivateChat/:helpId/:username",
+    component: <PrivateChat/>,
     noCollapse: true,
   },
 
