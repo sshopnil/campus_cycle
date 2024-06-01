@@ -134,12 +134,7 @@ function Overview() {
                     color: "info",
                     label: "view project",
                   }}
-                  authors={[
-                    { image: team1, name: "Elena Morison" },
-                    { image: team2, name: "Ryan Milly" },
-                    { image: team3, name: "Nick Daniel" },
-                    { image: team4, name: "Peterson" },
-                  ]}
+                  
                 />
               </Grid>
               <Grid item xs={12} md={6} xl={3}>
