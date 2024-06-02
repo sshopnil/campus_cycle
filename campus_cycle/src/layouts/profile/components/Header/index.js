@@ -1,19 +1,7 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import ImageUploadDialog from "../image_upload_dialogue"; // Import the ImageUploadDialog component
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -21,6 +9,9 @@ import Grid from "@mui/material/Grid";
 import AppBar from "@mui/material/AppBar";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
 
 // Soft UI Dashboard React components
 import SoftBox from "components/SoftBox";
@@ -34,41 +25,62 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Cube from "examples/Icons/Cube";
 import Document from "examples/Icons/Document";
 import Settings from "examples/Icons/Settings";
+import AddCircleSharpIcon from "@mui/icons-material/AddCircleSharp";
 
 // Soft UI Dashboard React base styles
 import breakpoints from "assets/theme/base/breakpoints";
 
 // Images
+import defaultUserImage from "../../data/place_holder.jpg";
+import curvedImage from "assets/images/curved-images/curved0.jpg";
 import burceMars from "assets/images/bruce-mars.jpg";
 import curved0 from "assets/images/curved-images/curved0.jpg";
-import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
 
 function Header() {
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
+  const [userImageUrl, setUserImageUrl] = useState("");
+  const [userName, setUserName] = useState("");
+  const [openImageUpload, setOpenImageUpload] = useState(false); // State to control the modal
 
   useEffect(() => {
-    // A function that sets the orientation state of the tabs.
     function handleTabsOrientation() {
       return window.innerWidth < breakpoints.values.sm
         ? setTabsOrientation("vertical")
         : setTabsOrientation("horizontal");
     }
 
-    /** 
-     The event listener that's calling the handleTabsOrientation function when resizing the window.
-    */
     window.addEventListener("resize", handleTabsOrientation);
 
-    // Call the handleTabsOrientation function to set the state with the initial value.
     handleTabsOrientation();
 
-    // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleTabsOrientation);
   }, [tabsOrientation]);
 
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
+
+  useEffect(() => {
+    async function fetchUserData() {
+      try {
+        const userId = localStorage.getItem("user");
+        const response = await axios.get(`http://localhost:5000/users/${userId}`);
+        setUserImageUrl(response.data.imageUrl);
+        setUserName(response.data.name);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    }
+
+    fetchUserData();
+  }, []);
+
+  const handleImageUpload = () => {
+    setOpenImageUpload(true); // Open the modal when the user clicks the Add icon
+  };
+
+  const handleCloseImageUpload = () => {
+    setOpenImageUpload(false); // Close the modal when the user closes the ImageUpload component
+  };
 
   return (
     <SoftBox position="relative">
@@ -92,7 +104,7 @@ function Header() {
       />
       <Card
         sx={{
-          backdropFilter: `saturate(200%) blur(30px)`,
+          backdropFilter: "saturate(200%) blur(30px)",
           backgroundColor: ({ functions: { rgba }, palette: { white } }) => rgba(white.main, 0.8),
           boxShadow: ({ boxShadows: { navbarBoxShadow } }) => navbarBoxShadow,
           position: "relative",
@@ -104,18 +116,32 @@ function Header() {
       >
         <Grid container spacing={3} alignItems="center">
           <Grid item>
-            <SoftAvatar
-              src={burceMars}
-              alt="profile-image"
-              variant="rounded"
-              size="xl"
-              shadow="sm"
-            />
+            <Tooltip title="Change Photo" placement="top">
+              <IconButton onClick={handleImageUpload} size="small" sx={{ position: "relative" }}>
+                <SoftAvatar
+                  src={userImageUrl || defaultUserImage}
+                  alt="profile-image"
+                  variant="rounded"
+                  size="xl"
+                  shadow="sm"
+                />
+                <AddCircleSharpIcon
+                  color="success"
+                  sx={{
+                    position: "absolute",
+                    bottom: 0,
+                    right: 0,
+                    backgroundColor: "#fff",
+                    borderRadius: "50%",
+                  }}
+                />
+              </IconButton>
+            </Tooltip>
           </Grid>
           <Grid item>
             <SoftBox height="100%" mt={0.5} lineHeight={1}>
               <SoftTypography variant="h5" fontWeight="medium">
-                Alex Thompson
+                {userName}
               </SoftTypography>
               <SoftTypography variant="button" color="text" fontWeight="medium">
                 CEO / Co-Founder
@@ -134,29 +160,36 @@ function Header() {
                 <Tab label="Message" icon={<Document />} />
                 <Tab label="Settings" icon={<Settings />} />
                 <Link to={"/authentication/sign-in"}>
-                <Button 
-                variant="outlined"
-                color="error"
-                sx={{
-                  borderColor: '#ba165b',
-                  color: '#ba165b',
-                  '&:hover': {
-                    backgroundColor: '#ba165b',
-                    borderColor: '#ba165b',
-                    color: '#fff'
-                  }
-                }
-              }
-              onClick={()=> {localStorage.clear()}}
-              >
-                Log out
-              </Button>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    sx={{
+                      borderColor: "#ba165b",
+                      color: "#ba165b",
+                      "&:hover": {
+                        backgroundColor: "#ba165b",
+                        borderColor: "#ba165b",
+                        color: "#fff",
+                      },
+                    }}
+                    onClick={() => {
+                      localStorage.clear();
+                    }}
+                  >
+                    Log out
+                  </Button>
                 </Link>
               </Tabs>
             </AppBar>
           </Grid>
         </Grid>
       </Card>
+      {/* Modal for Image Upload */}
+      <ImageUploadDialog
+        open={openImageUpload}
+        onClose={handleCloseImageUpload}
+        setUserImageUrl={setUserImageUrl}
+      />
     </SoftBox>
   );
 }

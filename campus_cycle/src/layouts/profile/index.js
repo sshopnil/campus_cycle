@@ -1,54 +1,48 @@
-
-import { useState } from 'react';
-// @mui material components
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-
-// @mui icons
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import InstagramIcon from "@mui/icons-material/Instagram";
-
-// Soft UI Dashboard React components
-import SoftBox from "components/SoftBox";
-import SoftTypography from "components/SoftTypography";
-
-// Soft UI Dashboard React examples
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import Footer from "examples/Footer";
-import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
-import ProfilesList from "examples/Lists/ProfilesList";
-import DefaultProjectCard from "examples/Cards/ProjectCards/DefaultProjectCard";
-import PlaceholderCard from "examples/Cards/PlaceholderCard";
-// market component
+import FacebookIcon from '@mui/icons-material/Facebook';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import SoftBox from 'components/SoftBox';
+import SoftTypography from 'components/SoftTypography';
+import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
+import Footer from 'examples/Footer';
+import ProfileInfoCard from 'examples/Cards/InfoCards/ProfileInfoCard';
+import ProfilesList from 'examples/Lists/ProfilesList';
+import DefaultProjectCard from 'examples/Cards/ProjectCards/DefaultProjectCard';
+import PlaceholderCard from 'examples/Cards/PlaceholderCard';
 import ProductForm from 'layouts/market/components/productForm';
 import AuctionProductForm from 'layouts/market/components/auctionProductForm';
+import Header from 'layouts/profile/components/Header';
+import PlatformSettings from 'layouts/profile/components/PlatformSettings';
+import profilesListData from 'layouts/profile/data/profilesListData';
+import homeDecor1 from 'assets/images/home-decor-1.jpg';
+import homeDecor2 from 'assets/images/home-decor-2.jpg';
+import homeDecor3 from 'assets/images/home-decor-3.jpg';
+import team1 from 'assets/images/team-1.jpg';
+import team2 from 'assets/images/team-2.jpg';
+import team3 from 'assets/images/team-3.jpg';
+import team4 from 'assets/images/team-4.jpg';
+import GLOBAL_ADD from "../../GLOBAL_ADDRESS"
 
-
-// Overview page components
-import Header from "layouts/profile/components/Header";
-import PlatformSettings from "layouts/profile/components/PlatformSettings";
-
-// Data
-import profilesListData from "layouts/profile/data/profilesListData";
-
-// Images
-import homeDecor1 from "assets/images/home-decor-1.jpg";
-import homeDecor2 from "assets/images/home-decor-2.jpg";
-import homeDecor3 from "assets/images/home-decor-3.jpg";
-import team1 from "assets/images/team-1.jpg";
-import team2 from "assets/images/team-2.jpg";
-import team3 from "assets/images/team-3.jpg";
-import team4 from "assets/images/team-4.jpg";
-
-function Overview() {
+const Overview = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogOpenAuction, setDialogOpenAuction] = useState(false);
+  const [userInfo, setUserInfo] = useState({
+    fullName: '',
+    mobile: '',
+    email: '',
+    location: '',
+    imageUrl: '',
+  });
+
   const handleOpenDialog = () => {
     setDialogOpen(true);
   };
@@ -56,6 +50,7 @@ function Overview() {
   const handleCloseDialog = () => {
     setDialogOpen(false);
   };
+
   const handleOpenDialogAuction = () => {
     setDialogOpenAuction(true);
   };
@@ -63,6 +58,25 @@ function Overview() {
   const handleCloseDialogAuction = () => {
     setDialogOpenAuction(false);
   };
+
+  useEffect(() => {
+    const userId = localStorage.getItem('user');
+    axios.get(`${GLOBAL_ADD}users/${userId}`)
+      .then((response) => {
+        const data = response.data;
+        setUserInfo({
+          fullName: data.name,
+          mobile: '(+880) 123 1234 123', // This should be updated if the API provides a mobile number
+          email: data.email,
+          location: data.university.fullName,
+          imageUrl: data.imageUrl,
+        });
+      })
+      .catch((error) => {
+        console.error('There was an error fetching the user data!', error);
+      });
+  }, []);
+
   return (
     <DashboardLayout>
       <Header />
@@ -76,29 +90,29 @@ function Overview() {
               title="profile information"
               description="Hi, I’m Alec Thompson, Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality)."
               info={{
-                fullName: "Alec M. Thompson",
-                mobile: "(44) 123 1234 123",
-                email: "alecthompson@mail.com",
-                location: "USA",
+                fullName: userInfo.fullName,
+                mobile: userInfo.mobile,
+                email: userInfo.email,
+                University: userInfo.location,
               }}
               social={[
                 {
-                  link: "https://www.facebook.com/CreativeTim/",
+                  link: 'https://www.facebook.com/CreativeTim/',
                   icon: <FacebookIcon />,
-                  color: "facebook",
+                  color: 'facebook',
                 },
                 {
-                  link: "https://twitter.com/creativetim",
+                  link: 'https://twitter.com/creativetim',
                   icon: <TwitterIcon />,
-                  color: "twitter",
+                  color: 'twitter',
                 },
                 {
-                  link: "https://www.instagram.com/creativetimofficial/",
+                  link: 'https://www.instagram.com/creativetimofficial/',
                   icon: <InstagramIcon />,
-                  color: "instagram",
+                  color: 'instagram',
                 },
               ]}
-              action={{ route: "", tooltip: "Edit Profile" }}
+              action={{ route: '', tooltip: 'Edit Profile' }}
             />
           </Grid>
           <Grid item xs={12} xl={4}>
@@ -129,16 +143,16 @@ function Overview() {
                   title="modern"
                   description="As Uber works through a huge amount of internal management turmoil."
                   action={{
-                    type: "internal",
-                    route: "/pages/profile/profile-overview",
-                    color: "info",
-                    label: "view project",
+                    type: 'internal',
+                    route: '/pages/profile/profile-overview',
+                    color: 'info',
+                    label: 'view project',
                   }}
                   authors={[
-                    { image: team1, name: "Elena Morison" },
-                    { image: team2, name: "Ryan Milly" },
-                    { image: team3, name: "Nick Daniel" },
-                    { image: team4, name: "Peterson" },
+                    { image: team1, name: 'Elena Morison' },
+                    { image: team2, name: 'Ryan Milly' },
+                    { image: team3, name: 'Nick Daniel' },
+                    { image: team4, name: 'Peterson' },
                   ]}
                 />
               </Grid>
@@ -149,16 +163,16 @@ function Overview() {
                   title="scandinavian"
                   description="Music is something that every person has his or her own specific opinion about."
                   action={{
-                    type: "internal",
-                    route: "/pages/profile/profile-overview",
-                    color: "info",
-                    label: "view project",
+                    type: 'internal',
+                    route: '/pages/profile/profile-overview',
+                    color: 'info',
+                    label: 'view project',
                   }}
                   authors={[
-                    { image: team3, name: "Nick Daniel" },
-                    { image: team4, name: "Peterson" },
-                    { image: team1, name: "Elena Morison" },
-                    { image: team2, name: "Ryan Milly" },
+                    { image: team3, name: 'Nick Daniel' },
+                    { image: team4, name: 'Peterson' },
+                    { image: team1, name: 'Elena Morison' },
+                    { image: team2, name: 'Ryan Milly' },
                   ]}
                 />
               </Grid>
@@ -169,21 +183,21 @@ function Overview() {
                   title="minimalist"
                   description="Different people have different taste, and various types of music."
                   action={{
-                    type: "internal",
-                    route: "/pages/profile/profile-overview",
-                    color: "info",
-                    label: "view project",
+                    type: 'internal',
+                    route: '/pages/profile/profile-overview',
+                    color: 'info',
+                    label: 'view project',
                   }}
                   authors={[
-                    { image: team4, name: "Peterson" },
-                    { image: team3, name: "Nick Daniel" },
-                    { image: team2, name: "Ryan Milly" },
-                    { image: team1, name: "Elena Morison" },
+                    { image: team4, name: 'Peterson' },
+                    { image: team3, name: 'Nick Daniel' },
+                    { image: team2, name: 'Ryan Milly' },
+                    { image: team1, name: 'Elena Morison' },
                   ]}
                 />
               </Grid>
               <Grid item xs={12} md={6} xl={3} onClick={handleOpenDialog}>
-                  <PlaceholderCard title={{ variant: 'h5', text: 'New Product' }} outlined />
+                <PlaceholderCard title={{ variant: 'h5', text: 'New Product' }} outlined />
               </Grid>
             </Grid>
           </SoftBox>
@@ -211,16 +225,16 @@ function Overview() {
                   title="modern"
                   description="As Uber works through a huge amount of internal management turmoil."
                   action={{
-                    type: "internal",
-                    route: "/pages/profile/profile-overview",
-                    color: "info",
-                    label: "view project",
+                    type: 'internal',
+                    route: '/pages/profile/profile-overview',
+                    color: 'info',
+                    label: 'view project',
                   }}
                   authors={[
-                    { image: team1, name: "Elena Morison" },
-                    { image: team2, name: "Ryan Milly" },
-                    { image: team3, name: "Nick Daniel" },
-                    { image: team4, name: "Peterson" },
+                    { image: team1, name: 'Elena Morison' },
+                    { image: team2, name: 'Ryan Milly' },
+                    { image: team3, name: 'Nick Daniel' },
+                    { image: team4, name: 'Peterson' },
                   ]}
                 />
               </Grid>
@@ -231,16 +245,16 @@ function Overview() {
                   title="scandinavian"
                   description="Music is something that every person has his or her own specific opinion about."
                   action={{
-                    type: "internal",
-                    route: "/pages/profile/profile-overview",
-                    color: "info",
-                    label: "view project",
+                    type: 'internal',
+                    route: '/pages/profile/profile-overview',
+                    color: 'info',
+                    label: 'view project',
                   }}
                   authors={[
-                    { image: team3, name: "Nick Daniel" },
-                    { image: team4, name: "Peterson" },
-                    { image: team1, name: "Elena Morison" },
-                    { image: team2, name: "Ryan Milly" },
+                    { image: team3, name: 'Nick Daniel' },
+                    { image: team4, name: 'Peterson' },
+                    { image: team1, name: 'Elena Morison' },
+                    { image: team2, name: 'Ryan Milly' },
                   ]}
                 />
               </Grid>
@@ -251,27 +265,26 @@ function Overview() {
                   title="minimalist"
                   description="Different people have different taste, and various types of music."
                   action={{
-                    type: "internal",
-                    route: "/pages/profile/profile-overview",
-                    color: "info",
-                    label: "view project",
+                    type: 'internal',
+                    route: '/pages/profile/profile-overview',
+                    color: 'info',
+                    label: 'view project',
                   }}
                   authors={[
-                    { image: team4, name: "Peterson" },
-                    { image: team3, name: "Nick Daniel" },
-                    { image: team2, name: "Ryan Milly" },
-                    { image: team1, name: "Elena Morison" },
+                    { image: team4, name: 'Peterson' },
+                    { image: team3, name: 'Nick Daniel' },
+                    { image: team2, name: 'Ryan Milly' },
+                    { image: team1, name: 'Elena Morison' },
                   ]}
                 />
               </Grid>
-              <Grid item xs={12} md={6} xl={3}  onClick={handleOpenDialogAuction}>
-                  <PlaceholderCard title={{ variant: 'h5', text: 'New Auction Product' }} outlined />
+              <Grid item xs={12} md={6} xl={3} onClick={handleOpenDialogAuction}>
+                <PlaceholderCard title={{ variant: 'h5', text: 'New Auction Product' }} outlined />
               </Grid>
             </Grid>
           </SoftBox>
         </Card>
       </SoftBox>
-      {/* Step 5: Create a Dialog component to display when the placeholder card is clicked */}
       <Dialog open={dialogOpen} onClose={handleCloseDialog}>
         <DialogTitle>New Product</DialogTitle>
         <DialogContent>
@@ -281,7 +294,6 @@ function Overview() {
           <Button onClick={handleCloseDialog}>Close</Button>
         </DialogActions>
       </Dialog>
-      {/* auction */}
       <Dialog open={dialogOpenAuction} onClose={handleCloseDialogAuction}>
         <DialogTitle>New Auction Product</DialogTitle>
         <DialogContent>
@@ -291,10 +303,9 @@ function Overview() {
           <Button onClick={handleCloseDialogAuction}>Close</Button>
         </DialogActions>
       </Dialog>
-
       <Footer />
     </DashboardLayout>
   );
-}
+};
 
 export default Overview;
