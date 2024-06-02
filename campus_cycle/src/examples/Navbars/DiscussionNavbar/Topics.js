@@ -1,24 +1,25 @@
 import { Button, createStyles } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useSoftUIController, setTopic} from "context";
+import { useSoftUIController, setActiveTopic} from "context";
 
 import { useEffect } from "react";
 
-const Topics = ({topics}) => {
+
+const Topics = () => {
     // console.log(topic);
     const [controller, dispatch] = useSoftUIController();
-    const { topic} = controller;
+    const { active_topic, topic } = controller;
 
     return (
         <>
-            {topics?.map((item) => {
+            {topic.map((item) => {
                 // console.log(item.name)
                 return (
                     <Link key={item.name} >
                         <Button 
                             key={item.name}
-                            sx={item.name == topic ? styles.active: styles.deactive}
-                            onClick={()=>setTopic(dispatch, item.name)}
+                            sx={item.name == active_topic ? styles.active: styles.deactive}
+                            onClick={()=>setActiveTopic(dispatch, item.name)}
                         >
                             {item.name}
                         </Button>

@@ -14,6 +14,8 @@ import SignUp from "layouts/authentication/sign-up";
 import ProductDetails from "layouts/market/components/productDetails";
 import AuctionProductDetails from "layouts/market/components/AuctionProductDetails";
 import ProductForm from "layouts/market/components/productForm";
+import Chat from "layouts/chats/Chat";
+import PrivateChat from "layouts/chats/PrivateChat";
 
 // Soft UI Dashboard React icons
 import Shop from "examples/Icons/Shop";
@@ -22,13 +24,13 @@ import Settings from "examples/Icons/Settings";
 import Document from "examples/Icons/Document";
 import SpaceShip from "examples/Icons/SpaceShip";
 import CustomerSupport from "examples/Icons/CustomerSupport";
-import CreditCard from "examples/Icons/CreditCard";
-import Cube from "examples/Icons/Cube";
+import Chats from "layouts/chats";
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 
 import Diversity2Icon from '@mui/icons-material/Diversity2';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import DonationCardDetails from "layouts/donation/donationCardDetails";
+import InboxRoundedIcon from '@mui/icons-material/InboxRounded';
 
 
 const routes = [
@@ -57,6 +59,34 @@ const routes = [
     route: "/discussion",
     icon: <Diversity2Icon size="12px" />,
     component: <Discussion/>,
+    noCollapse: true,
+  },
+
+  {
+    type: "collapse",
+    name: "Chats",
+    key: "chats",
+    route: "/chats",
+    icon: <InboxRoundedIcon size="12px" />,
+    component: <Chats/>,
+    noCollapse: true,
+  },
+
+  {
+    type: "chat",
+    name: "Chats",
+    key: "chats",
+    route: "/chats/Chat",
+    component: <Chat/>,
+    noCollapse: true,
+  },
+
+  {
+    type: "chat",
+    name: "PrivateChat",
+    key: "PrivateChat",
+    route: "/chats/PrivateChat/:helpId/:username",
+    component: <PrivateChat/>,
     noCollapse: true,
   },
 

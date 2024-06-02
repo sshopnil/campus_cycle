@@ -27,7 +27,8 @@ import Topics from "./Topics";
 
 
 
-function DiscussionNavbar({ topics}) {
+
+function DiscussionNavbar() {
     const route = useLocation().pathname.split("/").slice(1);
 
   return (
@@ -42,7 +43,7 @@ function DiscussionNavbar({ topics}) {
         <SoftBox color="inherit" mb={{ xs: 1, md: 0 }}>
           <SoftBox>
             <span style={{color: '#666C8F', fontSize: '20px', textTransform: 'uppercase'}}>Topics  </span>
-            <Topics topics={topics}/>
+            <Topics/>
           </SoftBox>
         </SoftBox>
       </Toolbar>
