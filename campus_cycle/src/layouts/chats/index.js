@@ -10,7 +10,16 @@ import Footer from "examples/Footer";
 import { Typography } from "@mui/material";
 import Chat from "./Chat";
 import Login from "./Login/Login";
+import ChatTab from "./components/chat_tab";
+import Chatbot from "./Chatbot";
 
+const GlobalChat = ({user, setUser}) =>{
+  return (
+    <Grid item lg={12} sx={{justifyItems:"center"}} mt={10}>
+        {user ? <Chat user={user} /> : <Login setUser={setUser} />}
+    </Grid>
+  )
+}
 
 
 function Chats() {
@@ -19,9 +28,13 @@ function Chats() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-        <Grid item lg={12} sx={{justifyItems:"center"}} mt={10}>
-        {user ? <Chat user={user} /> : <Login setUser={setUser} />}
-        </Grid>
+      <ChatTab content1={
+        <GlobalChat user = {user} setUser = {setUser}/>
+      }
+      content2={
+        <Chatbot/>
+      }
+      />
     </DashboardLayout>
   );
 }
