@@ -21,11 +21,18 @@ import LOCAL_ADDR from 'GLOBAL_ADDRESS';
 function Overview() {
   const [products, setProducts] = useState([]);
   const [auctionProducts, setAuctionProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [filteredAuctionProducts, setFilteredAuctionProducts] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState({ name: 'All', value: 0 });
+  const [filterCriteria, setFilterCriteria] = useState({ searchText: '', minPrice: '', maxPrice: '' });
 
   useEffect(() => {
     fetchProducts();
   }, [selectedFilter]); // Fetch products when selectedFilter changes
+
+  useEffect(() => {
+    applyFilters();
+  }, [products, auctionProducts, filterCriteria]); // Apply filters when products, auction products, or filter criteria change
 
   const fetchProducts = async () => {
     try {
@@ -57,9 +64,30 @@ function Overview() {
     }
   };
 
+  const applyFilters = () => {
+    const { searchText, minPrice, maxPrice } = filterCriteria;
+
+    const filterProductList = (list) => {
+      return list.filter((item) => {
+        const matchesSearch = item.title.toLowerCase().includes(searchText.toLowerCase()); // Compare search text with title
+        const matchesMinPrice = !minPrice || item.price >= minPrice;
+        const matchesMaxPrice = !maxPrice || item.price <= maxPrice;
+        return matchesSearch && matchesMinPrice && matchesMaxPrice;
+      });
+    };
+
+    setFilteredProducts(filterProductList(products));
+    setFilteredAuctionProducts(filterProductList(auctionProducts));
+  };
+
   // Function to handle filter selection
   const handleFilterSelection = (filter) => {
     setSelectedFilter(filter);
+  };
+
+  // Function to handle filter criteria change
+  const handleFilterCriteriaChange = (criteria) => {
+    setFilterCriteria(criteria);
   };
 
   return (
@@ -69,7 +97,10 @@ function Overview() {
       {/* Filter bar */}
       <SoftBox mt={5} bgColor="white" borderRadius="md" p={1}>
         {/* Pass handleFilterSelection function as prop to FilterBar */}
-        <FilterBar onSelectFilter={handleFilterSelection} />
+        <FilterBar 
+          onSelectFilter={handleFilterSelection} 
+          onFilterCriteriaChange={handleFilterCriteriaChange} 
+        />
       </SoftBox>
 
       {/* Display selected filter */}
@@ -82,10 +113,11 @@ function Overview() {
       {/* Product cards */}
       <SoftBox mt={2} mb={3}>
         <Grid container spacing={2}>
-          {products?.map((item) => (
+          {filteredProducts?.map((item) => (
             <Grid item key={item.id}>
               <ProductCard
                 id={item.id}
+                title={item.title}
                 images={item.productImages?.map(image => image.url) || []}
                 price={item.price}
                 date={item.time}
@@ -106,10 +138,11 @@ function Overview() {
       {/* Auction product cards */}
       <SoftBox mt={2} mb={3}>
         <Grid container spacing={2}>
-          {auctionProducts?.map((item) => (
+          {filteredAuctionProducts?.map((item) => (
             <Grid item key={item.id}>
               <AuctionProductCard
                 id={item.id}
+                title={item.title}
                 images={item.images?.map(image => image.url) || []}
                 price={item.price}
                 date={item.lastSellingDate}
