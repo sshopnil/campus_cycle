@@ -104,6 +104,8 @@ function AuctionProductDetails() {
     const handleBidButtonClick = () => {
         if (timer.days === 0 && timer.hours === 0 && timer.minutes === 0 && timer.seconds === 0) {
             toast.warn('Bidding has finished');
+        } else if (userId === product.seller.id) {
+            toast.warn('Cannot bid on your own product');
         } else {
             setOpenBidDialog(true);
         }
