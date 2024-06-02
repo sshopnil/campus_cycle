@@ -230,17 +230,13 @@ export default function PostForm({ open, setOpen }) {
             const response = await axios.patch(`${LOCAL_ADDR}posts/image_upload/${imgId}`, formData2, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                },
-                onUploadProgress: (progressEvent) => {
-                    const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                    setUploadProgress(percentCompleted);
                 }
             });
-            toast.success("Posted!");
             const updatedPosts = await axios.get(`${LOCAL_ADDR}posts/group/${selected_group}`);
             setPosts(dispatch, updatedPosts.data);  // Update posts in context
             setOpen(false);
             setUploadProgress(0);  // Reset the progress bar
+            toast.success("Posted!");
         } catch (error) {
             console.error('API error:', error.response);
         }

@@ -24,6 +24,7 @@
     padding: 10px;
     border-radius: 5px;
     max-width: 70%;
+    font-size: 14px;
 }
 
 .chat-message.user {

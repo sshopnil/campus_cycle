@@ -52,6 +52,9 @@ function reducer(state, action) {
     case "DIS_POSTS":{
       return {...state, posts: action.value}
     }
+    case "DIS_EVENT":{
+      return {...state, events: action.value}
+    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -72,7 +75,8 @@ function SoftUIControllerProvider({ children }) {
     topic: [],
     selected_group:0,
     posts:[],
-    active_topic : ""
+    active_topic : "",
+    events:[]
   };
 
   const [controller, dispatch] = useReducer(reducer, initialState);
@@ -111,6 +115,7 @@ const setTopic = (dispatch, value) => dispatch({ type: "DIS_TOPIC", value });
 const setGroup = (dispatch, value) => dispatch({ type: "DIS_GROUP", value });
 const setPosts = (dispatch, value) => dispatch({ type: "DIS_POSTS", value });
 const setActiveTopic = (dispatch, value) => dispatch({ type: "DIS_TOPIC_ACTIVE", value });
+const setEvents = (dispatch, value) => dispatch({ type: "DIS_EVENT", value });
 
 
 export {
@@ -127,5 +132,6 @@ export {
   setTopic,
   setGroup,
   setPosts,
-  setActiveTopic
+  setActiveTopic,
+  setEvents
 };

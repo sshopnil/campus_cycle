@@ -67,6 +67,12 @@ const Chatbot = () => {
                     value={userMessage}
                     onChange={(e) => setUserMessage(e.target.value)}
                     placeholder="Type a career question..."
+                    onKeyDown={(ev) => {
+                        if (ev.key === 'Enter') {
+                            handleSend();
+                            ev.preventDefault();
+                        }
+                      }}
                 />
                 {!error && <button onClick={handleSend}>Send</button>}
                 {error && <button onClick={handleClear}>Clear</button>}

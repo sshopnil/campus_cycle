@@ -8,7 +8,7 @@ import { Button, Card, CardContent, CardHeader, Avatar } from "@mui/material";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import GroupsIcon from '@mui/icons-material/Groups';
 import Post from "./components/posts";
-import { useSoftUIController, setGroup, setPosts, setTopic, setActiveTopic} from "context";
+import { useSoftUIController, setGroup, setPosts, setTopic, setActiveTopic, setEvents} from "context";
 import SoftInput from "components/SoftInput";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import TabNavigation from "./components/tab_navigation";
@@ -19,6 +19,7 @@ import LOCAL_ADDR from 'GLOBAL_ADDRESS';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import EventFormDialog from './components/eventformdialog';
 
 function BasicCard({ groups, userGroups, type, handleJoin, handleGo }) {
     const [search, setSearch] = React.useState('');
@@ -133,16 +134,23 @@ const PostContents = ({filteredGroup, userGroup, setGroupData, handleJoin, handl
     );
 }
 
-const EventContents = ({ topic }) => {
+const EventContents = ({events}) => {
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => {
+        setOpen(!open);
+    }
+// console.log(events);
     return (
         <>
             <Grid item sm={12} xl={8}>
-                <EventCard />
+                <EventCard events={events}/>
             </Grid>
             <Grid item xl={4} mt={1} sx={{
                 flexDirection: "column"
             }}>
+                <Button fullWidth variant='contained' color='info' sx={{ marginBottom: '10px' }} onClick={handleOpen}>Organize a new event</Button>
             </Grid>
+            <EventFormDialog open = {open} onClose = {handleOpen}/>
         </>
     );
 }
@@ -153,7 +161,7 @@ const Discussion = () => {
     const [userGrps, setUserGrps] = React.useState([]);
     const userId = parseInt(localStorage.getItem("user"));
     const [showGroupPost, setGroupPost] = React.useState([]);
-    const { topic, posts, active_topic} = controller;
+    const { topic, posts, active_topic, events} = controller;
 
     const handleJoin = async (id) => {
         const body = {
@@ -219,9 +227,20 @@ const Discussion = () => {
             }
         }
 
+        const fetchEvents = async () =>{
+            try {
+                const response = await axios.get(`${LOCAL_ADDR}events`);
+                setEvents(dispatch, response.data);
+                // setActiveTopic(dispatch, response.data[0]);
+            } catch (error) {
+                console.error('Error fetching user groups:', error);
+            }
+        }
+
         fetchGroups();
         fetchUserGroups();
         fetchTopics();
+        fetchEvents();
     }, [userId, active_topic]);
 
     // const filtered_all_group = groups?.filter(item => !userGrps.some(userItem => userItem.name === item.name));
@@ -255,7 +274,7 @@ const Discussion = () => {
                     postData={posts}
                 />}
                 content1_name={showGroupPost?.name}
-                content2={<EventContents />}
+                content2={<EventContents events={events}/>}
             />
         </DashboardLayout>
     );

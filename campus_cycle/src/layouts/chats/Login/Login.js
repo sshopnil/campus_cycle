@@ -1,5 +1,5 @@
 // src/Login.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import SoftInput from 'components/SoftInput';
 import SoftButton from 'components/SoftButton';
@@ -8,10 +8,28 @@ import { FormatAlignJustify, Margin } from '@mui/icons-material';
 import { alignProperty } from '@mui/material/styles/cssUtils';
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import LOCAL_ADDR from 'GLOBAL_ADDRESS';
 
 function Login({ setUser }) {
     const [username, setUsername] = useState('');
+    const [defusername, setDefUsername] = useState('');
+
     const navigate = useNavigate();
+    const userID = parseInt(localStorage.getItem("user"));
+
+    useEffect(()=>{
+        const fetchUser = async()=>{
+            try{
+                const res = await axios.get(`${LOCAL_ADDR}users/${userID}`);
+                // console.log(res);
+                setDefUsername(res.data.name);
+                setUsername(res.data.name);
+            }catch(e){
+                console.log(e);
+            }
+        }
+        fetchUser();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -30,7 +48,7 @@ function Login({ setUser }) {
         >
             <form onSubmit={handleSubmit}>
                 <SoftBox>
-                    <SoftButton sx={{width: "500px"}}>Join with </SoftButton>
+                    <SoftButton sx={{width: "500px"}} onClick={(e)=>{setUsername(defusername); handleSubmit(e);}}>Join with {defusername}</SoftButton>
                 </SoftBox>
                 <Typography sx={{marginTop: 15, marginBottom: 15}}>OR</Typography>
                 <SoftBox>

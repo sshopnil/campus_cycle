@@ -101,9 +101,9 @@ function Chat({ user }) {
                     <div style={{ height: '400px', overflowY: 'scroll' }}>
                         <div>
                             {helps.map((help, idx) => (
-                                <Card key={idx}>
+                                <Card key={idx} sx={{padding: 1}}>
                                     <Typography>{help.subject}</Typography>
-                                    <SoftButton onClick={() => joinHelp(help.help_id)} color="secondary">Help this person</SoftButton>
+                                    <SoftButton onClick={() => joinHelp(help.help_id)} color="secondary">Join</SoftButton>
                                 </Card>
                             ))}
                         </div>
@@ -122,7 +122,7 @@ function Chat({ user }) {
                             }
                           }}
                     />
-                    <SoftButton onClick={sendHelp} style={{ marginTop: '10px' }} color="secondary">Request Help</SoftButton>
+                    <SoftButton onClick={sendHelp} style={{ marginTop: '10px' }} color="secondary">Request Join</SoftButton>
                 </Grid>
             </Grid>
         </SoftBox>
