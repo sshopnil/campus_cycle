@@ -45,6 +45,7 @@ function ProductDetails() {
     const [orderData, setOrderData] = useState(null);
     const [isSoldOut, setIsSoldOut] = useState(false);
     const [soldOutOrderDetails, setSoldOutOrderDetails] = useState(null); // New state for storing sold out order details
+    const [buyerInfo, setBuyerInfo] = useState({}); // New state for storing buyer information
     const itemsPerPage = 3;
 
     useEffect(() => {
@@ -60,7 +61,7 @@ function ProductDetails() {
 
         const fetchOrders = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/orders');
+                const response = await axios.get(`${LOCAL_ADDR}orders`);
                 const orders = response.data;
                 const soldOutOrder = orders.find(order => order.product.id === parseInt(id));
                 if (soldOutOrder) {
@@ -74,8 +75,12 @@ function ProductDetails() {
 
         const fetchOrderDetails = async (orderId) => {
             try {
-                const response = await axios.get(`http://localhost:5000/orders/${orderId}`);
+                const response = await axios.get(`${LOCAL_ADDR}orders/${orderId}`);
                 setSoldOutOrderDetails(response.data);
+
+                // Fetch buyer info using buyerId from order details
+                const buyerResponse = await axios.get(`${LOCAL_ADDR}users/${response.data.buyerId}`);
+                setBuyerInfo(buyerResponse.data);
             } catch (error) {
                 console.error('Error fetching order details:', error);
             }
@@ -131,7 +136,7 @@ function ProductDetails() {
         const orderData = {
             orderDate: new Date().toISOString(),
             shippingDate: new Date(new Date().setDate(new Date().getDate() + 4)).toISOString(),
-            status: "Cash on Delivery",
+            status: "Pending",
             trackingNumber: generateTrackingNumber(),
             buyerId: userId,
             sellerId: product.seller.id,
@@ -310,7 +315,7 @@ function ProductDetails() {
                 </DialogActions>
             </Dialog>
 
-            {soldOutOrderDetails  && (userId === product.seller.id || userId === soldOutOrderDetails.buyer.id) && ( // Render sold out order details if available
+            {soldOutOrderDetails && (userId === product.seller.id || userId === soldOutOrderDetails.buyer.id )&& ( // Render sold out order details only if userId matches sellerId
                 <Box mt={4} p={2}>
                     <Typography variant="h5">Sold Out Order Details</Typography>
                     <TableContainer component={Paper}>
@@ -321,12 +326,16 @@ function ProductDetails() {
                                     <TableCell>{formatDate(soldOutOrderDetails.orderDate)}</TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Estimated shipping Date</TableCell>
+                                    <TableCell>Shipping Date</TableCell>
                                     <TableCell>{formatDate(soldOutOrderDetails.shippingDate)}</TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Seller Name</TableCell>
+                                    <TableCell>Seller name</TableCell>
                                     <TableCell>{soldOutOrderDetails.seller.name}</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>Seller phoneNo</TableCell>
+                                    <TableCell>{soldOutOrderDetails.seller.phoneNo}</TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell>Buyer Name</TableCell>
