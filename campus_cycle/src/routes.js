@@ -72,8 +72,8 @@ const routes = [
   {
     type: "static_collapse",
     name: "Donation Card Details",
-    key: "donation",
-    route: "/donationCardDetails/:cardId",
+    key: "donation_detail",
+    route: "/donation/card/:cardId",
     icon: <VolunteerActivismIcon size="12px" />,
     component: <DonationCardDetails />,
     noCollapse: true,

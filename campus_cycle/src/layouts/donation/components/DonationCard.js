@@ -16,9 +16,10 @@ const DonationCard = () => {
   const [showMore, setShowMore] = useState(3);
   const [remainingCardData, setRemainingCardData] = useState(0);
   const navigate = useNavigate();
+  
 
   useEffect(() => {
-    fetchData(); // Fetch data when component mounts
+    fetchData(); 
   }, []);
 
   const fetchData = async () => {
@@ -60,7 +61,7 @@ const DonationCard = () => {
   const visibleCards = showAll ? cardsData : cardsData.slice(0, showMore);
 
   const handleCardClick = (id) => {
-    navigate(`/DonationCardDetails/${id}`);
+    navigate(`/donation/card/${id}`);
   };
 
   return (
@@ -92,7 +93,7 @@ const DonationCard = () => {
                   component="div"
                   style={{ marginBottom: "20px" }}
                 >
-                  {card.title}
+                {card.title.length > 20 ? `${card.title.substring(0, 54)}...` : card.title}
                 </Typography>
                 <Typography style={{ marginBottom: "8px", fontSize: "0.9rem" }}>
                   ${card.goalAmount} of {raisedData.find(data => data.id === card.id)?.raisedAmount || 0} is raised
