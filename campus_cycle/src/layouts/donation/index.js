@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Grid, Button } from "@mui/material";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
-import reportsBarChartData from "./data/dataBarChart";
+import ReportsBarChart from "./components/ReportsBarChart";
+import useReportsBarChartData from "./data/useReportsBarChartData"
 import SoftBox from "components/SoftBox";
 
 import DonationCard from "./components/DonationCard";
 import SideBar from "./components/SideBar";
-import SideBarUnder from "./components/sideBarUnder";
 
 import MiniStatisticsCard from "examples/Cards/StatisticsCards/MiniStatisticsCard";
 
@@ -20,7 +19,8 @@ import "./styles.css";
 function Donation() {
   const [showMore, setShowMore] = useState(3);
   const [showAll, setShowAll] = useState(false);
-  const { chart } = reportsBarChartData;
+  const chartData = useReportsBarChartData(); 
+  console.log(chartData);
 
   const [totalDonation, setTotalDonation] = useState("");
   const [donationToday, setDonationToday] = useState("");
@@ -108,7 +108,7 @@ function Donation() {
                           (<strong>+23%</strong>) than last week
                         </>
                       }
-                      chart={chart}
+                      chart={chartData}
                     />
                   </div>
                 </div>

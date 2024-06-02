@@ -2,7 +2,8 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Grid, Card, CardContent, CardMedia, Typography, Button } from "@mui/material";
+import { Grid, Card, CardContent, CardMedia, Typography, Button, CardHeader } from "@mui/material";
+import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
 import ProgressBar from "@ramonak/react-progress-bar";
 import DonatePayment from "../components/donationPayment";
 import Avatar from "@mui/material/Avatar";
@@ -16,10 +17,25 @@ const DonationCardDetails = () => {
   const [raisedAmount, setRaisedAmount] = useState(0);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [customAmount, setCustomAmount] = useState("");
+  const [showAllDonors, setShowAllDonors] = useState(false);
+  const [donorsList, setDonorsList] = useState([]);
 
   const handleCustomInput = (amount) => {
     setCustomAmount(amount);
   };
+
+  useEffect(() => {
+    const fetchDonorsList = async () => {
+      try {
+        const response = await axios.get(`${LOCAL_ADDR}donation-amounts/donors/${cardId}`);
+        setDonorsList(response.data);
+      } catch (error) {
+        console.error("Error fetching donors list:", error);
+      }
+    };
+
+    fetchDonorsList();
+  }, [cardId]);
 
   useEffect(() => {
     const fetchCardDetails = async () => {
@@ -64,6 +80,10 @@ const DonationCardDetails = () => {
 
   const handleCloseDialog = () => {
     setDialogOpen(false);
+  };
+
+  const toggleShowAllDonors = () => {
+    setShowAllDonors(!showAllDonors);
   };
 
   return (
@@ -157,7 +177,7 @@ const DonationCardDetails = () => {
               </Card>
             </Grid>
             <Grid item md={4}>
-              <Card sx={{ minWidth: "300px" }}>
+              <Card sx={{ minWidth: "100%", minHeight: "600px" }}>
                 <Typography
                   style={{
                     padding: "15px",
@@ -194,7 +214,7 @@ const DonationCardDetails = () => {
                     style={{
                       padding: "20px",
                       width: "100%",
-                      color: "black",
+                      color: "white",
                       fontSize: "1rem",
                       backgroundColor: "#f99a32",
                     }}
@@ -203,7 +223,54 @@ const DonationCardDetails = () => {
                     Donate Now
                   </Button>
                 </div>
-                <CardContent style={{ height: "400px", overflowY: "auto" }}></CardContent>
+                <CardContent
+                  style={{
+                    overflowY: "auto",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <CardHeader
+                    sx={{
+                      alignSelf: "center",
+                      textTransform: "uppercase",
+                      fontWeight: "bold",
+                    }}
+                    avatar={<RecordVoiceOverIcon fontSize="200px" />}
+                    title="Top Donors"
+                  />
+                  <hr
+                    style={{
+                      width: "80%",
+                      alignSelf: "center",
+                      color: "#666C8F",
+                      border: "1px solid",
+                    }}
+                  />
+                  <div style={{ width: "100%", maxWidth: "350px", overflowY: "auto" }}>
+                    {donorsList.slice(0, showAllDonors ? donorsList.length : 5).map((donor) => (
+                      <CardHeader
+                        key={donor.id}
+                        avatar={<Avatar alt={donor.name} src={donor.imageUrl} />}
+                        title={donor.name}
+                      />
+                    ))}
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+                      {donorsList.length > 5 && (
+                        <Button variant="outlined"
+                        style={{
+                          padding: "20px",
+                          width: "100%",
+                          color: "black",
+                        }}
+                         onClick={toggleShowAllDonors}>
+                          {showAllDonors ? "Show less" : "Show more"}
+                        </Button>
+                      )}
+                    </div>
+                </CardContent>
               </Card>
             </Grid>
           </>
@@ -216,7 +283,7 @@ const DonationCardDetails = () => {
         handleCustomInput={handleCustomInput}
         customAmount={customAmount}
         setCustomAmount={setCustomAmount}
-        postId={cardId} 
+        postId={cardId}
       />
     </DashboardLayout>
   );
