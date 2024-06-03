@@ -16,7 +16,7 @@ import TableChartIcon from '@mui/icons-material/TableChart';
 import BedIcon from '@mui/icons-material/Bed';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 
-function FilterBar({ onSelectFilter }) {
+function FilterBar({ onSelectFilter, onFilterCriteriaChange }) {
   // State to track the active button
   const [activeButton, setActiveButton] = useState(null);
   const [open, setOpen] = useState(false); // State to handle dialog open/close
@@ -42,7 +42,23 @@ function FilterBar({ onSelectFilter }) {
 
   // Function to handle filter apply
   const handleFilterApply = () => {
-    onSelectFilter({ name: 'Filter', searchText, minPrice, maxPrice });
+    // Check if minPrice and maxPrice are not negative
+    if (minPrice < 0 || maxPrice < 0) {
+      alert('Minimum and maximum price cannot be negative');
+      return;
+    }
+  
+    onFilterCriteriaChange({ searchText, minPrice, maxPrice });
+    handleClose();
+  };
+
+  // Function to handle filter reset
+  const handleFilterReset = () => {
+    setSearchText('');
+    setMinPrice('');
+    setMaxPrice('');
+    onFilterCriteriaChange({ searchText: '', minPrice: '', maxPrice: '' });
+    handleButtonClick({ name: 'All', value: 0 });
     handleClose();
   };
 
@@ -191,9 +207,9 @@ function FilterBar({ onSelectFilter }) {
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handleFilterApply}>Apply</Button>
+          <Button onClick={handleFilterReset} color="secondary">Reset</Button>
         </DialogActions>
       </Dialog>
-
     </>
   );
 }
@@ -201,6 +217,7 @@ function FilterBar({ onSelectFilter }) {
 // Prop types validation for FilterBar
 FilterBar.propTypes = {
   onSelectFilter: PropTypes.func.isRequired, // Ensure onSelectFilter is a function and is required
+  onFilterCriteriaChange: PropTypes.func.isRequired, // Ensure onFilterCriteriaChange is a function and is required
 };
 
 export default FilterBar;

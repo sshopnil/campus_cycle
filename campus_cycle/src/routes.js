@@ -8,6 +8,8 @@ import RTL from "layouts/rtl";
 
 import Discussion from "layouts/discussion";
 import Market from "layouts/market";
+import MyProducts from "layouts/myProducts";
+import MyOrders from "layouts/myOrders";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
@@ -43,15 +45,7 @@ const routes = [
     component: <Dashboard />,
     noCollapse: true,
   },
-  {
-    type: "collapse",
-    name: "Market",
-    key: "market",
-    route: "/market",
-    icon: <Shop size="12px"/>,
-    component: <Market />,
-    noCollapse: true,
-  },
+  
   {
     type: "collapse",
     name: "Discussion",
@@ -180,6 +174,34 @@ const routes = [
     route: "/market/auctionproduct-details/:id",
     // icon: none,
     component: <AuctionProductDetails />,
+    noCollapse: true,
+  },
+  { type: "title", title: "Market Place", key: "market-place" },
+  {
+    type: "collapse",
+    name: "Market",
+    key: "market",
+    route: "/market",
+    icon: <Shop size="12px"/>,
+    component: <Market />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "My Products",
+    key: "my-products",
+    route: "/my-products",
+    icon: <Office size="12px"/>,
+    component: <MyProducts />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "My Orders",
+    key: "my-orders",
+    route: "/my-orders",
+    icon: <CreditCard size="12px"/>,
+    component: <MyOrders />,
     noCollapse: true,
   },
   

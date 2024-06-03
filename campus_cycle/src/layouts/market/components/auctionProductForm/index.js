@@ -39,6 +39,27 @@ const AuctionProductForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+  
+    // Check if the input is 'price' and the value is negative
+    if (name === 'price' && parseInt(value) < 0) {
+      // Show an alert message
+      alert('Price cannot be negative');
+      // Do not update the form data
+      return;
+    }
+    if (name === 'lastSellingDate') {
+      const selectedDate = new Date(value);
+      const currentDate = new Date();
+      
+      if (selectedDate < currentDate) {
+        // Show an alert message
+        alert('Last selling date cannot be greater than the current time');
+        // Do not update the form data
+        return;
+      }
+    }
+  
+    // Otherwise, update the form data normally
     setFormData({
       ...formData,
       [name]: name === 'price' || name === 'productTypeId' ? parseInt(value) : value,

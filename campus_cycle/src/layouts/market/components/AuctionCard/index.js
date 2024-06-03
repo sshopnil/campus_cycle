@@ -43,7 +43,7 @@ function Section2({id, price, details, timer }) {
   return (
     <Grid item xs={12}>
       <Typography variant="h3" style={{ color: "green", fontSize: "15px" }}>Price: {price}</Typography>
-      <Typography variant="h6" style={{ fontSize: "12px", marginBottom: "10px", marginTop: "5px" }}>Details: {modifieddetails}</Typography>
+      <Typography variant="h6" style={{ fontSize: "12px", marginBottom: "10px", marginTop: "5px" }}>Title: {modifieddetails}</Typography>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', marginBottom: '10px' }}>
         <Link to={"/market/auctionproduct-details/"+id}>
           <Button size='small' variant="contained" style={{ borderRadius: "20px", fontSize: "10px", color: "white" }}>Details</Button>
