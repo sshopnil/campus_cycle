@@ -103,7 +103,7 @@ function MyProducts() {
                         images={item.productImages?.map(image => image.url) || []}
                         price={item.price}
                         date={item.time}
-                        details={item.description}
+                        details={item.title}
                     />
                     </Grid>
                 ))}
@@ -134,7 +134,7 @@ function MyProducts() {
                       images={item.images?.map(image => image.url) || []}
                       price={item.price}
                       date={item.lastSellingDate}
-                      details={item.description}
+                      details={item.title}
                     />
                   </Grid>
                 ))}

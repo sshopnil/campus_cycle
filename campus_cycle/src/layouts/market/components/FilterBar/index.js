@@ -42,6 +42,12 @@ function FilterBar({ onSelectFilter, onFilterCriteriaChange }) {
 
   // Function to handle filter apply
   const handleFilterApply = () => {
+    // Check if minPrice and maxPrice are not negative
+    if (minPrice < 0 || maxPrice < 0) {
+      alert('Minimum and maximum price cannot be negative');
+      return;
+    }
+  
     onFilterCriteriaChange({ searchText, minPrice, maxPrice });
     handleClose();
   };
